@@ -33,7 +33,12 @@ public class OrbitCalcImpl1 extends BaseOrbitCalc  {
         object.setHelioPositionVec(getHelioCoordsForAngle(object.getTrueAnamoly(), object));
     }
 
-    @Override
+  @Override
+  public double computeTA(double a, double e, double i, double o, double w, double l, long aDeltaTime) {
+    return 0;
+  }
+
+  @Override
     public double[] getHelioCoordsForAngle(double anAngle, SolarSystemObject object){
         /*
         r = a * (1 - e^2) / [1 + e * cos(v)]
