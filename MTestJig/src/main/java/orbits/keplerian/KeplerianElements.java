@@ -5,12 +5,12 @@ import org.apache.commons.math3.util.FastMath;
 
 public class KeplerianElements {
 
-  double a;
-  double e;
-  double i;
-  double raan;
-  double aop;
-  double ta;
+  private double a;
+  private double e;
+  private double i;
+  private double raan;
+  private double aop;
+  private double ta;
 
   public KeplerianElements(double a, double e, double i, double raan, double aop, double ta) {
     this.a = a;
