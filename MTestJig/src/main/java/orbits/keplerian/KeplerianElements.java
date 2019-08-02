@@ -1,6 +1,8 @@
 package orbits.keplerian;
 
 
+import org.apache.commons.math3.util.FastMath;
+
 public class KeplerianElements {
 
   double a;
@@ -41,5 +43,9 @@ public class KeplerianElements {
 
   public double getTa() {
     return ta;
+  }
+
+  public double getPeriod() {
+    return KeplerCalc.TWO_PI * FastMath.sqrt(this.a*this.a*this.a/KeplerCalc.mu);
   }
 }
