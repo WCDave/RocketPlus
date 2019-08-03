@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>RocketData</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="gRated" name="css/style.css"/>
+
+    <f:view>
+        <h:form styleClass="dave">
+            <p:panelGrid columns="2">
+                <p:layout style="min-width:1000px;min-height:600px;">
+                    <p:layoutUnit position="west" size="600">
+                        <p:column>
+                            <p:dataTable id="dataTable" value="#{rocketDataViewBean.rocketDataBeanList}"
+                                         var="rocketDataBean"
+                                         rowStyleClass="row1"
+                                         resizable="true" headerClass="text-align:left;" cellpadding="0"
+                                         columnClasses="col1,col1">
+                                <p:column headerText="Label" width="200" sortBy="#{rocketDataBean.label}">
+                                    <h:outputText value="#{rocketDataBean.label}"/>
+                                </p:column>
+                                <p:column headerText="Value" width="200" sortBy="#{rocketDataBean.value}">
+                                    <h:outputText value="#{rocketDataBean.value}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" size="200">
+                        <p:column>
+                            <p:clock pattern="HH:mm:ss" />
+                            <p:graphicImage id="solarSysImage" value="#{rocketDataViewBean.solarSystemImage}" cache="false" rendered="#{rocketDataViewBean.hasSolarSystemImage}"/>
+                        </p:column>
+                    </p:layoutUnit>
+                </p:layout>
+            </p:panelGrid>
+            <p:poll interval="7" listener="#{rocketDataViewBean.updateData}" update="dataTable"/>
+            <p:panelGrid id="pg" columns="1" layout="grid">
+                <p:graphicImage id="groundtrack" value="/rocketServlet" width="1600" height="800" cache="false"/>
+                <p:poll interval="10" update="pg" autoStart="true" rendered="true"/>
+            </p:panelGrid>
+        </h:form>
+    </f:view>
+</h:body>
+</html>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="mqBroker.url">tcp://Dave-PC:61616</entry>
+    <entry key="webService.url">http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT</entry>
+</properties>

@@ -1,0 +1,20 @@
+.ui-icon {
+    width: 200px;
+    height: 200px;
+    background-image: url(#{resource['default:img/kb6a.jpg']});
+}
+
+.slit {
+    background-image: url(#{resource['default:img/earthicefree.PNG']});
+    color:yellow;
+    font:700 12pt arial ;
+    overflow-y:auto;
+    overflow-x:auto;
+}
+
+.java-beat-larger-text {
+    font-size: large;
+    font-family: fantasy;
+    font-weight: bolder;
+}
+

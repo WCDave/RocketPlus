@@ -65,7 +65,7 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
   @Override
   public boolean targetReached() {
     //log.info("align "+Math.acos(transformer.getOrbitalPlaneAlignment())*180/Math.PI);
-    return transformer.getOrbitalPlaneAlignment() >= .99999d;
+    return transformer.getOrbitalPlaneAlignment() >= .999999d;
   }
 
   @Override

@@ -23,7 +23,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
 
   private static final String TLI_CRIT_ANGLE = "TLI_CRIT_ANGLE";
 
-  private float burnTargetVelocity = 26000 / 2.236f;
+  private float burnTargetVelocity = 25000 / 2.236f;
 
   private Logger log = Logger.getLogger(TLIProgram.class);
 
@@ -99,6 +99,14 @@ public class TLIProgram extends AFCSTargetingStrategy {
       mke = executorService.submit(new KeplerCalc(moon)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
+    return targetMethod1(rke, mke);
+  }
+
+  private boolean targetMethod2(KeplerianElements rke, KeplerianElements mke) {
+     return true;
+  }
+
+  private boolean targetMethod1(KeplerianElements rke, KeplerianElements mke) {
     moonToEarthVector = VMath.vecSubtract(moon.getCoordSys().getPositionVec(), earth.getCoordSys().getPositionVec());
 //    double[] bodyToObjectVec = VMath.vecSubtract(moon.getPosition(), rocket.getPosition());
 //    double[] rocketRelVelocity = VMath.vecSubtract(moon.getVelocity(), rocket.getVelocity());

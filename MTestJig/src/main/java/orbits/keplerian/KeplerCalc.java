@@ -4,6 +4,7 @@ import VMath.VMath;
 import orbits.Abstract3DModelObject;
 import org.apache.commons.math3.util.FastMath;
 
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 
@@ -54,10 +55,10 @@ public class KeplerCalc implements Callable<IOrbit> {
    if(VMath.dotprod(rVec, vVec) < 0) {
      TA = TWO_PI - TA;
    }
-   KeplerianElements ke = new KeplerianElements(a, e, i, RAAN, argp, TA);
+   KeplerianElements ke = new KeplerianElements(a, e, i, RAAN, argp, TA, a3o.getCoordSys());
    IOrbit orbit = new Orbit(ke);
    if(displayData) {
-     System.out.println(a3o.getName()+": a="+a+", e="+e+", i="+
+     System.out.println(new Date()+" -- "+a3o.getName()+": a="+a+", e="+e+", i="+
              FastMath.toDegrees(i)+", RAAN="+FastMath.toDegrees(RAAN)+", argP="+
              FastMath.toDegrees(argp)+", TA="+FastMath.toDegrees(TA)+", T="+ke.getPeriod());
    }

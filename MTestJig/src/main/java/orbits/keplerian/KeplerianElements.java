@@ -1,6 +1,7 @@
 package orbits.keplerian;
 
 
+import orbits.CoordSys;
 import org.apache.commons.math3.util.FastMath;
 
 public class KeplerianElements {
@@ -12,7 +13,7 @@ public class KeplerianElements {
   private double aop;
   private double ta;
 
-  public KeplerianElements(double a, double e, double i, double raan, double aop, double ta) {
+  public KeplerianElements(double a, double e, double i, double raan, double aop, double ta, CoordSys sys) {
     this.a = a;
     this.e = e;
     this.i = i;
