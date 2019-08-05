@@ -67,7 +67,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
     double[] testCross = VMath.crossprd(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
     double testDot = VMath.dotprod(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
     dt.runThread = false;
-    
+
     log.info(VMath.dotprod(testCross, motionCross)+", "+testDot+", "+VMath.mag(testCross));
 
     log.info("TLI burn started*****" + FastMath.toDegrees(Math.acos(VMath.dotprod(VMath.normalize(moonToEarthVector), VMath.normalize(rocket.getPosition())))) + " degrees");
@@ -116,7 +116,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
      double[] motionCross = VMath.crossprd( VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(rke.getCoordSys().getVelocityAsVec()));
      double[] testCross = VMath.crossprd(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
      double testDot = VMath.dotprod(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
-     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .27d ;
+     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .28d ;
   }
 
   private boolean targetMethod1(KeplerianElements rke, KeplerianElements mke) {
