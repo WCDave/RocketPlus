@@ -14,6 +14,8 @@ import orbits.keplerian.KeplerianElements;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.log4j.Logger;
 
+import java.util.Date;
+
 public class TLIProgram extends AFCSTargetingStrategy {
 
   private Planet moon, earth;
@@ -23,7 +25,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
 
   private static final String TLI_CRIT_ANGLE = "TLI_CRIT_ANGLE";
 
-  private float burnTargetVelocity = 25000 / 2.236f;
+  private float burnTargetVelocity = 24000 / 2.236f;
 
   private Logger log = Logger.getLogger(TLIProgram.class);
 
@@ -55,12 +57,18 @@ public class TLIProgram extends AFCSTargetingStrategy {
     }
     catch (Exception  e) {}
     log.info("current position: "+ FastMath.toDegrees(4 * Math.PI +(mke.getAop()+mke.getTa() - (rke.getAop()+rke.getTa()))) % (2 * Math.PI));
-    //DebugThread dt = new DebugThread();
-    //dt.start();
+    DebugThread dt = new DebugThread(mke,  rke);
+    dt.start();
     while (!targetReached()) {
       Utils.sleep(50);
     }
-    //dt.runThread = false;
+
+    double[] motionCross = VMath.crossprd(rke.getCoordSys().getVelocityAsVec(), rke.getCoordSys().getPositionVec());
+    double[] testCross = VMath.crossprd(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
+    double testDot = VMath.dotprod(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
+    dt.runThread = false;
+    
+    log.info(VMath.dotprod(testCross, motionCross)+", "+testDot+", "+VMath.mag(testCross));
 
     log.info("TLI burn started*****" + FastMath.toDegrees(Math.acos(VMath.dotprod(VMath.normalize(moonToEarthVector), VMath.normalize(rocket.getPosition())))) + " degrees");
     log.info("*********************" + FastMath.toDegrees(Math.acos(VMath.dotprod(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(moonToEarthVector)))) + " degrees");
@@ -99,11 +107,16 @@ public class TLIProgram extends AFCSTargetingStrategy {
       mke = executorService.submit(new KeplerCalc(moon)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
-    return targetMethod1(rke, mke);
+    return targetMethod2(rke, mke);
   }
 
   private boolean targetMethod2(KeplerianElements rke, KeplerianElements mke) {
-     return true;
+    moonToEarthVector = VMath.vecSubtract(moon.getCoordSys().getPositionVec(), earth.getCoordSys().getPositionVec());
+
+     double[] motionCross = VMath.crossprd( VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(rke.getCoordSys().getVelocityAsVec()));
+     double[] testCross = VMath.crossprd(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
+     double testDot = VMath.dotprod(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
+     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .27d ;
   }
 
   private boolean targetMethod1(KeplerianElements rke, KeplerianElements mke) {
@@ -131,22 +144,31 @@ public class TLIProgram extends AFCSTargetingStrategy {
   private class DebugThread extends Thread {
 
     public boolean runThread = true;
+    KeplerianElements mke, rke;
 
-    public DebugThread()   {
-
+    public DebugThread(KeplerianElements mke, KeplerianElements rke)   {
+        this.mke = mke;
+        this.rke = rke;
     }
 
     @Override
     public void run() {
       System.out.println("start thread");
        while (runThread) {
-         log.info("TLI burn started*****" + Math.toDegrees(Math.acos(VMath.dotprod(VMath.normalize(moonToEarthVector), VMath.normalize(rocket.getPosition())))) + " degrees1");
-         log.info("*********************" + Math.toDegrees(Math.acos(VMath.dotprod(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(moonToEarthVector)))) + " degrees2");
-         log.info("vs*******************" + VMath.dotprod(VMath.vecSubtract(moon.getVelocity(), rocket.getVelocity()), VMath.normalize(VMath.vecSubtract(moon.getPosition(), rocket.getPosition()))));
-         log.info("DP*******************" + VMath.dotprod(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(VMath.vecSubtract(moon.getCoordSys().getPositionVec(), rocket.getCoordSys().getPositionVec()))));
-         log.info("xprod****************" + VMath.dotprod(VMath.crossprd(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(moonToEarthVector)), earth.getCoordSys().zAxis().getVectorForm()));
-         System.out.println("Thread");
-         Utils.sleep(180000);
+//         log.info("TLI burn started*****" + Math.toDegrees(Math.acos(VMath.dotprod(VMath.normalize(moonToEarthVector), VMath.normalize(rocket.getPosition())))) + " degrees1");
+//         log.info("*********************" + Math.toDegrees(Math.acos(VMath.dotprod(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(moonToEarthVector)))) + " degrees2");
+//         log.info("vs*******************" + VMath.dotprod(VMath.vecSubtract(moon.getVelocity(), rocket.getVelocity()), VMath.normalize(VMath.vecSubtract(moon.getPosition(), rocket.getPosition()))));
+//         log.info("DP*******************" + VMath.dotprod(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(VMath.vecSubtract(moon.getCoordSys().getPositionVec(), rocket.getCoordSys().getPositionVec()))));
+//         log.info("xprod****************" + VMath.dotprod(VMath.crossprd(rocket.getCoordSys().zAxis().getVectorForm(), VMath.normalize(moonToEarthVector)), earth.getCoordSys().zAxis().getVectorForm()));
+
+         double[] motionCross = VMath.crossprd( VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(rke.getCoordSys().getVelocityAsVec()));
+         double[] testCross = VMath.crossprd(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
+         double testDot = VMath.dotprod(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
+         //dt.runThread = false;
+
+         log.info(VMath.dotprod(testCross, motionCross)+", "+testDot+", "+VMath.mag(testCross));
+         System.out.println("Thread at "+new Date());
+         Utils.sleep(60000);
        }
       System.out.println("end thread");
     }

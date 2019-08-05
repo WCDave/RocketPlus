@@ -12,6 +12,7 @@ public class KeplerianElements {
   private double raan;
   private double aop;
   private double ta;
+  private CoordSys sys;
 
   public KeplerianElements(double a, double e, double i, double raan, double aop, double ta, CoordSys sys) {
     this.a = a;
@@ -20,6 +21,7 @@ public class KeplerianElements {
     this.raan = raan;
     this.aop = aop;
     this.ta = ta;
+    this.sys = sys;
   }
 
   public double getA() {
@@ -44,6 +46,10 @@ public class KeplerianElements {
 
   public double getTa() {
     return ta;
+  }
+
+  public CoordSys getCoordSys() {
+    return this.sys;
   }
 
   public double getPeriod() {
