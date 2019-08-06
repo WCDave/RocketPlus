@@ -67,7 +67,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
     double[] testCross = VMath.crossprd(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
     double testDot = VMath.dotprod(rke.getCoordSys().getPositionVec(), mke.getCoordSys().getPositionVec());
     dt.runThread = false;
-    
+
     log.info(VMath.dotprod(testCross, motionCross)+", "+testDot+", "+VMath.mag(testCross));
 
     log.info("TLI burn started*****" + FastMath.toDegrees(Math.acos(VMath.dotprod(VMath.normalize(moonToEarthVector), VMath.normalize(rocket.getPosition())))) + " degrees");
