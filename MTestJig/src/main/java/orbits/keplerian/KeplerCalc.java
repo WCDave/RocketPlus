@@ -31,7 +31,7 @@ public class KeplerCalc implements Callable<IOrbit> {
    double[] rVec = a3o.getCoordSys().getPositionVec();
 
    double[] angMomentum  = VMath.crossprd(rVec, vVec);
-   double[] node = VMath.crossprd(new double[]{0,0,1}, angMomentum);
+   double[] node = VMath.crossprd(new double[]{0,0,1}, VMath.normalize(angMomentum));
    double v = VMath.mag(vVec);
    double r = VMath.mag(rVec);
    double n = VMath.mag(node);
