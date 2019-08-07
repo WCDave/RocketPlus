@@ -25,7 +25,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
 
   private static final String TLI_CRIT_ANGLE = "TLI_CRIT_ANGLE";
 
-  private float burnTargetVelocity = 24000 / 2.236f;
+  private float burnTargetVelocity = 25000 / 2.236f;
 
   private Logger log = Logger.getLogger(TLIProgram.class);
 

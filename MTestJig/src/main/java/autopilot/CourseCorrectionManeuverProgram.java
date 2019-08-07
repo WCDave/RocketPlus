@@ -2,15 +2,15 @@ package autopilot;
 
 import Foundation.Utils;
 import VMath.VMath;
-import enums.ComputerButtonKeys;
 import enums.OrbitElementKeys;
-import gui.ComputerAbstractButton;
 import orbits.IOrbitPlaneChangeTransformer;
 import orbits.NavComputer;
 import orbits.Planet;
 import orbits.keplerian.KeplerCalc;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 
@@ -30,8 +30,8 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
   public void run() {
     super.run();
 
-    computer.setReferenceObject(planet);
-    computer.getControlAdapter().selectReferenceObject(planet);
+//    computer.setReferenceObject(planet);
+//    computer.getControlAdapter().selectReferenceObject(planet);
     //computer.getControlAdapter().toggleEnablePlanetSelect();
     log.info("referenced object=" + computer.getReferenceObject().getName());
     Utils.sleep(1000);
@@ -51,25 +51,25 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       Utils.sleep(500);
     }
 
-    log.info("TLI Adjustment starting, periluna=" + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
+    log.info("TLI Adjustment starting, periluna=" + VMath.mag((double[]) computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
     makeTLIAdjustment();
 
-    log.info("TLI Adjustment ended, periluna=" + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
+    log.info("TLI Adjustment ended, periluna=" + VMath.mag((double[]) computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
 
 //		log.info("turning retrograde");
-//		
+//
 //		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
 //		button.setSelected(true);
 //		button.doClick();
-//		
+//
 //		computer.setFlashAnnun(true);
 //		while(computer.isFlashAnnun())
 //		{
 //			Utils.sleep(400);
 //		}
-//		
+//
 //		computer.getControlAdapter().setThrottle(40);
 //		log.info("starting 40% burn to set periapsis to "+this.periapsis);
 //		log.info("@ "+ ((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer))*NavComputer.METERS_PER_MILE);
@@ -79,7 +79,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 //		}
 //		computer.getControlAdapter().setThrottle(0);
 //		log.info("ending burn "+((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer))*NavComputer.METERS_PER_MILE);
-//		
+//
 //
 //		button.setSelected(false);
 //		button.doClick();
@@ -97,15 +97,17 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
   private void makeTLIAdjustment() {
     boolean continueBurn = true;
     double dotProd = 0;
+    Map<OrbitElementKeys, Object> map = null;
     while (continueBurn) {
       double[] rockToMoonVec = VMath.vecSubtract(planet.getPosition(), rocket.getPosition());
+      map = computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet);
       dotProd = VMath.dotprod(rocket.getVelocity(), VMath.vecSubtract(VMath.vecMultByScalar(rocket.getCoordSys().zAxis().getVectorForm(), VMath.dotprod(rockToMoonVec, rocket.getCoordSys().zAxis().getVectorForm())), rockToMoonVec));
-      continueBurn = (Double) computer.getOrbitElements().get(OrbitElementKeys.rPer) < 0
-              || FastMath.abs((Double) computer.getOrbitElements().get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5
+      continueBurn = (Double) map.get(OrbitElementKeys.rPer) < 0
+              || FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5
               || dotProd < 0;
       if (continueBurn) {
         //log.info("inner>> "+((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer)-planet.getRadius()/NavComputer.METERS_PER_MILE - 150)+", "+dotProd);
-        if (dotProd > 0.0 && ((Double) computer.getOrbitElements().get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE > 150)) {
+        if (dotProd > 0.0 && ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE > 150)) {
           computer.getControlAdapter().rcsThrustLeft();
         } else {
           computer.getControlAdapter().rcsThrustRight();
@@ -113,13 +115,14 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       }
     }
     computer.getControlAdapter().rcsThrustOff();
-    log.info("burn ended " + ((Double) computer.getOrbitElements().get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) + ", " + dotProd);
+    log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) + ", " + dotProd);
 
   }
 
   @Override
   public boolean targetReached() {
-    double[] r = (double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec);
+    // double[] r = (double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec);
+    double[] r = (double[])computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec);
     return VMath.mag(r) <= tliAdjustmentStart * NavComputer.METERS_PER_MILE;
   }
 

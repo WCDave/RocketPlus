@@ -204,7 +204,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
      */
     return 1.4f;
 
-    
+
   }
 
   public Orbit determineOrbitFor(CoordSys cs) {
@@ -337,7 +337,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
   @Override
   public void updateInstrument() {
 
-    craft = viewOwnedBy.getTheRocket();    
+    craft = viewOwnedBy.getTheRocket();
 
     //rocketOrbitElements.clear();
     new Thread(()->{
@@ -419,10 +419,8 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     return v;
   }
 
-  private static Map<OrbitElementKeys, Object> computeOrbitalElements(CoordSys cs, Abstract3DModelObject refObject) {
+  public static Map<OrbitElementKeys, Object> computeOrbitalElements(CoordSys cs, Abstract3DModelObject refObject) {
 
-    //CoordSys cs = craft.getNavObject();
-    Map<OrbitElementKeys, Object> resultMap = new HashMap<OrbitElementKeys, Object>();
 
     double[] radiusVec, ecc;
     double a, vPer, rPer, vAph, rAph;
@@ -443,6 +441,8 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     rAph = trAph / METERS_PER_MILE;
     vPer = FastMath.sqrt(((1 + e) * mu) / trPer) * 2.236;
     vAph = FastMath.sqrt(((1 - e) * mu) / trAph) * 2.236;
+
+    Map<OrbitElementKeys, Object> resultMap = new HashMap<OrbitElementKeys, Object>();
 
     resultMap.put(OrbitElementKeys.rPer, new Double(rPer));
     resultMap.put(OrbitElementKeys.vPer, new Double(vPer));
@@ -472,7 +472,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     Map<String, Object> locMap = new HashMap<String, Object>();
 
     Planet p = (Planet) wc.getItem("Moon");
-    locMap.put(p.getName(), p.getCoordSys().getPositionVec());     
+    locMap.put(p.getName(), p.getCoordSys().getPositionVec());
 
     resultMap.put(OrbitElementKeys.locMap, locMap);
 
