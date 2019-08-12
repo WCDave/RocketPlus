@@ -2,7 +2,9 @@ package autopilot;
 
 import Foundation.Utils;
 import VMath.VMath;
+import enums.ComputerButtonKeys;
 import enums.OrbitElementKeys;
+import gui.ComputerAbstractButton;
 import orbits.IOrbitPlaneChangeTransformer;
 import orbits.NavComputer;
 import orbits.Planet;
@@ -57,12 +59,14 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 
     log.info("TLI Adjustment ended, periluna=" + VMath.mag((double[]) computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
+    computer.setReferenceObject(planet);
+    computer.getControlAdapter().selectReferenceObject(planet);
+    computer.getControlAdapter().toggleEnablePlanetSelect();
+		log.info("turning retrograde");
 
-//		log.info("turning retrograde");
-//
-//		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
-//		button.setSelected(true);
-//		button.doClick();
+		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
+		button.setSelected(true);
+		button.doClick();
 //
 //		computer.setFlashAnnun(true);
 //		while(computer.isFlashAnnun())

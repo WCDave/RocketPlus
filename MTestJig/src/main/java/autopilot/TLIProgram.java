@@ -116,7 +116,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
      double[] motionCross = VMath.crossprd( VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(rke.getCoordSys().getVelocityAsVec()));
      double[] testCross = VMath.crossprd(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
      double testDot = VMath.dotprod(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
-     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) >= .35d && VMath.mag(testCross) < .4d  ;
+     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .65d && VMath.mag(testCross) < .7d  ;
   }
 
   private boolean targetMethod1(KeplerianElements rke, KeplerianElements mke) {

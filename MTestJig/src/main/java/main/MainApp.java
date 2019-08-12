@@ -353,7 +353,7 @@ public class MainApp extends JFrame {
     ((Planet) anArray[2]).setShadingVisitor(v);
     ((Planet) anArray[4]).setShadingVisitor(v);
     ((Planet) anArray[0]).setAtmosDraw(new SunAtmosphereDraw((Planet) anArray[0]));
-   ((Planet) anArray[2]).setAtmosDraw(new EarthAtmosphereDraw((Planet) anArray[2]));
+//   ((Planet) anArray[2]).setAtmosDraw(new EarthAtmosphereDraw((Planet) anArray[2]));
     ((Planet) anArray[2]).setAtmosFactor(new EarthAtmosFactor2((Planet) anArray[2]));
 
     anArray[1].setDetailingFactor(.32 * (5e5));
