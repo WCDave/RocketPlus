@@ -38,7 +38,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     log.info("referenced object=" + computer.getReferenceObject().getName());
     Utils.sleep(1000);
 
-    log.info("awaiting CCM distance " + 240000 * NavComputer.METERS_PER_MILE + "@ " + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)));
+    log.info("awaiting CCM distance " + tliAdjustmentStart / NavComputer.METERS_PER_MILE + " @" + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)));
 
 //    executorService.submit(new KeplerCalc(rocket, true));
 //    executorService.submit(new KeplerCalc(planet, true));
@@ -67,12 +67,12 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
 		button.setSelected(true);
 		button.doClick();
-//
-//		computer.setFlashAnnun(true);
-//		while(computer.isFlashAnnun())
-//		{
-//			Utils.sleep(400);
-//		}
+
+		computer.setFlashAnnun(true);
+		while(computer.isFlashAnnun())
+		{
+			Utils.sleep(400);
+		}
 //
 //		computer.getControlAdapter().setThrottle(40);
 //		log.info("starting 40% burn to set periapsis to "+this.periapsis);
@@ -112,9 +112,9 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       if (continueBurn) {
         //log.info("inner>> "+((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer)-planet.getRadius()/NavComputer.METERS_PER_MILE - 150)+", "+dotProd);
         if (dotProd > 0.0 && ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE > 150)) {
-          computer.getControlAdapter().rcsThrustLeft();
+          computer.getControlAdapter().rcsThrustAft();
         } else {
-          computer.getControlAdapter().rcsThrustRight();
+          computer.getControlAdapter().rcsThrustForward();
         }
       }
     }
