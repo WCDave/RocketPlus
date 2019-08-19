@@ -429,9 +429,9 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     //double v[]=cs.getVelocityAsVec();
     double v[] = VMath.vecSubtract(cs.getVelocityAsVec(), ((Planet) refObject).getVelocity());
     double magV = VMath.mag(v);
-    radiusVec = VMath.vecSubtract(cs.getPositionVec(), ((Planet) refObject).getCoordSys().getPositionVec());
+    radiusVec = VMath.vecSubtract(cs.getPositionVec(), refObject.getCoordSys().getPositionVec());
     double h[] = VMath.crossprd(radiusVec, v);
-    ecc = VMath.vecSubtract(VMath.vecMultByScalar(VMath.crossprd(v, h), 1 / mu), VMath.vecMultByScalar(radiusVec, 1 / VMath.mag(radiusVec)));
+    ecc = VMath.vecSubtract(VMath.vecMultByScalar(VMath.crossprd(v, h), 1 / mu), VMath.normalize(radiusVec));
     double e = VMath.mag(ecc);
     a = -mu / (2 * ((magV * magV) / 2 - mu / VMath.mag(radiusVec)));
     double trPer = (1 - e) * a;
