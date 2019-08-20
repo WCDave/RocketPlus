@@ -111,9 +111,9 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       map = computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet);
 //      double[] rockToMoonVec = VMath.vecSubtract(planet.getPosition(), rocket.getPosition());
 //      dotProd = VMath.dotprod(rocket.getVelocity(), VMath.vecSubtract(VMath.vecMultByScalar(rocket.getCoordSys().zAxis().getVectorForm(), VMath.dotprod(rockToMoonVec, rocket.getCoordSys().zAxis().getVectorForm())), rockToMoonVec));
-      double[] rockToMoonVec = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
-      double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
-      dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, VMath.crossprd(rockToMoonVec, rockVelRelMoon)), planet.getVelocity());
+      double[] rP = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
+      double[] vP = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
+      dotProd = VMath.dotprod(VMath.crossprd(vP, VMath.crossprd(rP, vP)), planet.getVelocity());
       continueBurn = (Double) map.get(OrbitElementKeys.rPer) < 0
               || FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5
               || dotProd < 0;
