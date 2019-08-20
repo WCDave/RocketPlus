@@ -12,6 +12,7 @@ import orbits.keplerian.KeplerCalc;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.log4j.Logger;
 
+import java.util.Date;
 import java.util.Map;
 
 public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
@@ -19,7 +20,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
   private Planet planet;
   private double periapsis;
   private Logger log = Logger.getLogger(CourseCorrectionManeuverProgram.class);
-  private static final double tliAdjustmentStart = 50000;
+  private static final double tliAdjustmentStart = 65000;
 
   public CourseCorrectionManeuverProgram(NavComputer computer, Planet planet, double periapsis) {
     super(computer);
@@ -38,7 +39,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     log.info("referenced object=" + computer.getReferenceObject().getName());
     Utils.sleep(1000);
 
-    log.info("awaiting CCM distance " + tliAdjustmentStart / NavComputer.METERS_PER_MILE + " @" + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)));
+    log.info("awaiting CCM distance " + tliAdjustmentStart * NavComputer.METERS_PER_MILE + " @" + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)));
 
 //    executorService.submit(new KeplerCalc(rocket, true));
 //    executorService.submit(new KeplerCalc(planet, true));
@@ -49,13 +50,17 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 //
 //    log.info("plane Adjustment completed...waiting for TLI adjustment " + tliAdjustmentStart + ", " + VMath.mag((double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
+    DebugThread dt = new DebugThread();
+    dt.start();
     while (!targetReached()) {
       Utils.sleep(500);
     }
 
+
     log.info("TLI Adjustment starting, periluna=" + VMath.mag((double[]) computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
     makeTLIAdjustment();
+    dt.runThread=false;
 
     log.info("TLI Adjustment ended, periluna=" + VMath.mag((double[]) computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec)) / NavComputer.METERS_PER_MILE);
 
@@ -103,9 +108,12 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     double dotProd = 0;
     Map<OrbitElementKeys, Object> map = null;
     while (continueBurn) {
-      double[] rockToMoonVec = VMath.vecSubtract(planet.getPosition(), rocket.getPosition());
       map = computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet);
-      dotProd = VMath.dotprod(rocket.getVelocity(), VMath.vecSubtract(VMath.vecMultByScalar(rocket.getCoordSys().zAxis().getVectorForm(), VMath.dotprod(rockToMoonVec, rocket.getCoordSys().zAxis().getVectorForm())), rockToMoonVec));
+//      double[] rockToMoonVec = VMath.vecSubtract(planet.getPosition(), rocket.getPosition());
+//      dotProd = VMath.dotprod(rocket.getVelocity(), VMath.vecSubtract(VMath.vecMultByScalar(rocket.getCoordSys().zAxis().getVectorForm(), VMath.dotprod(rockToMoonVec, rocket.getCoordSys().zAxis().getVectorForm())), rockToMoonVec));
+      double[] rockToMoonVec = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
+      double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
+      dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, VMath.crossprd(rockToMoonVec, rockVelRelMoon)), planet.getVelocity());
       continueBurn = (Double) map.get(OrbitElementKeys.rPer) < 0
               || FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5
               || dotProd < 0;
@@ -153,5 +161,33 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     computer.getControlAdapter().rcsThrustOff();
     log.info("plane adjustment correction complete " + correctionDot);
   }
+
+//  double[] rockToMoonVec = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
+//      double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
+//      dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, VMath.crossprd(rockToMoonVec, rockVelRelMoon)), planet.getVelocity());
+private class DebugThread extends Thread {
+
+  public boolean runThread = true;
+
+
+  public DebugThread()   {
+
+  }
+
+  @Override
+  public void run() {
+    System.out.println("start thread");
+    while (runThread) {
+      double[] rockToMoonVec = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
+      double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
+      double dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, VMath.crossprd(rockToMoonVec, rockVelRelMoon)), planet.getVelocity());
+
+      log.info(dotProd + ", rockVelM="+VMath.mag(rockVelRelMoon)+", moonVel="+VMath.mag(planet.getVelocity()));
+      System.out.println("Thread at "+new Date());
+      Utils.sleep(60000);
+    }
+    System.out.println("end thread");
+  }
+}
 
 }
