@@ -183,7 +183,7 @@ public class NavComputer extends AbstractInstrument {
             .setExecutionObject(this)
             .setExecutionMethod("data")
             .buildCommand();
-    gb = new GlassButton("DATA", 135 + 6 * 15, 145, 37, 13, Color.white, cmd);
+    gb = new GlassButton("DATA", 135 + 6 * 15, 145, 37, 13, Color.white, cmd, true);
     add(gb);
 
   }

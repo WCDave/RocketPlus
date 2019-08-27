@@ -1,15 +1,13 @@
 package gui;
 
+import main.Command;
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-
-import javax.swing.DefaultButtonModel;
-
-import main.Command;
-
-import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class GlassButton extends ComputerAbstractButton implements MouseMotionListener {
@@ -23,7 +21,26 @@ public class GlassButton extends ComputerAbstractButton implements MouseMotionLi
   private Rectangle boundingRectangle;
 
   public GlassButton(String s, int x, int y, int xSize, int ySize, Color aColor, Command cmd) {
-    super(cmd, x, y);
+    super(cmd, x, y, false);
+    buttonImage = new BufferedImage(xSize, ySize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+    setText(s);
+    stringColor = aColor;
+    this.xSize = xSize;
+    this.ySize = ySize;
+    Graphics2D g2 = buttonImage.createGraphics();
+    g2.setColor(aColor);
+    Font font = g2.getFont();
+    g2.setFont(new Font(font.getName(), xSize - 3, ySize - 3));
+    g2.drawString(s, 3, 9);
+    g2.setFont(font);
+    setBounds(xPos, yPos, xSize, ySize);
+    setModel(new DefaultButtonModel());
+    addMouseMotionListener(this);
+    boundingRectangle = new Rectangle(xPos, yPos, xSize, ySize);
+  }
+
+  public GlassButton(String s, int x, int y, int xSize, int ySize, Color aColor, Command cmd, boolean autoDeselect) {
+    super(cmd, x, y, autoDeselect);
     buttonImage = new BufferedImage(xSize, ySize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
     setText(s);
     stringColor = aColor;
@@ -52,7 +69,7 @@ public class GlassButton extends ComputerAbstractButton implements MouseMotionLi
     if (g == null) return;
     Graphics2D g2 = (Graphics2D) g;
     Color c = isSelected() ? mouseOverColor : Color.black;
-    
+
     g2.setColor(c);
 
     g2.fillRect(xPos, yPos, xSize, ySize);
