@@ -20,7 +20,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
   private Planet planet;
   private double periapsis;
   private Logger log = Logger.getLogger(CourseCorrectionManeuverProgram.class);
-  private static final double tliAdjustmentStart = 65000;
+  private static final double tliAdjustmentStart = 40000;
 
   public CourseCorrectionManeuverProgram(NavComputer computer, Planet planet, double periapsis) {
     super(computer);
@@ -114,12 +114,11 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       double[] rP = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
       double[] vP = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
       dotProd = VMath.dotprod(VMath.crossprd(vP, VMath.crossprd(rP, vP)), planet.getVelocity());
-      continueBurn = (Double) map.get(OrbitElementKeys.rPer) < 0
-              || FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5
+      continueBurn =  FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 300) > 5 && dotProd > 0
               || dotProd < 0;
       if (continueBurn) {
         //log.info("inner>> "+((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer)-planet.getRadius()/NavComputer.METERS_PER_MILE - 150)+", "+dotProd);
-        if (dotProd > 0.0 && ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE > 150)) {
+        if (dotProd > 0.0 &&  ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE-300) > 5) {
           computer.getControlAdapter().rcsThrustAft();
         } else {
           computer.getControlAdapter().rcsThrustForward();
@@ -127,7 +126,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       }
     }
     computer.getControlAdapter().rcsThrustOff();
-    log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) + ", " + dotProd);
+    log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 300) + ", " + dotProd);
 
   }
 
@@ -168,6 +167,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 private class DebugThread extends Thread {
 
   public boolean runThread = true;
+  private Map<OrbitElementKeys,Object> map = null;
 
 
   public DebugThread()   {
@@ -176,14 +176,18 @@ private class DebugThread extends Thread {
 
   @Override
   public void run() {
+
     System.out.println("start thread");
     while (runThread) {
+      map = CourseCorrectionManeuverProgram.this.computer.computeOrbitalElements(computer.getCraft().getCoordSys(), CourseCorrectionManeuverProgram.this.planet);
       double[] rockToMoonVec = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
       double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
-      double dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, VMath.crossprd(rockToMoonVec, rockVelRelMoon)), planet.getVelocity());
+      double[] angMo = VMath.crossprd(rockToMoonVec, rockVelRelMoon);
+      double dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, angMo), planet.getVelocity());
 
-      log.info(dotProd + ", rockVelM="+VMath.mag(rockVelRelMoon)+", moonVel="+VMath.mag(planet.getVelocity()));
-      System.out.println("Thread at "+new Date());
+
+      log.info(dotProd + ", rockVelM="+VMath.mag(rockVelRelMoon)+", moonVel="+VMath.mag(planet.getVelocity())+", angMo="+VMath.mag(angMo)+", currPeri="+
+              ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE));
       Utils.sleep(60000);
     }
     System.out.println("end thread");
