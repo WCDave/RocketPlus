@@ -67,17 +67,17 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     computer.setReferenceObject(planet);
     computer.getControlAdapter().selectReferenceObject(planet);
     computer.getControlAdapter().toggleEnablePlanetSelect();
-		log.info("turning retrograde");
-
-		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
-		button.setSelected(true);
-		button.doClick();
-
-		computer.setFlashAnnun(true);
-		while(computer.isFlashAnnun())
-		{
-			Utils.sleep(400);
-		}
+//		log.info("turning retrograde");
+//
+//		ComputerAbstractButton button = computer.getButton(ComputerButtonKeys.RETROGRADE);
+//		button.setSelected(true);
+//		button.doClick();
+//
+//		computer.setFlashAnnun(true);
+//		while(computer.isFlashAnnun())
+//		{
+//			Utils.sleep(400);
+//		}
 //
 //		computer.getControlAdapter().setThrottle(40);
 //		log.info("starting 40% burn to set periapsis to "+this.periapsis);
@@ -114,11 +114,11 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       double[] rP = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
       double[] vP = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
       dotProd = VMath.dotprod(VMath.crossprd(vP, VMath.crossprd(rP, vP)), planet.getVelocity());
-      continueBurn =  FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 300) > 5 && dotProd > 0
+      continueBurn =  FastMath.abs((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) > 5 && dotProd > 0
               || dotProd < 0;
       if (continueBurn) {
         //log.info("inner>> "+((Double)computer.getOrbitElements().get(OrbitElementKeys.rPer)-planet.getRadius()/NavComputer.METERS_PER_MILE - 150)+", "+dotProd);
-        if (dotProd > 0.0 &&  ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE-300) > 5) {
+        if (dotProd > 0.0 &&  ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE-150) > 5) {
           computer.getControlAdapter().rcsThrustAft();
         } else {
           computer.getControlAdapter().rcsThrustForward();
@@ -126,7 +126,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
       }
     }
     computer.getControlAdapter().rcsThrustOff();
-    log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 300) + ", " + dotProd);
+    log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 150) + ", " + dotProd);
 
   }
 

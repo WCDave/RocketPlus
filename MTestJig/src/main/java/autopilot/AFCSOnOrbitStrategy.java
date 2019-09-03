@@ -33,7 +33,7 @@ public abstract class AFCSOnOrbitStrategy extends AFCSStrategy {
     double dThetaMultiple = 2.5 * dTheta;
 
     Thread currentThread = Thread.currentThread();
-    while (currentThread == blinkerThread) {
+    while (null != blinkerThread) {
       do {
         do {
           List<double[]> targetList = targetStrategy.acquireTarget();
@@ -45,12 +45,12 @@ public abstract class AFCSOnOrbitStrategy extends AFCSStrategy {
           e1 = 1 - VMath.dotprod(zAxis.getVectorForm(), zTarget);
           rotSign = -FastMath.signum(VMath.dotprod(VMath.crossprd(zAxis.getVectorForm(), zTarget), arbAxis));
           cs.rotateAroundArbitraryAxis(arbAxis, dTheta * rotSign * (2 * e1 + .05));
-        } while (e1 > e1Tolerance && currentThread == blinkerThread);
+        } while (e1 > e1Tolerance && null != blinkerThread);
 
         e2 = 1 - VMath.dotprod(xAxis.getVectorForm(), xTarget);
         rotSign = FastMath.signum(VMath.dotprod(xAxis.getVectorForm(), yTarget));
         cs.zRotate(dThetaMultiple * rotSign * (e2 + .05));
-      } while (currentThread == blinkerThread && (e2 > Command.alignError || e1 > e1Tolerance));
+      } while (null != blinkerThread && (e2 > Command.alignError || e1 > e1Tolerance));
 
       Utils.sleep(5);
 
