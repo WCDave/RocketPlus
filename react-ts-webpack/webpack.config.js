@@ -30,11 +30,12 @@ module.exports = {
             },
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
             {
-                test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader"
-                ]
+                test: /\.(sa|sc|c)ss$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                // use: [
+                //     MiniCssExtractPlugin.loader,
+                //     "css-loader"
+                // ]
             }
         ]
     },

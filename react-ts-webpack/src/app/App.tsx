@@ -8,6 +8,7 @@ import {createLogger} from "redux-logger";
 import thunk from "redux-thunk";
 import adjuster from "./DelayReducer";
 import {Provider} from "react-redux";
+import './index.css';
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 

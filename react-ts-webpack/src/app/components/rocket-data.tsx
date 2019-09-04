@@ -48,8 +48,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         this.rocketData();
         this.rocketCountDown = setInterval(this.rocketData, 10000);
 
-        this.wxData();
-        this.wxCountDown = setInterval(this.wxData, 10000 * 6);
+        this.wxdata1();
+        this.wxCountDown = setInterval(this.wxdata1, 10000 * 6);
     }
 
     componentDidUpdate(prevProps: Readonly<ComponentProps>, prevState: Readonly<StateProps>, snapshot?: any): void {
@@ -78,19 +78,32 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         this.wxCountDown = null;
     }
 
-    wxData = () => {
-        const xmhr = new XMLHttpRequest();
-        xmhr.addEventListener("load", (evt: ProgressEvent) => {
-            const imageUrl = URL.createObjectURL((evt.target as XMLHttpRequest).response);
-            this.setState({imageData: imageUrl});
-        });
+    // wxData = () => {
+    //     const xmhr = new XMLHttpRequest();
+    //     xmhr.addEventListener("load", (evt: ProgressEvent) => {
+    //         const imageUrl = URL.createObjectURL((evt.target as XMLHttpRequest).response);
+    //         this.setState({imageData: imageUrl});
+    //     });
+    //     const time = new Date().getTime();
+    //     xmhr.open('GET', `http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=${this.state.Id}&x='${time + ''}`, true);
+    //     xmhr.setRequestHeader('method', 'GET');
+    //     xmhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    //     // xmhr.setRequestHeader('mode','no-cors');
+    //     xmhr.responseType = "blob";
+    //     xmhr.send(null);
+    // }
+
+    wxdata1=()=> {
         const time = new Date().getTime();
-        xmhr.open('GET', `http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=${this.state.Id}&x='${time + ''}`, true);
-        xmhr.setRequestHeader('method', 'GET');
-        xmhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        // xmhr.setRequestHeader('mode','no-cors');
-        xmhr.responseType = "blob";
-        xmhr.send(null);
+        fetch(`http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=${this.state.Id}&x='${time + ''}`)
+            .then(result => {
+                return result.blob();
+            }).
+        then((file) => {
+            this.setState({imageData: URL.createObjectURL(file)});
+        }).catch((error)=> {
+            console.log(error);
+        });
     }
 
     rocketData = () => {
@@ -100,7 +113,9 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             })
             .then((item: any) => {
                 this.setState({rocketData: item})
-            });
+            }).catch((error)=> {
+                console.log(error);
+        });
     }
 
     onGridReady = (ev: GridReadyEvent) => {
@@ -123,7 +138,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     }
     getIdent = (ev: React.SyntheticEvent) => {
         this.identifier = (ev.currentTarget as HTMLInputElement).value;
-        this.setState({Id: this.identifier}, () => this.wxData());
+        this.setState({Id: this.identifier}, () => this.wxdata1());
     }
 
     filterChange = (ev:React.ChangeEvent<HTMLInputElement>) =>{
@@ -186,7 +201,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             )
         });
         return (
-            <div className=" ag-theme-blue dave">
+            <div className="ag-theme-blue dave">
                 <div className="row">
                     <div className="col-sm-6">
                         <div className="row">
