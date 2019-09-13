@@ -1,6 +1,6 @@
 import { AnyAction, combineReducers, Store } from 'redux';
 
-const logger = (store:Store) => (next:(e:AnyAction)=>any) => (action:AnyAction) => {
+const logger = (store:Store<any>) => (next:(e:AnyAction)=>any) => (action:AnyAction) => {
   console.group(action.type)
   console.info('dispatching', action)
   let result = next(action)
