@@ -48,6 +48,7 @@
     "react-sidebar": "^3.0.2",
     "react-sidenav": "^3.1.7",
     "react-tabs": "^2.3.0",
+    "redux-integration-testing": "^0.2.0-alpha",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "redux-saga": "^0.16.2",

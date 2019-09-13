@@ -8,6 +8,7 @@ interface DispatchProps {
 
 interface StateProps {
     result:string;
+    adj:string;
 }
 
 interface OwnProps {
@@ -30,7 +31,8 @@ class Child extends React.Component<DispatchProps&StateProps&OwnProps> {
 
 function mapStateToProps(state: any): StateProps {
     return {
-        result:state.sampleReducer
+        result:state.sampleReducer,
+        adj: state.adjuster
     }
 }
 
@@ -38,7 +40,7 @@ function mapStateToProps(state: any): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     return {
         punt: (id:string) => {
-            dispatch({type: 'X', id});
+            dispatch({type: 'XD', id});
         }
     }
 }
