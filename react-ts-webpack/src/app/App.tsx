@@ -24,6 +24,10 @@ middleWare.push(loggerMiddleware)
 
 
 const store =  configureStore({sampleReducer:'root'});
+
+export const getStore=()=> {
+  return store;
+}
 // var store =  createStore(combineReducers({delay:adjuster}), /* preloadedState, */
 //     (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(...middleWare));
 ReactDOM.render(
