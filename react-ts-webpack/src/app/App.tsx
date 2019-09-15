@@ -11,6 +11,7 @@ import configureStore from './configureStore';
 import adjuster from "./DelayReducer";
 import {Provider} from "react-redux";
 import './index.css';
+import Child from "./components/Child";
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 
@@ -32,7 +33,8 @@ export const getStore=()=> {
 //     (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(...middleWare));
 ReactDOM.render(
     <Provider store={store}>
-        <Play x="xxxx"/>
+        <RocketData/>
+
     </Provider>
     ,
 document.getElementById('root'));

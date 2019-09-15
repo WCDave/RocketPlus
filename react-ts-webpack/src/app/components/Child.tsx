@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import {Form, Formik, FormikErrors, FormikFormProps, FormikProps, FormikTouched} from "formik";
+import * as moment from "moment";
 
 interface DispatchProps {
     punt:(id:string)=>void;
@@ -20,12 +22,24 @@ class Child extends React.Component<DispatchProps&StateProps&OwnProps> {
         super(props);
     }
 
-    onClick=(ev: React.MouseEvent<HTMLDivElement>)=> {
+    onClick=(fProps:FormikProps<any>)=>(ev: React.MouseEvent<HTMLDivElement>)=>  {
         ev.preventDefault();
+        console.log(fProps) ;
         this.props.punt('kk');
     }
+
+    renderIt=(formProps:FormikProps<any>)=>{
+        return (<Form><div id='dave' onClick={this.onClick(formProps)}>Hello Child{this.props.x}</div></Form>);
+    }
+
     render() {
-        return (<div id='dave' onClick={this.onClick}>Hello Child{this.props.x}</div>)
+        return(
+        <Formik
+            initialValues={{email: 'qqq',password:'',chk:false}}
+            render={this.renderIt}
+            onSubmit={()=>{}}
+        />
+        )
     }
 }
 
@@ -37,7 +51,7 @@ function mapStateToProps(state: any): StateProps {
 }
 
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
     return {
         punt: (id:string) => {
             dispatch({type: 'XD', id});

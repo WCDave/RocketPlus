@@ -1,4 +1,3 @@
-import { ReactComponent } from 'ag-grid-react/lib/reactComponent';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { mount, shallow, ShallowWrapper } from 'enzyme';
@@ -40,18 +39,19 @@ describe ('real store test', ()=>{
     console.log(realStore.getState());
   });
      test('realstore test1', ()=> {
-       // const TestChild= TestWrapper(()=> (<Child x="iii"/>));
-       // const wrapper = mount(
-       //     <TestChild/>
-       // );
+       const TestChild= TestWrapper(()=> (<Child x="iii"/>), realStore);
        const wrapper = mount(
-        <Provider store={realStore}>
-          <Child x="xxxx" />
-        </Provider>
-    );
+           <TestChild/>
+       );
+    //    const wrapper = mount(
+    //     <Provider store={realStore}>
+    //       <Child x="xxxx" />
+    //     </Provider>
+    // );
 
        console.log(realStore.getState());
        const w2 = wrapper.find('#dave');
+       const wf = wrapper.find('Formik');
        w2.simulate('click');
        expect(realStore.getState().adjuster.result).toEqual('kk')
        console.log(realStore.getState());

@@ -11,6 +11,7 @@ import Select from 'react-select'
 import {connect} from "formik";
 import * as io from 'socket.io-client';
 import { createServer, Socket } from 'net';
+import Child from "./Child";
 
 
 interface StateProps {
@@ -215,7 +216,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             }
         }
 
-        console.log(this.props);
+        // console.log(this.props);
         let keys = this.state.rocketData ? Object.keys(this.state.rocketData) : [];
         let display: any = keys.map((item: string) => {
             return {parameter: item, value: this.state.rocketData[item as keyof object]}
@@ -307,6 +308,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                         <img src={imgSrc} width={700} height={700}/>
                     </div>
                 </div>
+                <Child x="xxxx"/>
             </div>
         )
     }
