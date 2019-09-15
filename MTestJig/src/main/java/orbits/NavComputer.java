@@ -20,12 +20,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -181,9 +177,16 @@ public class NavComputer extends AbstractInstrument {
 
     cmd = CommandBuilder.createCommand()
             .setExecutionObject(this)
-            .setExecutionMethod("data")
+            .setExecutionMethod("dataR")
             .buildCommand();
-    gb = new GlassButton("DATA", 135 + 6 * 15, 145, 37, 13, Color.white, cmd, true);
+    gb = new GlassButton("DATA R", 135 + 6 * 15, 145, 45, 13, Color.white, cmd, true);
+    add(gb);
+
+    cmd = CommandBuilder.createCommand()
+            .setExecutionObject(this)
+            .setExecutionMethod("dataS")
+            .buildCommand();
+    gb = new GlassButton("DATA S", 185 + 6 * 15, 145, 45, 13, Color.white, cmd, true);
     add(gb);
 
   }
@@ -322,7 +325,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
   }
 
 
-  public void data() {
+  public void dataR() {
     ExecutorService executorService = Executors.newFixedThreadPool(2);
     try {
       executorService.submit(new KeplerCalc(this.craft,true)).get().getKeplerianElements();
@@ -331,6 +334,20 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     catch (Exception  e) {}
     finally {
       executorService.shutdown();
+    }
+  }
+
+  public void dataS() {
+    Abstract3DModelObject satellite =  World3DContainer.getInstance().getItem("Test1");
+    if(satellite != null && satellite instanceof Craft) {
+      ExecutorService executorService = Executors.newFixedThreadPool(2);
+      try {
+        executorService.submit(new KeplerCalc((Craft)satellite, true)).get().getKeplerianElements();
+        executorService.submit(new KeplerCalc(this.getReferenceObject(), true)).get().getKeplerianElements();
+      } catch (Exception e) {
+      } finally {
+        executorService.shutdown();
+      }
     }
   }
 
