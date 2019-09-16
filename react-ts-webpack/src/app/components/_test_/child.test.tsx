@@ -5,8 +5,8 @@ import configureMockStore from 'redux-mock-store';
 import { getTester, Sequence, PageModel, Enhancer } from 'redux-integration-testing';
 import configureStore from '../../configureStore';
 import TestWrapper from '../../hoc/test-hoc';
-
 import Child from '../Child';
+
 
 
 const mockStore = configureMockStore();
@@ -52,6 +52,7 @@ describe ('real store test', ()=>{
        console.log(realStore.getState());
        const w2 = wrapper.find('#dave');
        const wf = wrapper.find('Formik');
+       console.log(wf.instance().getFormikBag());
        w2.simulate('click');
        expect(realStore.getState().adjuster.result).toEqual('kk')
        console.log(realStore.getState());
