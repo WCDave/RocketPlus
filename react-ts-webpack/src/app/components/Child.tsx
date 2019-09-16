@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import {Form, Formik, FormikErrors, FormikFormProps, FormikProps, FormikTouched} from "formik";
-import * as moment from "moment";
 
 interface DispatchProps {
     punt:(id:string)=>void;
