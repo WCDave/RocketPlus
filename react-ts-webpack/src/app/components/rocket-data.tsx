@@ -11,7 +11,7 @@ import Select from 'react-select'
 import {connect} from "formik";
 import * as io from 'socket.io-client';
 import { createServer, Socket } from 'net';
-import Child from "./Child";
+import {Child} from "./Child";
 
 
 interface StateProps {
@@ -308,7 +308,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                         <img src={imgSrc} width={700} height={700}/>
                     </div>
                 </div>
-                <Child x="xxxx"/>
+                {/*<Child x="xxxx"/>*/}
             </div>
         )
     }
