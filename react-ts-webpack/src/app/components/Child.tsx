@@ -50,7 +50,7 @@ function mapStateToProps(state: any): StateProps {
 }
 
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     return {
         punt: (id:string) => {
             dispatch({type: 'XD', id});
@@ -58,4 +58,6 @@ function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Child);
+const child =  connect<StateProps,DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(Child);
+
+export { child as Child };
