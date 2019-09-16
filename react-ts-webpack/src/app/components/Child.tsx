@@ -58,6 +58,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     }
 }
 
-const child =  connect<StateProps,DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(Child);
+const child =  connect(mapStateToProps, mapDispatchToProps)(Child);
 
 export { child as Child };
