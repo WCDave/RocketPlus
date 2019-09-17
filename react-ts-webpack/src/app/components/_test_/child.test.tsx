@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import { getTester, Sequence, PageModel, Enhancer } from 'redux-integration-testing';
 import configureStore from '../../configureStore';
 import TestWrapper from '../../hoc/test-hoc';
-import {Child} from '../Child';
+import {Child} from '~/app/components/Child';
 
 
 

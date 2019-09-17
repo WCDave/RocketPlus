@@ -8,7 +8,12 @@
       "preserveConstEnums": true,
       "removeComments": true,
       "sourceMap": true,
-      "target": "es6"
+      "target": "es6",
+      "baseUrl": ".",
+      "paths": {
+        "~/*": ["src/*"]
+      },
+      "rootDir": "src"
     },
     "include": [
       "./src/**/**/*"

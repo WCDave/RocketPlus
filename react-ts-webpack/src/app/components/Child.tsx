@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import {Form, Formik, FormikErrors, FormikFormProps, FormikProps, FormikTouched} from "formik";
+import { accessorX } from '~/app/components/accessor1';
 
 interface DispatchProps {
     punt:(id:string)=>void;
@@ -23,6 +24,7 @@ class Child extends React.Component<DispatchProps&StateProps&OwnProps> {
 
     onClick=(fProps:FormikProps<any>)=>(ev: React.MouseEvent<HTMLDivElement>)=>  {
         ev.preventDefault();
+        accessorX();
         console.log(fProps) ;
         this.props.punt('kk');
     }
