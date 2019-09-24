@@ -1,5 +1,6 @@
 import { AnyAction, combineReducers } from 'redux';
 import adjuster from './DelayReducer';
+import {wx} from '~/app/api/weathergov/reducers';
 
 const appReducer = combineReducers({
       sampleReducer: (state: any = {x:"lll"}, action: AnyAction) => {
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
             }
         }
       },
-    adjuster:adjuster
+    adjuster:adjuster,
+    wx
     }
 );
 

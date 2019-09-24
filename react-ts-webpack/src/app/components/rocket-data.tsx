@@ -1,17 +1,12 @@
 import * as React from 'react';
 import {AgGridReact} from 'ag-grid-react';
-import {GridApi, ColDef, GridReadyEvent, ICellRendererParams, RowNode, IFilterComp, TextFilter} from 'ag-grid-community';
-import {RowSpanParams} from '../../../node_modules/ag-grid-community/dist/lib/entities/colDef';
+import {GridApi, GridReadyEvent, ICellRendererParams, IFilterComp, RowNode} from 'ag-grid-community';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-blue.css';
-import {StatelessComponent, SyntheticEvent} from "react";
-import {Link, NavLink, RouteComponentProps, withRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Select from 'react-select'
 import {connect} from "formik";
-import * as io from 'socket.io-client';
-import { createServer, Socket } from 'net';
-import {Child} from "./Child";
+import {Child} from '~/app/child';
 
 
 interface StateProps {
@@ -116,7 +111,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         }).catch((error)=> {
             console.log(error);
         });
-    }
+    };
 
     rocketData = () => {
         const options = {
@@ -308,7 +303,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                         <img src={imgSrc} width={700} height={700}/>
                     </div>
                 </div>
-                {/*<Child x="xxxx"/>*/}
+                <Child x="xxxx"/>
             </div>
         )
     }
