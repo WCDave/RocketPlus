@@ -303,7 +303,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                         <img src={imgSrc} width={700} height={700}/>
                     </div>
                 </div>
-                <Child x="xxxx"/>
+                <Child x={this.state.Id}/>
             </div>
         )
     }
