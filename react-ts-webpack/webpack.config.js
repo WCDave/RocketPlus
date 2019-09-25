@@ -3,6 +3,7 @@ const path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -14,9 +15,27 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].bundle.js'
     },
+    stats: {
+        colors: true,
+        modules: true,
+        reasons: true,
+        errorDetails: true
+    },
     devtool: 'source-map',
     resolve: {
-        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+        extensions: [ '.mjs',
+            '.web.ts',
+            '.ts',
+            '.web.tsx',
+            '.tsx',
+            '.web.js',
+            '.js',
+            '.json',
+            '.web.jsx',
+            '.jsx'],
+        plugins : [
+            new TsconfigPathsPlugin()
+        ]
     },
     devServer: {
         historyApiFallback: true,

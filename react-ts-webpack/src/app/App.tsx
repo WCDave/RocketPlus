@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Play from './components/play';
 // import {  } from './components/Hello';
-import RocketData from "./components/rocket-data";
+import RocketData from "~/app/components/rocket-data";
 import {RouteComponentProps} from "react-router";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {createLogger} from "redux-logger";
@@ -11,7 +11,6 @@ import configureStore from './configureStore';
 import adjuster from "./DelayReducer";
 import {Provider} from "react-redux";
 import './index.css';
-import Child from "./components/Child";
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 
