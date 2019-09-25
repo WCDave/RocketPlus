@@ -54,7 +54,7 @@ describe ('real store test', ()=>{
        const wf = wrapper.find('Formik');
        console.log(wf.instance().getFormikBag());
        w2.simulate('click');
-       expect(realStore.getState().adjuster.result).toEqual('kk')
+       expect(realStore.getState().result).toEqual('kk')
        console.log(realStore.getState());
      })
 })

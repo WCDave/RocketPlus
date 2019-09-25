@@ -1,15 +1,36 @@
 import { AnyAction, combineReducers } from 'redux';
 import adjuster from './DelayReducer';
+import reduceReducers from 'reduce-reducers';
 
-const appReducer = combineReducers({
-      sampleReducer: (state: any = {x:"lll"}, action: AnyAction) => {
+// const appReducer = combineReducers({
+//       sampleReducer: (state: any = {x:"lll", y:0}, action: AnyAction) => {
+//         switch (action.type) {
+//           case 'X' : {
+//             return {...state, result: action.result, y:state.y+1};
+//             break;
+//           }
+//           case  'Y': {
+//             return {...state, field: action.field, y:state.y+1}
+//           }
+//           default:
+//             return {
+//               ...state
+//             }
+//         }
+//       },
+//     adjuster:adjuster
+//     }
+// );
+
+const appReducer = reduceReducers(
+      (state: any = {x:"lll", y:0}, action: AnyAction) => {
         switch (action.type) {
           case 'X' : {
-            return {...state, result: action.result};
+            return {...state, result: action.result, y:state.y+1};
             break;
           }
           case  'Y': {
-            return {...state, field: action.field}
+            return {...state, field: action.field, y:state.y+1}
           }
           default:
             return {
@@ -17,8 +38,8 @@ const appReducer = combineReducers({
             }
         }
       },
-    adjuster:adjuster
-    }
+      adjuster
+
 );
 
 export const rootReducer = (state: any | undefined, action: AnyAction) => {
