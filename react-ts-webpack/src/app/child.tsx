@@ -9,6 +9,7 @@ import {Data} from "./api/weathergov/model";
 interface DispatchProps {
     punt:(id:string)=>void;
     wx:(id:string)=>void;
+
 }
 
 interface StateProps {
@@ -18,7 +19,7 @@ interface StateProps {
 }
 
 interface OwnProps {
-  x?:string;
+  x:string;
 }
 
 interface FormProps {
@@ -27,8 +28,10 @@ interface FormProps {
     chk:boolean;
 }
 
-class Child extends React.Component<DispatchProps&StateProps&OwnProps> {
-    constructor(props:any){
+interface ComponentProps extends StateProps,OwnProps, DispatchProps{};
+
+class Child extends React.Component<ComponentProps> {
+    constructor(props:ComponentProps){
         super(props);
 
     }
@@ -76,7 +79,7 @@ function mapStateToProps(state: any): StateProps {
 }
 
 
-function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     return {
         punt: (id:string) => {
             dispatch({type: 'XD', id});
@@ -87,6 +90,6 @@ function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
     }
 }
 
-const child =  connect(mapStateToProps, mapDispatchToProps)(Child);
+const connected =  connect(mapStateToProps, mapDispatchToProps)(Child);
 
-export { child as Child };
+export { connected as Child };
