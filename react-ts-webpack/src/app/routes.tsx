@@ -13,11 +13,13 @@ export const routes = [{
     path: '/bubblegum',
     component:  ()=>(<Child x="0..0" />),
     sidebar: () => 'Child',
-    main: () => 'Bubblegum'
+    main: () => 'Bubblegum',
+    exact: true,
   },
   {
     path: '/shoelaces',
     component:  ()=>(<Child x="00" />),
+    exact: true,
     children: [
       {
         path: '/child1',
