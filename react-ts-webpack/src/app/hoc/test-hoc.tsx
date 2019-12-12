@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import {Store} from "redux";
-import configureStore from '../configureStore';
+import { Store } from 'redux';
+import { configureStore } from '../configureStore';
 
-const TestWrapper=(W:  React.ComponentType, store:Store<any>)=>{
+export const testWrapper=(W:  React.ComponentType, store:Store<any>)=>{
   return class WrappedHOC extends React.Component {
 
     render() {
@@ -13,7 +13,7 @@ const TestWrapper=(W:  React.ComponentType, store:Store<any>)=>{
           </Provider>
       );
     }
-  }
-}
+  };
+};
 
-export default TestWrapper ;
+

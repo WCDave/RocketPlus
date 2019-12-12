@@ -34,3 +34,6 @@
 div {
     border-color: crimson !important;
 }
+.site-navigation {
+   list-style-type: none;
+}

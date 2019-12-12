@@ -1,6 +1,7 @@
 import { call, put, select, take, takeLatest } from 'redux-saga/effects';
 import {actions, TypeKeys} from "./actions";
 import {ApiService} from "../../axios/service";
+import * as api from './api';
 
 export const sagaWatchers = [watchWeatherRequests];
 
@@ -12,8 +13,14 @@ function* watchWeatherRequests() {
 function* getLatestWx(action: ReturnType<typeof actions.getLatestWeatherRequest>){
     // const promise = service().get({url:action.endpointUrl, payload:action.data});
 
-    const data = yield call( ()=>ApiService.get({url:action.endpointUrl, payload:action.data}) );
-    yield put(actions.getLatestWeatherResponse(data.data))
+    try {
+        const data = yield call(api.getLatestWx, action.data);
+        yield put(actions.getLatestWeatherResponse(data));
+    }
+    catch (e) {
+
+    }
+
 }
 
 

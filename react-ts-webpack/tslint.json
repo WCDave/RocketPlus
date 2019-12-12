@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-airbnb",
+    "tslint-config-prettier",
+    "tslint-eslint-rules",
+    "tslint-react-hooks"
+  ],
+  "linterOptions": {
+    "exclude": ["node_modules"]
+  },
+  "rules": {
+    "array-type": false,
+    "curly": true,
+    "eofline": true,
+    "file-name-casing": [true, "kebab-case"],
+    "import-name": false,
+    "interface-name": [true, "never-prefix"],
+    "interface-over-type-literal": false,
+    "jsx-boolean-value": false,
+    "jsx-space-before-trailing-slash": true,
+    "max-line-length": [true, { "limit": 120, "ignore-pattern": "^import |^export {(.*?)}|//" }],
+    "member-access": [true, "no-public"],
+    "no-console": false,
+    "no-default-export": true,
+    "no-duplicate-imports": true,
+    "no-empty-interface": false,
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "object-curly-spacing": [true, "always"],
+    "object-literal-sort-keys": false,
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": false,
+        "import-sources-order": "case-insensitive",
+        "named-imports-order": "case-insensitive"
+      }
+    ],
+    "quotemark": [true, "single", "jsx-double"],
+    "react-hooks-nesting": "error",
+    "semicolon": [true, "always", "strict-bound-class-methods"],
+    "whitespace": [true, "check-module", "check-separator"]
+  }
+}

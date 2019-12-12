@@ -1,8 +1,8 @@
-import * as React from "react";
-import {ErrorMessage, Field, FieldConfig, FieldProps} from "formik";
+import { ErrorMessage, Field, FieldConfig, FieldProps } from 'formik';
+import * as React from 'react';
 
 export const hoc1=(W:  React.ComponentType)=> {
-    return class HOC1 extends React.Component<any,{}> {
+    return class HOC1 extends React.Component<any, {}> {
 
         render() {
          let className = '';
@@ -12,11 +12,9 @@ export const hoc1=(W:  React.ComponentType)=> {
              const key: string = this.props.name;
              title = this.props.errors[key];
          }
-         let domProps:any = {...this.props};
+         const domProps:any = { ...this.props };
          delete domProps.formikProps;
-         return (<div className={className} title={title}><W {...domProps}/></div>)
+         return (<div className={className} title={title}><W {...domProps} /></div>);
         }
-    }
-}
-
-export default hoc1;
+    };
+};

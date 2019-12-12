@@ -1,19 +1,19 @@
 import { applyMiddleware, compose, createStore, StoreEnhancer } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga';
-import monitorReducersEnhancer from './middleware/monitorReducers'
-import loggerMiddleware from './middleware/logger'
-import {rootReducer}  from './reducers'
-import {rootSaga} from "./sagas";
+import thunkMiddleware from 'redux-thunk';
+import { logger } from './middleware/logger';
+import { monitorReducerEnhancer } from './middleware/monitorReducers';
+import { rootReducer }  from './reducers';
+import { rootSaga } from './sagas';
 
-export default function configureStore(preloadedState?:any) {
-  const sagaMiddleware = createSagaMiddleware()
-  const middlewares = [loggerMiddleware, thunkMiddleware, sagaMiddleware]
+export function configureStore(preloadedState?:any) {
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [logger, thunkMiddleware, sagaMiddleware];
   const middlewareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
 
-  const enhancers = [middlewareEnhancer, monitorReducersEnhancer]
-  const composedEnhancers = compose(...enhancers)
+  const enhancers = [middlewareEnhancer, monitorReducerEnhancer];
+  const composedEnhancers = compose(...enhancers);
 
   // var store =  createStore(combineReducers({delay:adjuster}), /* preloadedState, */
   //     (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(...middleWare));
@@ -22,5 +22,5 @@ export default function configureStore(preloadedState?:any) {
 
   sagaMiddleware.run(rootSaga);
 
-  return store
+  return store;
 }

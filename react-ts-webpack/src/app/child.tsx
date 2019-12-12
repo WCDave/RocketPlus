@@ -1,95 +1,108 @@
+import { Form, Formik, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import {Form, Formik, FormikErrors, FormikFormProps, FormikProps, FormikTouched} from "formik";
 import { accessorX } from '~/app/components/accessor1';
-import {actions} from "./api/weathergov/actions";
-import {Data} from "./api/weathergov/model";
+import { actions } from './api/weathergov/actions';
+import { Data } from './api/weathergov/model';
+import { ActionType } from './axios/action-creator';
 
 interface DispatchProps {
-    punt:(id:string)=>void;
-    wx:(id:string)=>void;
-
+  punt: (id: string) => void;
+  wx: (id: string) => void;
 }
 
 interface StateProps {
-    result:string;
-    adj:string;
-    wxData:Data;
+  result: string;
+  adj: string;
+  wxData: Data;
 }
 
 interface OwnProps {
-  x:string;
+  x: string;
 }
 
 interface FormProps {
-    email:string;
-    password:string;
-    chk:boolean;
+  email: string;
+  password: string;
+  chk: boolean;
 }
 
-interface ComponentProps extends StateProps,OwnProps, DispatchProps{};
+interface ComponentProps extends StateProps, OwnProps, DispatchProps {}
 
 class Child extends React.Component<ComponentProps> {
-    constructor(props:ComponentProps){
-        super(props);
+  constructor(props: ComponentProps) {
+    super(props);
+  }
 
+  componentDidUpdate(
+    prevProps: Readonly<DispatchProps & StateProps & OwnProps>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    if (this.props.x !== prevProps.x) {
+      this.props.wx(this.props.x);
     }
+  }
 
-    componentDidUpdate(prevProps: Readonly<DispatchProps & StateProps & OwnProps>, prevState: Readonly<{}>, snapshot?: any): void {
-        if(this.props.x !== prevProps.x) {
-            this.props.wx(this.props.x);
-        }
-    }
+  onClick = (fProps: FormikProps<any>) => (
+    ev: React.MouseEvent<HTMLDivElement>
+  ) => {
+    ev.preventDefault();
+    // (ev as Event).stopImmediatePropagation()
+    accessorX();
+    console.log(fProps);
+    console.log(this.props.x);
+    this.props.wx(this.props.x);
+    this.props.punt('kk');
+  };
 
-    onClick=(fProps:FormikProps<any>)=>(ev: React.MouseEvent<HTMLDivElement>)=>  {
-        ev.preventDefault();
-        accessorX();
-        console.log(fProps) ;
-        console.log(this.props.x) ;
-        this.props.wx(this.props.x);
-        this.props.punt('kk');
-    }
+  renderIt = (formProps: FormikProps<FormProps>) => {
+    return (
+      <Form>
+        <div id="dave" onClick={this.onClick(formProps)}>
+          Hello Child{this.props.x}
+          <footer>
+            <pre>{JSON.stringify(this.props.wxData.properties, null, 2)}</pre>
+          </footer>
+        </div>
+      </Form>
+    );
+  };
 
-    renderIt=(formProps:FormikProps<FormProps>)=>{
-        return (<Form>
-            <div id='dave' onClick={this.onClick(formProps)}>Hello Child{this.props.x}
-                <footer><pre>{JSON.stringify(this.props.wxData,null,2)}</pre></footer>
-            </div>
-        </Form>);
-    }
-
-    render() {
-        return(
-        <Formik
-            initialValues={{email: 'qqq',password:'',chk:false}}
-            render={this.renderIt}
-            onSubmit={()=>{}}
-        />
-        )
-    }
+  render() {
+    return (
+      <Formik
+        initialValues={{ email: 'qqq', password: '', chk: false }}
+        render={this.renderIt}
+        onSubmit={() => {}}
+      />
+    );
+  }
 }
 
 function mapStateToProps(state: any): StateProps {
-    return {
-        result: state.sampleReducer,
-        adj: state.adjuster,
-        wxData: state.wx
-    }
+  return {
+    result: state.sampleReducer,
+    adj: state.adjuster,
+    wxData: state.wx
+  };
 }
 
-
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
-    return {
-        punt: (id:string) => {
-            dispatch({type: 'XD', id});
-        },
-        wx: (id:string)=>{
-            dispatch(actions.getLatestWeatherRequest(id))
-        }
+function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
+  return {
+    punt: (id: string) => {
+      dispatch({ id, type: 'XD' });
+    },
+    wx: (id: string) => {
+      dispatch(actions.getLatestWeatherRequest(id));
     }
+  };
 }
 
-const connected =  connect(mapStateToProps, mapDispatchToProps)(Child);
+const connected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Child);
 
 export { connected as Child };

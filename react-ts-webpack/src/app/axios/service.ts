@@ -23,7 +23,7 @@ class AxiosService {
 
     get<Response = any>(request: {url:string, payload:any}): AxiosPromise<Response> {
         const {url, payload} = request;
-        return this.client.get( url)
+        return this.client.get( url);
     }
 
 }
@@ -38,6 +38,6 @@ export const serviceCreator = () => {
 };
 
 
- const service = serviceCreator();
+const service = serviceCreator();
 
- export {service as ApiService}
+export { service as ApiService }

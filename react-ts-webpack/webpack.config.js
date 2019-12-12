@@ -4,10 +4,11 @@ const path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: ['./src/app/App.tsx'],
+        app: ['./src/app/app.tsx'],
         vendor: ['react', 'react-dom']
     },
     mode: 'development',
@@ -47,7 +48,11 @@ module.exports = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                loader: 'ts-loader'
+                loader: 'ts-loader',
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true
+              }
             },
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
             {
@@ -66,6 +71,11 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css"
-        })
+        }),
+      new ForkTsCheckerWebpackPlugin({
+        checkSyntacticErrors: true,
+        tsconfig: 'tsconfig.json',
+        tslint:  'tslint.json'
+      }),
     ]
 }

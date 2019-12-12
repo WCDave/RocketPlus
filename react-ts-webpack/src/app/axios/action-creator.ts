@@ -1,7 +1,9 @@
-export const createAction = ({type, endpointUrl, data}: { type: string, endpointUrl?: string, data: any })=>{
+export const createAction = ({ type, endpointUrl, data }:ActionType)=>{
     return {
        type,
        endpointUrl,
        data
-    }
-}
+    };
+};
+
+export type ActionType = { type: string, endpointUrl?: string, data?: any };

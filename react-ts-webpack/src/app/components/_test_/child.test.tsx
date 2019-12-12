@@ -1,28 +1,29 @@
+import { AgCheckbox } from 'ag-grid-community';
+import { mount, shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { mount, shallow, ShallowWrapper } from 'enzyme';
+import { Enhancer, getTester, PageModel, Sequence } from 'redux-integration-testing';
 import configureMockStore from 'redux-mock-store';
-import { getTester, Sequence, PageModel, Enhancer } from 'redux-integration-testing';
-import configureStore from '~/app/configureStore';
-import TestWrapper from '~/app/hoc/test-hoc';
-import {Child} from "~/app/child";
-import {AgCheckbox} from "ag-grid-community";
+import { Child } from '~/app/child';
+import { configureStore } from '~/app/configureStore';
+import { testWrapper } from '~/app/hoc/test-hoc';
 
 
 const mockStore = configureMockStore();
-const store = mockStore({sampleReducer:1});
+const mockStore1 = mockStore({ sampleReducer:1 });
 const realStore = configureStore();
 
-const setup = ({propOverrides, store}: { propOverrides?: any, store: any }) => {
+const setup = ({ propOverrides, store }: { propOverrides?: any, store: any }) => {
     const props = Object.assign({
         completedCount: 0,
         activeCount: 0,
         onClearCompleted: jest.fn(),
         onShow: jest.fn()
     }, propOverrides);
-    const TestChild= TestWrapper(()=> (<Child x="iii"/>), store);
+  // tslint:disable-next-line:variable-name
+    const TestChild= testWrapper(()=> (<Child x="iii" />), store);
     const wrapper = mount(
-        <TestChild/>
+        <TestChild />
     );
 
 
@@ -32,8 +33,8 @@ const setup = ({propOverrides, store}: { propOverrides?: any, store: any }) => {
         count: wrapper.find('.todo-count'),
         filters: wrapper.find('.filters'),
         clear: wrapper.find('.clear-completed'),
-    }
-}
+    };
+};
 
 // describe('setup mock store test', ()=> {
 //       beforeEach(() => { // Runs before each test in the suite
@@ -61,8 +62,9 @@ describe ('real store test', ()=>{
     console.log(realStore.getState());
   });
      test('realstore test1', ()=> {
-       const { wrapper } =   setup({propOverrides: undefined, store: realStore});
-       const TestChild= TestWrapper(()=> (<Child x="iii"/>), realStore);
+       const { wrapper } =   setup({ propOverrides: undefined, store: realStore });
+       // tslint:disable-next-line:variable-name
+       const TestChild= testWrapper(()=> (<Child x="iii" />), realStore);
        // const wrapper = mount(
        //     <TestChild/>
        // );
@@ -77,10 +79,10 @@ describe ('real store test', ()=>{
        const wf = wrapper.find('Formik');
        console.log(wf.instance().getFormikBag());
        w2.simulate('click');
-       expect(realStore.getState().result).toEqual('kk')
+       expect(realStore.getState().result).toEqual('kk');
        console.log(realStore.getState());
-     })
-})
+     });
+});
 
 
 
