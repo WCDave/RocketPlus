@@ -1,20 +1,21 @@
+import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {Route, RouteComponentProps} from 'react-router';
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {createLogger} from 'redux-logger';
+import { Provider } from 'react-redux';
+import { Route, RouteComponentProps } from 'react-router';
+import { Router, Switch } from 'react-router-dom';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 // import {  } from './components/Hello';
 import RocketData from '~/app/components/rocket-data';
+import { Navigation } from '../navigation/navigation';
+import { JsonRoute } from '../navigation/types';
 import Play from './components/play';
-import {configureStore} from './configureStore';
+import { configureStore } from './configureStore';
 import adjuster from './DelayReducer';
 import './index.css';
-import {Navigation} from "../navigation/navigation";
-import {Router, Switch} from "react-router-dom";
-import {createBrowserHistory} from "history";
-import {routes} from "./routes";
+import { routes } from './routes';
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 
@@ -26,7 +27,7 @@ const loggerMiddleware = createLogger({
 });
 middleWare.push(loggerMiddleware);
 
-const store = configureStore({sampleReducer: 'root'});
+const store = configureStore({ sampleReducer: 'root' });
 
 const history = createBrowserHistory();
 
@@ -36,7 +37,7 @@ export const getStore = () => {
 // var store =  createStore(combineReducers({delay:adjuster}), /* preloadedState, */
 //     (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(...middleWare));
 
-const buildRoutes = (routerRoutes, parent): [] => {
+const buildRoutes = (routerRoutes:JsonRoute[], parent?:JsonRoute): [] => {
 
   const resultRoutex: any[] = [];
   routerRoutes.map((route: any) => {
@@ -46,13 +47,13 @@ const buildRoutes = (routerRoutes, parent): [] => {
         path={parent ? `${parent}${route.path}` : route.path}
         render={route.component}
       />));
-    if (route.children) {
-      resultRoutex.push(...buildRoutes(route.children, parent ? `${parent}${route.path}` : route.path));
-    }
-
+      if (route.children) {
+        resultRoutex.push(...buildRoutes(route.children, parent ? `${parent}${route.path}` : route.path));
+      }
     }
   );
 
+  // @ts-ignore
   return resultRoutex.flat(20);
 };
 
@@ -65,16 +66,7 @@ ReactDOM.render(
             <Navigation />
           </div>
           <div className="col-sm-11">
-            {buildRoutes(routes, undefined)}
-            {/*{routes.map((route)=> (*/}
-            {/*  <Route*/}
-            {/*    key={route.path}*/}
-            {/*    exact={route.exact}*/}
-            {/*    path={route.path}*/}
-            {/*    component={route.component}*/}
-            {/*    // children={ <route.main /> }*/}
-            {/*  />*/}
-            {/*))}*/}
+            {buildRoutes(routes)}
           </div>
         </div>
       </Switch>

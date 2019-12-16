@@ -1,16 +1,14 @@
 import * as React from 'react';
-import {NavLink, Route, Router, Switch} from 'react-router-dom';
-import {routes} from '../app/routes';
+import { NavLink, Route, Router, Switch } from 'react-router-dom';
+import { routes } from '../app/routes';
+import { JsonRoute } from './types';
 
 export class Navigation extends React.Component<any> {
-
-
   constructor(props: any) {
     super(props);
   }
 
-  buildNavs = (routerRoutes, parent, pathAccum?): [] => {
-
+  buildNavs = (routerRoutes:JsonRoute[], parent?:JsonRoute, pathAccum?:string): [] => {
     const resultRoutex: any[] = [];
     routerRoutes.map((route: any, idx:number) => {
         resultRoutex.push((
@@ -26,24 +24,17 @@ export class Navigation extends React.Component<any> {
             </ul>
           );
         }
-
       }
     );
 
+    // @ts-ignore
     return resultRoutex.flat(20);
   };
 
   render() {
     return (
       <ul className="site-navigation">
-        {this.buildNavs(routes, undefined)}
-        {/*{routes.map((route, index) => (*/}
-        {/*  <li key={index}>*/}
-        {/*    <NavLink to={{pathname: route.path}}>*/}
-        {/*      {route.sidebar()}*/}
-        {/*    </NavLink>*/}
-        {/*  </li>*/}
-        {/*))}*/}
+        {this.buildNavs(routes)}
       </ul>
     );
   }
