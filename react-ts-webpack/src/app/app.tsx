@@ -39,7 +39,7 @@ export const getStore = () => {
 
 const buildRoutes = (routerRoutes:JsonRoute[], parent?:JsonRoute): [] => {
 
-  const resultRoutex: any[] = [];
+  const resultRoutex: React.ReactElement[] = [];
   routerRoutes.map((route: any) => {
       resultRoutex.push((<Route
         key={parent ? `${parent}${route.path}` : route.path}
