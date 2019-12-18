@@ -18,7 +18,7 @@ function* getLatestWx(action: ReturnType<typeof actions.getLatestWeatherRequest>
         yield put(actions.getLatestWeatherResponse(data));
     }
     catch (e) {
-
+      throw e;
     }
 
 }

@@ -16,6 +16,7 @@ import { configureStore } from './configureStore';
 import adjuster from './DelayReducer';
 import './index.css';
 import { routes } from './routes';
+import { ErrorBoundary } from "./error-boundary";
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 
@@ -58,19 +59,21 @@ const buildRoutes = (routerRoutes:JsonRoute[], parent?:JsonRoute): [] => {
 };
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Switch>
-        <div className="row">
-          <div className="col-sm-1">
-            <Navigation />
+  <ErrorBoundary>
+    <Provider store={store}>
+      <Router history={history}>
+        <Switch>
+          <div className="row">
+            <div className="col-sm-1">
+              <Navigation />
+            </div>
+            <div className="col-sm-11">
+              {buildRoutes(routes)}
+            </div>
           </div>
-          <div className="col-sm-11">
-            {buildRoutes(routes)}
-          </div>
-        </div>
-      </Switch>
-    </Router>
-  </Provider>,
+        </Switch>
+      </Router>
+    </Provider>
+  </ErrorBoundary>,
   document.getElementById('root')
 );
