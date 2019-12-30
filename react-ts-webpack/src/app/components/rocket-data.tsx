@@ -122,7 +122,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       });
   };
 
-  rocketData = () => {
+   rocketData = async () => {
     const options = {
       secure: true,
       reconnect: true,
@@ -166,19 +166,32 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     // }).then((y:any)=>{
     //         console.log(y);
     //     });
-    fetch(
-      'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
-      { method: 'GET' }
-    )
-      .then(result => {
-        return result.json();
-      })
-      .then((item: any) => {
-        this.setState({ rocketData: item });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+
+     try {
+       const response = await fetch(
+         'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
+         {method: 'GET'}
+       );
+       const data = await response.json();
+       this.setState({rocketData : data });
+     }
+     catch (e) {
+       console.log(e);
+     }
+
+    // fetch(
+    //   'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
+    //   { method: 'GET' }
+    // )
+    //   .then(result => {
+    //     return result.json();
+    //   })
+    //   .then((item: any) => {
+    //     this.setState({ rocketData: item });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   onGridReady = (ev: GridReadyEvent) => {
@@ -218,9 +231,9 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     const customStyles = (width = 100, height = 15) => {
       return {
         container: (base: any) => ({
+          width,
           ...base,
           display: 'inline-block',
-          width,
           maxControlHeight: height,
           minHeight: height
         }),
@@ -254,9 +267,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     const imgSrc: string = this.state.imageData;
     // '<img src="data:image/gif;base64,' + xmlhttp.responseText + '"/>';
     const imgURL =
-      'http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=mqs&x=' +
-      new Date().getTime() +
-      '';
+      `http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=mqs&x= ${
+      new Date().getTime()}`;
     interface FormikPartProps {
       formik: FormikContext<any>;
     }

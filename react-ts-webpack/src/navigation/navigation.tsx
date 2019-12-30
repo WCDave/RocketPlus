@@ -1,25 +1,43 @@
 import * as React from 'react';
-import { NavLink, Route, Router, Switch } from 'react-router-dom';
-import { routes } from '../app/routes';
+import { RouteProps } from 'react-router';
+import { NavLink,  withRouter } from 'react-router-dom';
+import { routes } from '~/app/routes';
 import { JsonRoute } from './types';
 
-export class Navigation extends React.Component<any> {
+class Navigation extends React.Component<RouteProps> {
   constructor(props: any) {
     super(props);
   }
 
   buildNavs = (routerRoutes:JsonRoute[], parent?:JsonRoute, pathAccum?:string): [] => {
-    const resultRoutex: any[] = [];
+    const resultRoute: any[] = [];
     routerRoutes.map((route: any, idx:number) => {
-        resultRoutex.push((
-          <li key={idx}>
-            <NavLink to={{ pathname: pathAccum ? `${pathAccum}${route.path}`:route.path }}>
-              {route.sidebar()}
+      const ref1 =React.createRef<HTMLUListElement>();
+      const onClick =(ev:React.SyntheticEvent<HTMLLIElement>)=> {
+        if(ref1 && ref1.current) {
+          if (ref1.current.classList.contains('expanded')) {
+            ref1.current.classList.remove('expanded');
+            ref1.current.classList.add('collapsed');
+          } else {
+            ref1.current.classList.remove('collapsed');
+            ref1.current.classList.add('expanded');
+          }
+        }
+      };
+
+      const { location } = this.props;
+        resultRoute.push((
+          <li key={idx} onClick={onClick}>
+            <NavLink
+              to={route.component ? { pathname: pathAccum ? `${pathAccum}${route.path}` : route.path } :
+                location }>
+              {route.sidebar}
             </NavLink>
+
           </li>));
         if (route.children) {
-          resultRoutex.push(
-            <ul key={`${+idx}${route.path}`} className="site-navigation">
+          resultRoute.push(
+            <ul key={`${+idx}${route.path}`} ref={ref1} className="site-navigation collapsed" >
                {this.buildNavs(route.children, route, parent ? `${parent.path}${route.path}`:route.path)}
             </ul>
           );
@@ -28,14 +46,18 @@ export class Navigation extends React.Component<any> {
     );
 
     // @ts-ignore
-    return resultRoutex.flat(20);
+    return resultRoute.flat(20);
   };
 
   render() {
+    const ref1 =React.createRef<HTMLUListElement>();
     return (
-      <ul className="site-navigation">
+      <ul ref={ref1} className="site-navigation">
         {this.buildNavs(routes)}
       </ul>
     );
   }
 }
+
+const nav = withRouter(Navigation);
+export { nav as Navigation };

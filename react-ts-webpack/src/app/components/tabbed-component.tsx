@@ -7,7 +7,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Dispatch } from 'redux';
 import * as Yup from 'yup';
-import '../App.css';
+import '../App.scss';
 import AgGridPanel from './agGridPanel';
 import Hello from './hello';
 import { TestComponent } from './test-component';

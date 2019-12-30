@@ -37,3 +37,10 @@ div {
 .site-navigation {
    list-style-type: none;
 }
+
+ul .site-navigation.expanded {
+  display: list-item;
+}
+ul .site-navigation.collapsed {
+  display: none;
+}

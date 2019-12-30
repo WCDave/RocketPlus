@@ -14,9 +14,9 @@ import { JsonRoute } from '../navigation/types';
 import Play from './components/play';
 import { configureStore } from './configureStore';
 import adjuster from './DelayReducer';
+import { ErrorBoundary } from './error-boundary';
 import './index.css';
 import { routes } from './routes';
-import { ErrorBoundary } from "./error-boundary";
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
 
