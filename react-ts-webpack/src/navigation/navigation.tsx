@@ -31,7 +31,10 @@ class Navigation extends React.Component<RouteProps> {
             <NavLink
               to={route.component ? { pathname: pathAccum ? `${pathAccum}${route.path}` : route.path } :
                 location }>
-              {route.sidebar}
+              <button type="button" >
+                {route.sidebar}
+            </button>
+
             </NavLink>
 
           </li>));

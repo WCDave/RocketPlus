@@ -9,7 +9,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-blue.css';
 import { AgGridReact } from 'ag-grid-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {connect, Formik, FormikContext, FormikProps} from 'formik';
+import { connect, Formik, FormikContext, FormikProps} from 'formik';
 import * as React from 'react';
 import Select from 'react-select';
 import { Child } from '~/app/child';
@@ -123,57 +123,14 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   };
 
    rocketData = async () => {
-    const options = {
-      secure: true,
-      reconnect: true,
-      rejectUnauthorized: false,
-      port: '443',
-      path: '/',
-      transportOptions: {
-        websocket: {
-          headers: [
-            { Host: 'www.aviationweather.gov' },
-            { Connection: 'Close' },
-            { Origin: 'www.aviationweather.gov' }
-          ]
-        }
-      }
-    };
-
-    // const client = new Index.Socket();
-    // client.connect(443, 'www.aviationweather.gov', function() {
-    //     console.log('Connected');
-    //     client.write('/metar/data?ids=kmqs&format=raw&date=&hours=0');
-    //     client.write('Host:\'www.aviationweather.gov');
-    //     client.write('Connection: \'Close\'');
-    // });
-    //
-    // client.on('data', function(data) {
-    //     console.log('Received: ' + data);
-    //     client.destroy(); // kill client after server's response
-    // });
-    //
-    // client.on('close', function() {
-    //     console.log('Connection closed');
-    // });
-
-    // let socket = io('https://www.aviationweather.gov/metar/data?ids=kmqs&format=raw&date=&hours=0', options) ;
-    // socket = socket.send([{Host:'www.aviationweather.gov'}, { Connection: 'Close'},{Origin:'www.aviationweather.gov'}])
-    // socket = socket.send('GET /metar/data?ids=kmqs&format=raw&date=&hours=0 HTTP/1.1', [{Host:'www.aviationweather.gov'}, { Connection: 'Close'},{Origin:'www.aviationweather.gov'}])
-    // const headers = new Headers({Origin: 'https://www.aviationweather.gov'})
-    // const x = fetch('https://www.aviationweather.gov/metar/data?ids=kmqs&format=raw&date=&hours=0', { method:'OPTIONS', headers}).then((x:Response)=>{
-    //     return x.text()
-    // }).then((y:any)=>{
-    //         console.log(y);
-    //     });
 
      try {
        const response = await fetch(
          'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
-         {method: 'GET'}
+         { method: 'GET' }
        );
        const data = await response.json();
-       this.setState({rocketData : data });
+       this.setState({ rocketData : data });
      }
      catch (e) {
        console.log(e);

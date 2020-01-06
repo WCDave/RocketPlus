@@ -14,7 +14,7 @@ export const actions = {
             endpointUrl: `/stations/${search}/observations/latest`,
             data: search
         }),
-    getLatestWeatherResponse:(data:any)=> createAction({type:TypeKeys.GET_LATEST_WX_RESPONSE, data})
+    getLatestWeatherResponse:(data:any)=> createAction({ type:TypeKeys.GET_LATEST_WX_RESPONSE, data })
 }
 
 type FunctionType = (...args: any[]) => any;

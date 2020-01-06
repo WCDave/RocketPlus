@@ -40,7 +40,13 @@ div {
 
 ul .site-navigation.expanded {
   display: list-item;
+  :before {
+    content: '-';
+  }
 }
 ul .site-navigation.collapsed {
   display: none;
+  :before {
+    content: '+';
+  }
 }
