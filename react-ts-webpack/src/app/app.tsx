@@ -30,7 +30,7 @@ middleWare.push(loggerMiddleware);
 
 const store = configureStore({ sampleReducer: 'root' });
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory({basename: '/' });
 
 export const getStore = () => {
   return store;
@@ -67,7 +67,7 @@ ReactDOM.render(
             <div className="col-sm-1">
               <Navigation />
             </div>
-            <div className="col-sm-11">
+            <div className="col-sm-11 ag-theme-blue">
               {buildRoutes(routes)}
             </div>
           </div>

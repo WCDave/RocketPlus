@@ -269,7 +269,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       }
     );
     return (
-      <div className="ag-theme-blue dave">
+      <div className="dave">
         <div className="row">
           <div className="col-sm-6">
             <div className="row">

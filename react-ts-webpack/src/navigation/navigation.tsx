@@ -3,6 +3,7 @@ import { RouteProps } from 'react-router';
 import { NavLink,  withRouter } from 'react-router-dom';
 import { routes } from '~/app/routes';
 import { JsonRoute } from './types';
+import {NavButton} from "./nav-button";
 
 class Navigation extends React.Component<RouteProps> {
   constructor(props: any) {
@@ -28,14 +29,16 @@ class Navigation extends React.Component<RouteProps> {
       const { location } = this.props;
         resultRoute.push((
           <li key={idx} onClick={onClick}>
-            <NavLink
-              to={route.component ? { pathname: pathAccum ? `${pathAccum}${route.path}` : route.path } :
-                location }>
-              <button type="button" >
-                {route.sidebar}
-            </button>
+            <NavButton to={ route.component ? { pathname: pathAccum ? `${pathAccum}${route.path}` : route.path } :
+              location } label={ route.sidebar } />
+            {/*<NavLink*/}
+            {/*  to={route.component ? { pathname: pathAccum ? `${pathAccum}${route.path}` : route.path } :*/}
+            {/*    location }>*/}
+            {/*  <button type="button" >*/}
+            {/*    {route.sidebar}*/}
+            {/*</button>*/}
 
-            </NavLink>
+            {/*</NavLink>*/}
 
           </li>));
         if (route.children) {

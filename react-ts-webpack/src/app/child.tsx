@@ -1,3 +1,4 @@
+import {AgGridReact} from 'ag-grid-react';
 import { Form, Formik, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -58,8 +59,49 @@ class Child extends React.Component<ComponentProps> {
   };
 
   renderIt = (formProps: FormikProps<FormProps>) => {
+    const { wxData:{ properties } } = this.props;
+
+    const data = properties ? Object.keys(properties).map((key)=>{
+      let value = properties[key];
+      if(typeof value ==='object' && value !== null){
+        // value = value[Object.keys(value)[0]];
+        if(key !== 'cloudLayers') {
+          value = JSON.stringify(value, null, 2);
+        }
+      }
+      return { key,  value };
+    }):[];
     return (
       <Form>
+        <div className="dave">
+          <AgGridReact
+            alwaysShowVerticalScroll
+            pagination
+            rowData={data}
+            getNodeChildDetails={(node: any) => {
+              if (node && node.key === 'cloudLayers') {
+                return {
+                  group: true,
+                  expanded: true,
+                  children: node.value,
+                  key: node.base
+                };
+              }
+              return null;
+            }}
+            columnDefs={[
+              {
+                headerName: 'Key',
+                field: 'key',
+                resizable: true,
+                sortable: true,
+                filter: true,
+                suppressSizeToFit:false
+              },
+              { headerName: 'Value', field: 'value', resizable: true, suppressSizeToFit:false }
+            ]}
+          />
+        </div>
         <div id="dave" onClick={this.onClick(formProps)}>
           Hello Child{this.props.x}
           <footer>

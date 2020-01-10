@@ -70,6 +70,7 @@ export interface Properties {
     windChill:                 PhysicalValue;
     heatIndex:                 PhysicalValue;
     cloudLayers:               CloudLayer[];
+    [key:string]:              any;
 }
 
 export interface PhysicalValue {

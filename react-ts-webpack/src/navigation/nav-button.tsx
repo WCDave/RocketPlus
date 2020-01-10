@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { history } from '../app/app';
 
 interface OwnProps {
   to:string;
   onClick?:(ev:React.SyntheticEvent)=> void;
+  label : string;
 }
 
 class NavButton extends React.Component<RouteProps & OwnProps> {
@@ -12,8 +14,15 @@ class NavButton extends React.Component<RouteProps & OwnProps> {
     super(props);
   }
 
+  onClickHandler =(ev:React.SyntheticEvent)=> {
+    const { onClick, to } = this.props;
+    history.push(to);
+    onClick && onClick(ev);
+  };
+
  render() {
-   return ( <div /> );
+    const { onClick, label } = this.props;
+   return ( <span onClick={this.onClickHandler} > { label } </span> );
  }
 }
 
