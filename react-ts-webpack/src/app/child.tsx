@@ -1,4 +1,5 @@
-import {AgGridReact} from 'ag-grid-react';
+import { ValueGetterParams } from 'ag-grid-community';
+import { AgGridReact } from 'ag-grid-react';
 import { Form, Formik, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -7,6 +8,8 @@ import { accessorX } from '~/app/components/accessor1';
 import { actions } from './api/weathergov/actions';
 import { Data } from './api/weathergov/model';
 import { ActionType } from './axios/action-creator';
+// import 'ag-grid-community/src/styles/ag-grid.scss';
+// import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
 
 interface DispatchProps {
   punt: (id: string) => void;
@@ -66,7 +69,12 @@ class Child extends React.Component<ComponentProps> {
       if(typeof value ==='object' && value !== null){
         // value = value[Object.keys(value)[0]];
         if(key !== 'cloudLayers') {
-          value = JSON.stringify(value, null, 2);
+          if(value.hasOwnProperty('value')) {
+            value = value.value;
+          }
+          else {
+            value = JSON.stringify(value, null, 2);
+          }
         }
       }
       return { key,  value };
@@ -96,9 +104,18 @@ class Child extends React.Component<ComponentProps> {
                 resizable: true,
                 sortable: true,
                 filter: true,
-                suppressSizeToFit:false
+                suppressSizeToFit:false,
+                cellRenderer: 'agGroupCellRenderer'
               },
-              { headerName: 'Value', field: 'value', resizable: true, suppressSizeToFit:false }
+              { headerName: 'Value', field: 'value', resizable: true, suppressSizeToFit:false,
+                valueGetter:(params:ValueGetterParams)=> {
+                   if(params.data.value && (Array.isArray(params.data.value) )) {
+                     return '';
+                   }
+                   return params.data.value;
+                } },
+              { headerName: 'Base', field: 'base.value', resizable: true, suppressSizeToFit:false },
+              { headerName: 'Amount', field: 'amount', resizable: true, suppressSizeToFit:false }
             ]}
           />
         </div>

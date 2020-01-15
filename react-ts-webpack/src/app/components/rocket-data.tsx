@@ -5,8 +5,8 @@ import {
   IFilterComp,
   RowNode
 } from 'ag-grid-community';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-blue.css';
+// import 'ag-grid-community/src/styles/ag-grid.scss';
+// import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
 import { AgGridReact } from 'ag-grid-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect, Formik, FormikContext, FormikProps} from 'formik';

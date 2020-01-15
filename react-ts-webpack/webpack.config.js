@@ -8,7 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: ['./src/app/app.tsx'],
+        app: [path.resolve('./src/app/app.tsx')],
         vendor: ['react', 'react-dom']
     },
     mode: 'development',
@@ -24,6 +24,10 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
+
+        modules: [
+          'node_modules'],
+
         extensions: [ '.mjs',
             '.web.ts',
             '.ts',
@@ -55,14 +59,33 @@ module.exports = {
               }
             },
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-                // use: [
-                //     MiniCssExtractPlugin.loader,
-                //     "css-loader"
-                // ]
-            }
+          {
+            test: /\.(sa|sc|c)ss$/,
+            use: ['style-loader?sourceMap=true', 'css-loader?sourceMap=true', 'sass-loader?sourceMap=true']
+          },
+            // {
+            //     test: /\.(sa|sc|c)ss$/,
+            //     use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            //     // use: [
+            //     //     MiniCssExtractPlugin.loader,
+            //     //     "css-loader"
+            //     // ]
+            // },
+
+          //
+          {
+            test: /\.svg$/,
+            use: [
+              {loader: 'url-loader'},
+              {
+                loader: 'svg-colorize-loader',
+                options: {
+                  color1: '#000000',
+                  color2: '#FFFFFF'
+                }
+              }
+            ]
+          }
         ]
     },
     plugins: [
@@ -72,10 +95,10 @@ module.exports = {
             filename: "[name].css",
             chunkFilename: "[id].css"
         }),
-      new ForkTsCheckerWebpackPlugin({
-        checkSyntacticErrors: true,
-        tsconfig: 'tsconfig.json',
-        tslint:  'tslint.json'
-      }),
+      // new ForkTsCheckerWebpackPlugin({
+      //   checkSyntacticErrors: true,
+      //   tsconfig: 'tsconfig.json',
+      //   tslint:  'tslint.json'
+      // }),
     ]
 }

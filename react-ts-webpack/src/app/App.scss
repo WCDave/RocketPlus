@@ -1,3 +1,22 @@
+$ag-icons-path: '~ag-grid-community/src/styles/ag-theme-base/icons/';
+$ag-mat-icons-path: '~ag-grid-community/src/styles/ag-theme-material/icons/';
+
+$grid-size: 4px; // 8 by default
+$icon-size: 12px; // 18 by default
+
+// Change the primary / accent colors
+$ag-mat-primary: #1976d2;
+$ag-mat-accent: #fbc02d;
+
+@import "~ag-grid-community/src/styles/ag-theme-blue/vars/_ag-theme-blue-vars";
+@import "~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base";
+@import "~ag-grid-community/src/styles/ag-theme-base/vars/ag-theme-base-vars";
+
+
+@import '~ag-grid-community/src/styles/ag-grid.scss';
+@import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
+@import '~ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
+
 .App {
   text-align: center;
 }

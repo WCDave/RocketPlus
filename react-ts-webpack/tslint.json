@@ -8,7 +8,7 @@
     "tslint-react-hooks"
   ],
   "linterOptions": {
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules/**"]
   },
   "rules": {
     "array-type": false,

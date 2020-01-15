@@ -1,4 +1,4 @@
-import {createAction} from "../../axios/action-creator";
+import { createAction } from '../../axios/action-creator';
 
 
 export enum TypeKeys {
@@ -14,8 +14,8 @@ export const actions = {
             endpointUrl: `/stations/${search}/observations/latest`,
             data: search
         }),
-    getLatestWeatherResponse:(data:any)=> createAction({ type:TypeKeys.GET_LATEST_WX_RESPONSE, data })
-}
+    getLatestWeatherResponse:(data:any)=> createAction({ data,  type:TypeKeys.GET_LATEST_WX_RESPONSE })
+};
 
 type FunctionType = (...args: any[]) => any;
 type ActionCreatorsMapObject = {
@@ -25,3 +25,4 @@ type ActionCreatorsMapObject = {
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
 
 export type ActionTypes = ActionsUnion<typeof actions>;
+

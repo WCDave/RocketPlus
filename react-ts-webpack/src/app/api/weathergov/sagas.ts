@@ -1,6 +1,6 @@
 import { call, put, select, take, takeLatest } from 'redux-saga/effects';
-import {actions, TypeKeys} from "./actions";
-import {ApiService} from "../../axios/service";
+import { ApiService } from '../../axios/service';
+import { actions, TypeKeys } from './actions';
 import * as api from './api';
 
 export const sagaWatchers = [watchWeatherRequests];

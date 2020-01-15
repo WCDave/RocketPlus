@@ -2,8 +2,8 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { NavLink,  withRouter } from 'react-router-dom';
 import { routes } from '~/app/routes';
+import { NavButton } from './nav-button';
 import { JsonRoute } from './types';
-import {NavButton} from "./nav-button";
 
 class Navigation extends React.Component<RouteProps> {
   constructor(props: any) {

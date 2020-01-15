@@ -1,3 +1,5 @@
+import 'ag-grid-community/src/styles/ag-grid.scss';
+import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
 import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -11,11 +13,11 @@ import thunk from 'redux-thunk';
 import RocketData from '~/app/components/rocket-data';
 import { Navigation } from '../navigation/navigation';
 import { JsonRoute } from '../navigation/types';
-import Play from './components/play';
+import './App.scss';
+import { Play } from './components/play';
 import { configureStore } from './configureStore';
 import adjuster from './DelayReducer';
 import { ErrorBoundary } from './error-boundary';
-import './index.css';
 import { routes } from './routes';
 // ReactDOM.render(<Hello compiler="Typescript" framework="React" bundler="Webpack" />,
 // history={{location:{pathname:'', search:'', state:'', hash:'', },length:0, action:undefined }}
@@ -30,7 +32,7 @@ middleWare.push(loggerMiddleware);
 
 const store = configureStore({ sampleReducer: 'root' });
 
-export const history = createBrowserHistory({basename: '/' });
+export const history = createBrowserHistory({ basename: '/' });
 
 export const getStore = () => {
   return store;
