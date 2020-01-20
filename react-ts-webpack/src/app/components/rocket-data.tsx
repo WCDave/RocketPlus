@@ -7,13 +7,13 @@ import {
 } from 'ag-grid-community';
 import 'ag-grid-community/src/styles/ag-grid.scss';
 // import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
-import {AgGridReact} from 'ag-grid-react';
+import { AgGridReact } from 'ag-grid-react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import {connect, Formik, FormikContext, FormikProps} from 'formik';
+import { connect, Formik, FormikContext, FormikProps } from 'formik';
 import * as React from 'react';
 import Select from 'react-select';
-import {Child} from '~/app/child';
-import {DaveTable} from "~/app/components/dave-table";
+import { Child } from '~/app/child';
+import { DaveTable } from "~/app/components/dave-table";
 
 interface StateProps {
   rocketData?: object;
@@ -277,48 +277,48 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
           <div className="row">
             <div className="col-sm-6">
 
-                <DaveTable
-                  label="rocket"
-                  domLayout={'normal'}
-                  alwaysShowVerticalScroll
-                  pagination
-                  onGridReady={this.onGridReady}
-                  // onRowClicked={this.onRowClicked}
-                  rowData={display}
-                  isFullWidthCell={(node: RowNode) => {
-                    return node.data.parameter === 'refName';
-                  }}
-                  fullWidthCellRenderer="refCellRenderer"
-                  columnDefs={coldefs}
-                  frameworkComponents={{
-                    refCellRenderer: myComponent
-                  }}
-                  suppressMenuHide
-                  rowHeight={30}
-                  gridOptions={{
-                    isExternalFilterPresent: () => true,
-                    doesExternalFilterPass: node => {
-                      if (!this.state.text || this.state.text.length === 0) {
-                        return true;
-                      }
-                      return (
-                        node.data.parameter &&
-                        node.data.parameter.startsWith(this.state.text)
-                      );
+              <DaveTable
+                label="rocket"
+                domLayout={'normal'}
+                alwaysShowVerticalScroll
+                pagination
+                onGridReady={this.onGridReady}
+                // onRowClicked={this.onRowClicked}
+                rowData={display}
+                isFullWidthCell={(node: RowNode) => {
+                  return node.data.parameter === 'refName';
+                }}
+                fullWidthCellRenderer="refCellRenderer"
+                columnDefs={coldefs}
+                frameworkComponents={{
+                  refCellRenderer: myComponent
+                }}
+                suppressMenuHide
+                rowHeight={30}
+                gridOptions={{
+                  isExternalFilterPresent: () => true,
+                  doesExternalFilterPass: node => {
+                    if (!this.state.text || this.state.text.length === 0) {
+                      return true;
                     }
-                  }}
-                  // isExternalFilterPresent={()=>(true)}
-                  // doesExternalFilterPass={(node)=>{
-                  //     if(!this.state.text || this.state.text.length ===0) {
-                  //         return true;
-                  //     }
-                  //     return node.data.parameter && node.data.parameter.startsWith(this.state.text);
-                  // }}
-                  // suppressRowTransform
-                  //  rowSelection={'single'}
-                />
+                    return (
+                      node.data.parameter &&
+                      node.data.parameter.startsWith(this.state.text)
+                    );
+                  }
+                }}
+                // isExternalFilterPresent={()=>(true)}
+                // doesExternalFilterPass={(node)=>{
+                //     if(!this.state.text || this.state.text.length ===0) {
+                //         return true;
+                //     }
+                //     return node.data.parameter && node.data.parameter.startsWith(this.state.text);
+                // }}
+                // suppressRowTransform
+                //  rowSelection={'single'}
+              />
 
-              </div>
+            </div>
 
             <div className="col-sm-6">
               <img src={imgSrc} width={700} height={700}/>
@@ -326,8 +326,16 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
           </div>
           <div id="yyy" className="row">
             <div className="col-sm-12">
-              <input id="x" type="text" onBlur={this.getIdent}/>
-              <Child x={this.state.Id}/>
+              <div className="row">
+                <div className="col-sm-12">
+                  <input id="x" type="text" onBlur={this.getIdent}/>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <Child x={this.state.Id}/>
+                </div>
+              </div>
             </div>
           </div>
         </div>
