@@ -1,5 +1,5 @@
 import 'ag-grid-community/src/styles/ag-grid.scss';
-import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
+// import 'ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss';
 import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -69,7 +69,7 @@ ReactDOM.render(
             <div className="col-sm-1">
               <Navigation />
             </div>
-            <div className="col-sm-11 ag-theme-blue">
+            <div className="col-sm-11">
               {buildRoutes(routes)}
             </div>
           </div>

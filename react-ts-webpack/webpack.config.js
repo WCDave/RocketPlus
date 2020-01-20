@@ -8,8 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: [path.resolve('./src/app/app.tsx')],
-        vendor: ['react', 'react-dom']
+        main: path.resolve('./src/app','app.tsx')
     },
     mode: 'development',
     output: {
@@ -24,9 +23,7 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-
-        modules: [
-          'node_modules'],
+        modules: ['node_modules'],
 
         extensions: [ '.mjs',
             '.web.ts',
@@ -37,7 +34,7 @@ module.exports = {
             '.js',
             '.json',
             '.web.jsx',
-            '.jsx'],
+            '.jsx', '.css'],
         plugins : [
             new TsconfigPathsPlugin()
         ]
@@ -59,9 +56,9 @@ module.exports = {
               }
             },
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
-          {
-            test: /\.(sa|sc|c)ss$/,
-            use: ['style-loader?sourceMap=true', 'css-loader?sourceMap=true', 'sass-loader?sourceMap=true']
+          {  test: /\.(sa|sc|c)ss$/,
+            include: [path.resolve(__dirname, 'src/app'), path.resolve(__dirname, 'node_modules')],
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
           },
             // {
             //     test: /\.(sa|sc|c)ss$/,
@@ -92,7 +89,7 @@ module.exports = {
         new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'app', 'index.html') }),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
-            filename: "[name].css",
+            filename: "App.css",
             chunkFilename: "[id].css"
         }),
       // new ForkTsCheckerWebpackPlugin({

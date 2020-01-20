@@ -1,60 +1,73 @@
 $ag-icons-path: '~ag-grid-community/src/styles/ag-theme-base/icons/';
-$ag-mat-icons-path: '~ag-grid-community/src/styles/ag-theme-material/icons/';
+$ag-icons-path: '~ag-grid-community/src/styles/ag-theme-balham/icons/';
 
 $grid-size: 4px; // 8 by default
 $icon-size: 12px; // 18 by default
 
 // Change the primary / accent colors
-$ag-mat-primary: #1976d2;
-$ag-mat-accent: #fbc02d;
+$ag-primary: #1976d2;
+$ag-accent: #fbc02d;
 
-@import "~ag-grid-community/src/styles/ag-theme-blue/vars/_ag-theme-blue-vars";
-@import "~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base";
+@import "~ag-grid-community/src/styles/ag-theme-balham/vars/_ag-theme-balham-vars.scss";
 @import "~ag-grid-community/src/styles/ag-theme-base/vars/ag-theme-base-vars";
+@import "~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base";
 
 
-@import '~ag-grid-community/src/styles/ag-grid.scss';
-@import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
-@import '~ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
+//@import '~ag-grid-community/src/styles/ag-grid.scss';
+//@import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
+@import '~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss';
 
-.App {
-  text-align: center;
-}
+@import "~bootstrap/scss/bootstrap.scss";
+//
+//.App {
+//  text-align: center;
+//}
+//
+//.App-logo {
+//  animation: App-logo-spin infinite 20s linear;
+//  height: 80px;
+//}
+//
+//.App-header {
+//  background-color: #222;
+//  height: 150px;
+//  padding: 20px;
+//  color: white;
+//}
+//
+//.App-title {
+//  font-size: 1.5em;
+//}
+//
+//.App-intro {
+//  font-size: large;
+//}
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+//@keyframes App-logo-spin {
+//  from { transform: rotate(0deg); }
+//  to { transform: rotate(360deg); }
+//}
 
 .dave {
     border: 2px dashed lime;
 }
+#yyy {
+   border: 2px dashed cyan;
+ }
 
-div {
-    border-color: crimson !important;
+#aaa {
+  border: 2px dashed black;
 }
+//
+//div {
+//    border-color: crimson !important;
+//}
 .site-navigation {
    list-style-type: none;
+}
+
+form {
+  height: 100%;
 }
 
 ul .site-navigation.expanded {

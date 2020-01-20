@@ -1,15 +1,16 @@
 import { ValueGetterParams } from 'ag-grid-community';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss';
 import { AgGridReact } from 'ag-grid-react';
 import { Form, Formik, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { accessorX } from '~/app/components/accessor1';
+import { DaveTable } from '~/app/components/dave-table';
 import { actions } from './api/weathergov/actions';
 import { Data } from './api/weathergov/model';
 import { ActionType } from './axios/action-creator';
-// import 'ag-grid-community/src/styles/ag-grid.scss';
-// import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
 
 interface DispatchProps {
   punt: (id: string) => void;
@@ -81,8 +82,9 @@ class Child extends React.Component<ComponentProps> {
     }):[];
     return (
       <Form>
-        <div className="dave">
-          <AgGridReact
+          <DaveTable
+            label="child"
+            borderColor="red"
             alwaysShowVerticalScroll
             pagination
             rowData={data}
@@ -118,12 +120,11 @@ class Child extends React.Component<ComponentProps> {
               { headerName: 'Amount', field: 'amount', resizable: true, suppressSizeToFit:false }
             ]}
           />
-        </div>
-        <div id="dave" onClick={this.onClick(formProps)}>
-          Hello Child{this.props.x}
-          <footer>
-            <pre>{JSON.stringify(this.props.wxData.properties, null, 2)}</pre>
-          </footer>
+        <div className="row">
+            <div id="dave"  className="col-sm-12" onClick={this.onClick(formProps)}>
+              Hello Child{this.props.x}
+                <pre>{JSON.stringify(this.props.wxData.properties, null, 2)}</pre>
+            </div>
         </div>
       </Form>
     );
@@ -131,11 +132,13 @@ class Child extends React.Component<ComponentProps> {
 
   render() {
     return (
+
       <Formik
         initialValues={{ email: 'qqq', password: '', chk: false }}
         render={this.renderIt}
         onSubmit={() => {}}
       />
+
     );
   }
 }

@@ -5,14 +5,15 @@ import {
   IFilterComp,
   RowNode
 } from 'ag-grid-community';
-// import 'ag-grid-community/src/styles/ag-grid.scss';
+import 'ag-grid-community/src/styles/ag-grid.scss';
 // import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
-import { AgGridReact } from 'ag-grid-react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { connect, Formik, FormikContext, FormikProps} from 'formik';
+import {AgGridReact} from 'ag-grid-react';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import {connect, Formik, FormikContext, FormikProps} from 'formik';
 import * as React from 'react';
 import Select from 'react-select';
-import { Child } from '~/app/child';
+import {Child} from '~/app/child';
+import {DaveTable} from "~/app/components/dave-table";
 
 interface StateProps {
   rocketData?: object;
@@ -74,7 +75,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     // }
 
     // if (prevProps.match.params !== this.props.match.params) {
-    const { Id } = { Id: 'kmqs' };
+    const {Id} = {Id: 'kmqs'};
     // this.wxData();
     // if (Id) {
     //     this.setState({Id}, () => this.wxData());
@@ -115,26 +116,25 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         return result.blob();
       })
       .then(file => {
-        this.setState({ imageData: URL.createObjectURL(file) });
+        this.setState({imageData: URL.createObjectURL(file)});
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-   rocketData = async () => {
+  rocketData = async () => {
 
-     try {
-       const response = await fetch(
-         'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
-         { method: 'GET' }
-       );
-       const data = await response.json();
-       this.setState({ rocketData : data });
-     }
-     catch (e) {
-       console.log(e);
-     }
+    try {
+      const response = await fetch(
+        'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
+        {method: 'GET'}
+      );
+      const data = await response.json();
+      this.setState({rocketData: data});
+    } catch (e) {
+      console.log(e);
+    }
 
     // fetch(
     //   'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
@@ -166,10 +166,11 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     this.filter = this.api.getFilterInstance('parameter');
   };
 
-  onRowClicked = (x: any) => {};
+  onRowClicked = (x: any) => {
+  };
   getIdent = (ev: React.SyntheticEvent) => {
     this.identifier = (ev.currentTarget as HTMLInputElement).value;
-    this.setState({ Id: this.identifier }, () => this.wxdata1());
+    this.setState({Id: this.identifier}, () => this.wxdata1());
   };
 
   filterChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +185,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     );
   };
 
-  renderIt=(formProps: FormikProps<any>)=> {
+  renderIt = (formProps: FormikProps<any>) => {
     const customStyles = (width = 100, height = 15) => {
       return {
         container: (base: any) => ({
@@ -219,16 +220,18 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         sortable: true,
         filter: true
       },
-      { headerName: 'Value', field: 'value', resizable: true }
+      {headerName: 'Value', field: 'value', resizable: true}
     ];
     const imgSrc: string = this.state.imageData;
     // '<img src="data:image/gif;base64,' + xmlhttp.responseText + '"/>';
     const imgURL =
       `http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=mqs&x= ${
-      new Date().getTime()}`;
+        new Date().getTime()}`;
+
     interface FormikPartProps {
       formik: FormikContext<any>;
     }
+
     const myComponent: React.ComponentType<ICellRendererParams & FormikPartProps> = connect(
       (data: ICellRendererParams & FormikPartProps, ...props) => {
         const isPopup = () => {
@@ -240,11 +243,11 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             <div className="col-sm-6">
               <Select
                 options={[
-                  { label: '1', value: 1 },
-                  { label: '2', value: 2 },
-                  { label: '3', value: 3 }
+                  {label: '1', value: 1},
+                  {label: '2', value: 2},
+                  {label: '3', value: 3}
                 ]}
-                value={{ label: '1', value: 1 }}
+                value={{label: '1', value: 1}}
                 styles={{
                   control: (base, _state) => ({
                     ...base,
@@ -263,19 +266,20 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                 }}
               />
             </div>
-            <div className="col-sm-6" />
+            <div className="col-sm-6"/>
           </div>
         );
       }
     );
     return (
-      <div className="dave">
-        <div className="row">
-          <div className="col-sm-6">
-            <div className="row">
-              <div className="col-sm-12">
-                <input onChange={this.filterChange} />
-                <AgGridReact
+      <div className="row">
+        <div className="col-sm-12">
+          <div className="row">
+            <div className="col-sm-6">
+
+                <DaveTable
+                  label="rocket"
+                  domLayout={'normal'}
                   alwaysShowVerticalScroll
                   pagination
                   onGridReady={this.onGridReady}
@@ -313,24 +317,22 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                   // suppressRowTransform
                   //  rowSelection={'single'}
                 />
+
               </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-6">
-                <input type="text" onBlur={this.getIdent} />
-                {/*<Navigation className="btn-info btn" to={'/test'}>test</Navigation>*/}
-              </div>
-              <div className="col-sm-6">
-                {/*<Navigation className="btn-info btn" to={'/formikStuff'}>formik</Navigation>*/}
-              </div>
+
+            <div className="col-sm-6">
+              <img src={imgSrc} width={700} height={700}/>
             </div>
           </div>
-          <div className="col-sm-6">
-            <img src={imgSrc} width={700} height={700} />
+          <div id="yyy" className="row">
+            <div className="col-sm-12">
+              <input id="x" type="text" onBlur={this.getIdent}/>
+              <Child x={this.state.Id}/>
+            </div>
           </div>
         </div>
-        <Child x={this.state.Id} />
       </div>
+
     );
   }
 
@@ -338,11 +340,12 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
 
 
     return (
-        <Formik
-            initialValues={{ zzz: 'qzzzqq', yyy: 'yyy', xxx: false }}
-            render={this.renderIt}
-            onSubmit={() => {}}
-        />
+      <Formik
+        initialValues={{zzz: 'qzzzqq', yyy: 'yyy', xxx: false}}
+        render={this.renderIt}
+        onSubmit={() => {
+        }}
+      />
 
     );
   }
