@@ -276,10 +276,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         <div className="col-sm-12">
           <div className="row">
             <div className="col-sm-6">
-
               <DaveTable
                 label="rocket"
-                domLayout={'normal'}
                 alwaysShowVerticalScroll
                 pagination
                 onGridReady={this.onGridReady}
@@ -307,17 +305,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                     );
                   }
                 }}
-                // isExternalFilterPresent={()=>(true)}
-                // doesExternalFilterPass={(node)=>{
-                //     if(!this.state.text || this.state.text.length ===0) {
-                //         return true;
-                //     }
-                //     return node.data.parameter && node.data.parameter.startsWith(this.state.text);
-                // }}
-                // suppressRowTransform
-                //  rowSelection={'single'}
               />
-
             </div>
 
             <div className="col-sm-6">
@@ -340,13 +328,10 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
           </div>
         </div>
       </div>
-
     );
   }
 
   render() {
-
-
     return (
       <Formik
         initialValues={{zzz: 'qzzzqq', yyy: 'yyy', xxx: false}}

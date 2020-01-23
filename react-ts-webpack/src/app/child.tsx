@@ -82,11 +82,15 @@ class Child extends React.Component<ComponentProps> {
     }):[];
     return (
       <Form>
+        <div className="row">
+          <div className="col-sm-6">
           <DaveTable
             label="child"
             borderColor="red"
-            alwaysShowVerticalScroll
+            height={400}
+            // alwaysShowVerticalScroll
             pagination
+            paginationPageSize={26}
             rowData={data}
             getNodeChildDetails={(node: any) => {
               if (node && node.key === 'cloudLayers') {
@@ -120,6 +124,9 @@ class Child extends React.Component<ComponentProps> {
               { headerName: 'Amount', field: 'amount', resizable: true, suppressSizeToFit:false }
             ]}
           />
+          </div>
+          <div className="col-sm-6" />
+        </div>
         <div className="row">
             <div id="dave"  className="col-sm-12" onClick={this.onClick(formProps)}>
               Hello Child{this.props.x}
