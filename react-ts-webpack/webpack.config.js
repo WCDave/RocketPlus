@@ -50,6 +50,7 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 loader: 'ts-loader',
+              include: path.resolve(__dirname, 'src'),
               options: {
                 // disable type checker - we will use it in fork plugin
                 transpileOnly: true
@@ -77,8 +78,8 @@ module.exports = {
               {
                 loader: 'svg-colorize-loader',
                 options: {
-                  color1: '#000000',
-                  color2: '#FFFFFF'
+                  color1: '#000010',
+                  color2: '#2FFFFF'
                 }
               }
             ]
@@ -86,16 +87,16 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'app', 'index.html') }),
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'app', 'index.html'), favicon:  './slit.png' }),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
             filename: "App.css",
             chunkFilename: "[id].css"
         }),
-      // new ForkTsCheckerWebpackPlugin({
-      //   checkSyntacticErrors: true,
-      //   tsconfig: 'tsconfig.json',
-      //   tslint:  'tslint.json'
-      // }),
+      new ForkTsCheckerWebpackPlugin({
+        checkSyntacticErrors: true,
+        tsconfig: 'tsconfig.json',
+        tslint:  'tslint.json'
+      }),
     ]
 }
