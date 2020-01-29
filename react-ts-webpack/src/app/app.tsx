@@ -10,7 +10,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 // import {  } from './components/Hello';
-import RocketData from '~/app/components/rocket-data';
+import { RocketData } from '~/app/components/rocket-data';
 import { Navigation } from '../navigation/navigation';
 import { JsonRoute } from '../navigation/types';
 import './App.scss';

@@ -28,16 +28,26 @@ class AxiosService {
 
 }
 
-export const serviceCreator = () => {
-    return new AxiosService({
-        baseURL:'https://api.weather.gov',
-        headers:{
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }});
+export const serviceCreator = (config: AxiosRequestConfig) => {
+  return new AxiosService(config);
 };
 
 
-const service = serviceCreator();
 
-export { service as ApiService }
+const wxService = serviceCreator({
+  baseURL:'https://api.weather.gov',
+  headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }});
+
+const usgsService = serviceCreator({
+  baseURL:'https://earthquake.usgs.gov/',
+  headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }});
+
+export { wxService as WxApiService }
+
+export { usgsService as USGSApiService }

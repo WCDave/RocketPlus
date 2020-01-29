@@ -9,22 +9,17 @@ import { Dispatch } from 'redux';
 import { accessorX } from '~/app/components/accessor1';
 import { DaveTable } from '~/app/components/dave-table';
 import { actions } from './api/weathergov/actions';
+import {actions as usgsActions } from './api/usgs/actions';
 import { Data } from './api/weathergov/model';
 import { ActionType } from './axios/action-creator';
 
-interface DispatchProps {
-  punt: (id: string) => void;
-  wx: (id: string) => void;
-}
-
-interface StateProps {
-  result: string;
-  adj: string;
-  wxData: Data;
-}
 
 interface OwnProps {
   x: string;
+  wxData?: Data;
+  sigDay?: () => void;
+  wx?: (id: string) => void;
+  punt?: (id: string) => void;
 }
 
 interface FormProps {
@@ -33,7 +28,7 @@ interface FormProps {
   chk: boolean;
 }
 
-interface ComponentProps extends StateProps, OwnProps, DispatchProps {}
+interface ComponentProps extends  OwnProps {}
 
 class Child extends React.Component<ComponentProps> {
   constructor(props: ComponentProps) {
@@ -41,13 +36,17 @@ class Child extends React.Component<ComponentProps> {
   }
 
   componentDidUpdate(
-    prevProps: Readonly<DispatchProps & StateProps & OwnProps>,
+    prevProps: Readonly< OwnProps>,
     prevState: Readonly<{}>,
     snapshot?: any
   ): void {
     if (this.props.x !== prevProps.x) {
       this.props.wx(this.props.x);
     }
+  }
+
+  componentDidMount(): void {
+    this.props.sigDay();
   }
 
   onClick = (fProps: FormikProps<any>) => (
@@ -150,28 +149,31 @@ class Child extends React.Component<ComponentProps> {
   }
 }
 
-function mapStateToProps(state: any): StateProps {
-  return {
-    result: state.sampleReducer,
-    adj: state.adjuster,
-    wxData: state.wx
-  };
-}
+// function mapStateToProps(state: any): StateProps {
+//   return {
+//     result: state.sampleReducer,
+//     adj: state.adjuster,
+//     wxData: state.wx
+//   };
+// }
+//
+// function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
+//   return {
+//     punt: (id: string) => {
+//       dispatch({ id, type: 'XD' });
+//     },
+//     wx: (id: string) => {
+//       dispatch(actions.getLatestWeatherRequest(id));
+//     },
+//     sigDay: ()=> {
+//       dispatch(usgsActions.getSigDayRequest());
+//     }
+//   };
+// }
+//
+// const connected = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Child);
 
-function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
-  return {
-    punt: (id: string) => {
-      dispatch({ id, type: 'XD' });
-    },
-    wx: (id: string) => {
-      dispatch(actions.getLatestWeatherRequest(id));
-    }
-  };
-}
-
-const connected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Child);
-
-export { connected as Child };
+export default Child;

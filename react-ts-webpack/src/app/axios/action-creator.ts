@@ -1,7 +1,6 @@
-export const createAction = ({ type, endpointUrl, data }:ActionType)=>{
+export const createAction = ({ type, data }:ActionType)=>{
     return {
        type,
-       endpointUrl,
        data
     };
 };

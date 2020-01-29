@@ -10,22 +10,34 @@ import 'ag-grid-community/src/styles/ag-grid.scss';
 import { AgGridReact } from 'ag-grid-react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect, Formik, FormikContext, FormikProps } from 'formik';
+import { connect as reduxConnect } from 'react-redux';
 import * as React from 'react';
 import Select from 'react-select';
-import { Child } from '~/app/child';
+import Child from '~/app/child';
 import { DaveTable } from "~/app/components/dave-table";
+import { Dispatch } from "redux";
+import { ActionType } from "~/app/axios/action-creator";
+import { actions } from "~/app/api/weathergov/actions";
+import { actions as usgsActions } from "~/app/api/usgs/actions";
+import { Data } from "~/app/api/weathergov/model";
 
 interface StateProps {
   rocketData?: object;
   imageData?: any;
   Id?: string;
   text?: string;
+  result?: string;
+  adj?: string;
+  wxData?: Data;
 }
 
-// interface ComponentProps extends StateProps, RouteComponentProps<{ Id?: string }> {
-//     xxx?: string;
-// }
-interface ComponentProps extends StateProps {
+interface DispatchProps {
+  punt: (id: string) => void;
+  wx: (id: string) => void;
+  sigDay: () => void;
+}
+
+interface ComponentProps extends StateProps, DispatchProps {
   xxx?: string;
 }
 
@@ -313,7 +325,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             </div>
           </div>
           <div id="yyy" className="row">
-            <div className="col-sm-12">
+            <div className="col-sm-6">
               <div className="row">
                 <div className="col-sm-12">
                   <input id="x" type="text" onBlur={this.getIdent}/>
@@ -321,10 +333,11 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
               </div>
               <div className="row">
                 <div className="col-sm-12">
-                  <Child x={this.state.Id}/>
+                  <Child x={this.state.Id} {...this.props} />
                 </div>
               </div>
             </div>
+            <div className="col-sm-6" />
           </div>
         </div>
       </div>
@@ -344,4 +357,33 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   }
 }
 
-export default RocketData;
+function mapStateToProps(state: any): StateProps {
+  return {
+    result: state.sampleReducer,
+    adj: state.adjuster,
+    wxData: state.wx
+  };
+}
+
+function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
+  return {
+    punt: (id: string) => {
+      dispatch({ id, type: 'XD' });
+    },
+    wx: (id: string) => {
+      dispatch(actions.getLatestWeatherRequest(id));
+    },
+    sigDay: ()=> {
+      dispatch(usgsActions.getSigDayRequest());
+    }
+  };
+}
+
+
+const connected = reduxConnect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RocketData);
+
+export { connected as RocketData };
+
