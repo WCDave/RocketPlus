@@ -1,4 +1,4 @@
-export interface SigDay {
+export interface QuakeData {
   type:     string;
   metadata: Metadata;
   features: Feature[];

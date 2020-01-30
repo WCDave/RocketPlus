@@ -20,6 +20,9 @@ import { ActionType } from "~/app/axios/action-creator";
 import { actions } from "~/app/api/weathergov/actions";
 import { actions as usgsActions } from "~/app/api/usgs/actions";
 import { Data } from "~/app/api/weathergov/model";
+import { AppState } from "~/navigation/types";
+import { Feature, Properties, QuakeData } from "~/app/api/usgs/model";
+import { Quakes } from "~/app/components/quakes";
 
 interface StateProps {
   rocketData?: object;
@@ -29,12 +32,13 @@ interface StateProps {
   result?: string;
   adj?: string;
   wxData?: Data;
+  quakeData?: QuakeData;
 }
 
 interface DispatchProps {
   punt: (id: string) => void;
   wx: (id: string) => void;
-  sigDay: () => void;
+  getQuakeData: (search:{mag:string, period:string}) => void;
 }
 
 interface ComponentProps extends StateProps, DispatchProps {
@@ -216,15 +220,16 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     };
 
     // console.log(this.props);
+    const { quakeData:{features} } = this.props;
     const keys = this.state.rocketData ? Object.keys(this.state.rocketData) : [];
-    const display: any = keys.map((item: string) => {
+    const rocketDisplay: any = keys.map((item: string) => {
       return {
         parameter: item,
         value: this.state.rocketData[item as keyof object]
       };
     });
-    // display.push({parameter: 'refName', value: 'Moon1'});
-    const coldefs = [
+
+    const rocketColDefs = [
       {
         headerName: 'Parameter',
         field: 'parameter',
@@ -294,12 +299,12 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                 pagination
                 onGridReady={this.onGridReady}
                 // onRowClicked={this.onRowClicked}
-                rowData={display}
+                rowData={rocketDisplay}
                 isFullWidthCell={(node: RowNode) => {
                   return node.data.parameter === 'refName';
                 }}
                 fullWidthCellRenderer="refCellRenderer"
-                columnDefs={coldefs}
+                columnDefs={rocketColDefs}
                 frameworkComponents={{
                   refCellRenderer: myComponent
                 }}
@@ -337,7 +342,9 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                 </div>
               </div>
             </div>
-            <div className="col-sm-6" />
+            <div className="col-sm-6">
+              <Quakes {...this.props} />
+            </div>
           </div>
         </div>
       </div>
@@ -357,11 +364,12 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   }
 }
 
-function mapStateToProps(state: any): StateProps {
+function mapStateToProps(state: AppState): StateProps {
   return {
     result: state.sampleReducer,
     adj: state.adjuster,
-    wxData: state.wx
+    wxData: state.wx,
+    quakeData: state.quakeData
   };
 }
 
@@ -373,8 +381,8 @@ function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
     wx: (id: string) => {
       dispatch(actions.getLatestWeatherRequest(id));
     },
-    sigDay: ()=> {
-      dispatch(usgsActions.getSigDayRequest());
+    getQuakeData: (search:{mag:string, period:string})=> {
+      dispatch(usgsActions.getQuakeRequest(search));
     }
   };
 }

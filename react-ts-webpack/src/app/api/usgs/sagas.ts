@@ -6,13 +6,13 @@ export const sagaWatchers = [watchUsgsRequests];
 
 
 function* watchUsgsRequests() {
-    yield takeLatest(TypeKeys.GET_SIG_DAY_REQUEST, getSigDay);
+    yield takeLatest(TypeKeys.GET_QUAKE_REQUEST, getQuake);
 }
 
-function* getSigDay(action: ReturnType<typeof actions.getSigDayRequest>){
+function* getQuake(action: ReturnType<typeof actions.getQuakeRequest>){
     try {
-        const data = yield call(api.getSigDay, undefined);
-        yield put(actions.getSigDayResponse(data));
+        const data = yield call(api.getQuake, action.data);
+        yield put(actions.getQuakeResponse(data));
     }
     catch (e) {
       throw e;

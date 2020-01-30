@@ -17,7 +17,7 @@ import { ActionType } from './axios/action-creator';
 interface OwnProps {
   x: string;
   wxData?: Data;
-  sigDay?: () => void;
+  getQuakeData?: (search:{mag:string, period:string}) => void;
   wx?: (id: string) => void;
   punt?: (id: string) => void;
 }
@@ -46,7 +46,7 @@ class Child extends React.Component<ComponentProps> {
   }
 
   componentDidMount(): void {
-    this.props.sigDay();
+    this.props.getQuakeData && this.props.getQuakeData({mag:'4.5', period:'day'});
   }
 
   onClick = (fProps: FormikProps<any>) => (
@@ -62,7 +62,8 @@ class Child extends React.Component<ComponentProps> {
   };
 
   renderIt = (formProps: FormikProps<FormProps>) => {
-    const { wxData:{ properties } } = this.props;
+    const { wxData } = this.props;
+    const properties = wxData ? wxData.properties: undefined;
 
     const data = properties ? Object.keys(properties).map((key)=>{
       let value = properties[key];
@@ -82,7 +83,7 @@ class Child extends React.Component<ComponentProps> {
     return (
       <Form>
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-12">
           <DaveTable
             label="child"
             borderColor="red"
@@ -124,12 +125,11 @@ class Child extends React.Component<ComponentProps> {
             ]}
           />
           </div>
-          <div className="col-sm-6" />
         </div>
         <div className="row">
             <div id="dave"  className="col-sm-12" onClick={this.onClick(formProps)}>
               Hello Child{this.props.x}
-                <pre>{JSON.stringify(this.props.wxData.properties, null, 2)}</pre>
+                <pre>{JSON.stringify(properties ? properties : {}, null, 2)}</pre>
             </div>
         </div>
       </Form>

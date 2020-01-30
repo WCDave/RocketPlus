@@ -2,19 +2,18 @@ import { createAction } from '../../axios/action-creator';
 
 
 export enum TypeKeys {
-    GET_SIG_DAY_REQUEST = 'GET_SIG_DAY_REQUEST',
-    GET_SIG_DAY_RESPONSE = 'GET_SIG_DAY_RESPONSE'
+    GET_QUAKE_REQUEST = 'GET_QUAKE_REQUEST',
+    GET_QUAKE_RESPONSE = 'GET_QUAKE_RESPONSE'
 }
 
 
 export const actions = {
-    getSigDayRequest: (search?: string) =>
+    getQuakeRequest: (search: {mag:string, period: string}) =>
         createAction({
-            type: TypeKeys.GET_SIG_DAY_REQUEST,
-            endpointUrl: `earthquakes/feed/v1.0/summary/significant_day.geojson`,
+            type: TypeKeys.GET_QUAKE_REQUEST,
             data: search
         }),
-    getSigDayResponse:(data:any)=> createAction({ data,  type:TypeKeys.GET_SIG_DAY_RESPONSE })
+    getQuakeResponse:(data:any)=> createAction({ data,  type:TypeKeys.GET_QUAKE_RESPONSE })
 };
 
 type FunctionType = (...args: any[]) => any;

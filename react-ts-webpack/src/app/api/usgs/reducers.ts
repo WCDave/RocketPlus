@@ -1,10 +1,10 @@
 import { ActionTypes, TypeKeys } from './actions';
-import { SigDay } from './model';
+import { QuakeData } from './model';
 
 
-export const sigDay = (state:Partial<SigDay>={}, action:ActionTypes):Partial<SigDay> => {
+export const quakeData = (state:Partial<QuakeData>={}, action:ActionTypes):Partial<QuakeData> => {
     switch (action.type) {
-        case TypeKeys.GET_SIG_DAY_RESPONSE:
+        case TypeKeys.GET_QUAKE_RESPONSE:
             return {
                 ...state, ...action.data
             };

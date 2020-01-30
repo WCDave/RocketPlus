@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Data} from "../app/api/weathergov/model";
+import { QuakeData } from "~/app/api/usgs/model";
 
 
 export interface JsonRoute {
@@ -8,4 +10,11 @@ export interface JsonRoute {
   sidebar:    string;
   main:      ()=> string;
   children?:  JsonRoute[];
+}
+
+export interface AppState {
+  sampleReducer: string;
+  adjuster: string;
+  wx: Data;
+  quakeData: QuakeData;
 }

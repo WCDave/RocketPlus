@@ -21,7 +21,7 @@ class AxiosService {
 
     }
 
-    get<Response = any>(request: {url:string, payload:any}): AxiosPromise<Response> {
+    get<Response = any>(request: {url:string, payload?:any}): AxiosPromise<Response> {
         const { url, payload } = request;
         return this.client.get( url);
     }

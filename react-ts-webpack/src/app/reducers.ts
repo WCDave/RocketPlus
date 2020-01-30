@@ -2,7 +2,7 @@ import { AnyAction, combineReducers } from 'redux';
 import adjuster from './DelayReducer';
 import reduceReducers from 'reduce-reducers';
 import {wx} from "./api/weathergov/reducers";
-import { sigDay } from "./api/usgs/reducers";
+import { quakeData } from "./api/usgs/reducers";
 
 const appReducer = combineReducers({
       sampleReducer: (state: any = {x:"lll"}, action: AnyAction) => {
@@ -22,7 +22,7 @@ const appReducer = combineReducers({
       },
       adjuster:adjuster,
       wx,
-      sigDay
+      quakeData
     }
 );
 
