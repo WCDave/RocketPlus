@@ -1,28 +1,28 @@
-import axios, {AxiosInstance, AxiosPromise, AxiosRequestConfig} from 'axios';
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 
 class AxiosService {
     private client: AxiosInstance;
-    //private serviceInfo: ApiServiceInfo;
+    // private serviceInfo: ApiServiceInfo;
     private errorNotificationOptions: NotificationOptions | undefined;
 
     constructor(config: AxiosRequestConfig) {
         this.client = axios.create(config);
 
             this.client.interceptors.request.use(request => {
-                console.log('Starting Request', request)
-                return request
-            })
+                console.log('Starting Request', request);
+                return request;
+            });
 
         this.client.interceptors.response.use(response => {
-                console.log('Response:', response)
-                return response
-            })
+                console.log('Response:', response);
+                return response;
+            });
 
     }
 
     get<Response = any>(request: {url:string, payload:any}): AxiosPromise<Response> {
-        const {url, payload} = request;
+        const { url, payload } = request;
         return this.client.get( url);
     }
 
@@ -48,6 +48,6 @@ const usgsService = serviceCreator({
     'Content-Type': 'application/json',
   }});
 
-export { wxService as WxApiService }
+export { wxService as WxApiService };
 
-export { usgsService as USGSApiService }
+export { usgsService as USGSApiService };
