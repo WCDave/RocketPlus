@@ -23,6 +23,7 @@ import { Data } from "~/app/api/weathergov/model";
 import { AppState } from "~/navigation/types";
 import { Feature, Properties, QuakeData } from "~/app/api/usgs/model";
 import { Quakes } from "~/app/components/quakes";
+import { ValueType } from "react-select/lib/types";
 
 interface StateProps {
   rocketData?: object;
@@ -33,6 +34,8 @@ interface StateProps {
   adj?: string;
   wxData?: Data;
   quakeData?: QuakeData;
+  quakeMag: string;
+  quakePeriod: string;
 }
 
 interface DispatchProps {
@@ -43,6 +46,8 @@ interface DispatchProps {
 
 interface ComponentProps extends StateProps, DispatchProps {
   xxx?: string;
+  setQuakeMake: (mag: string)=> void;
+  setQuakePeriod: (period: string)=> void;
 }
 
 class RocketData extends React.Component<ComponentProps, StateProps> {
@@ -58,17 +63,14 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     this.state = {
       rocketData: undefined,
       imageData: undefined,
-      Id: 'kmqs'
+      Id: 'kmqs',
+      quakeMag: 'significant',
+      quakePeriod: 'hour'
     };
   }
 
   componentDidMount() {
-    // const server = createServer({},function(socket:Socket) {
-    //     socket.write('Echo server\r\n');
-    //     socket.pipe(socket);
-    // });
-    //
-    // server.listen(1337, '127.0.0.1');
+    this.props.getQuakeData && this.props.getQuakeData({mag: this.state.quakeMag, period:this.state.quakePeriod});
     this.rocketData();
     this.rocketCountDown = setInterval(this.rocketData, 10000);
 
@@ -104,6 +106,20 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   componentWillUnmount(): void {
     this.rocketCountDown = null;
     this.wxCountDown = null;
+  }
+
+  setQuakeMag = (vt:ValueType<{label: string, value: string}>) => {
+    const qm = vt as {value: string} ;
+    this.setState({quakeMag: qm.value}, ()=> this.getQuakeData());
+  };
+
+  setQuakePeriod = (vt:ValueType<{label: string, value: string}>) => {
+    const pd = vt as {value: string} ;
+    this.setState({quakePeriod: pd.value}, ()=> this.getQuakeData());
+  };
+
+  getQuakeData = ()=> {
+    this.props.getQuakeData({mag: this.state.quakeMag, period: this.state.quakePeriod});
   }
 
   // wxData = () => {
@@ -343,7 +359,10 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
               </div>
             </div>
             <div className="col-sm-6">
-              <Quakes {...this.props} />
+              <Quakes {...this.props} {...this.state.quakeMag} {...this.state.quakePeriod}
+                      onQuakePeriodChange={this.setQuakePeriod}
+                      onQuakeMagChange={this.setQuakeMag}
+              />
             </div>
           </div>
         </div>
@@ -364,7 +383,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   }
 }
 
-function mapStateToProps(state: AppState): StateProps {
+function mapStateToProps(state: AppState): Partial<StateProps> {
   return {
     result: state.sampleReducer,
     adj: state.adjuster,

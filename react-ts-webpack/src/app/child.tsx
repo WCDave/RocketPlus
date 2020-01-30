@@ -45,10 +45,6 @@ class Child extends React.Component<ComponentProps> {
     }
   }
 
-  componentDidMount(): void {
-    this.props.getQuakeData && this.props.getQuakeData({mag:'4.5', period:'day'});
-  }
-
   onClick = (fProps: FormikProps<any>) => (
     ev: React.MouseEvent<HTMLDivElement>
   ) => {
