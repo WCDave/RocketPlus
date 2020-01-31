@@ -1,4 +1,4 @@
-import { WxApiService } from '../../axios/service';
+import { StationsService, WxApiService } from '../../axios/service';
 import { Data } from './model';
 
 export async function getLatestWx(search: string): Promise<Data> {
@@ -11,5 +11,12 @@ export async function getLatestWx(search: string): Promise<Data> {
         throw response.data;
     }
     return response.data;
+}
+
+export async function getStations():Promise<any> {
+  const request = {
+    url: `/docs/metar/stations.txt`
+  }
+  const response = await StationsService.getHttps<any>(request);
 }
 

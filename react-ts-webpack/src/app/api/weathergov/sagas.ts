@@ -2,7 +2,7 @@ import { call, put, select, take, takeLatest } from 'redux-saga/effects';
 import { actions, TypeKeys } from './actions';
 import * as api from './api';
 
-export const sagaWatchers = [watchWeatherRequests];
+export const sagaWatchers = [watchWeatherRequests, watchStationsRequests];
 
 
 function* watchWeatherRequests() {
@@ -19,6 +19,23 @@ function* getLatestWx(action: ReturnType<typeof actions.getLatestWeatherRequest>
     catch (e) {
       throw e;
     }
+
+}
+
+function* watchStationsRequests() {
+  yield takeLatest(TypeKeys.GET_WX_STATIONS_REQUEST, getWxStations);
+}
+
+function* getWxStations(action: ReturnType<typeof actions.getWxStationsRequest>){
+  // const promise = service().get({url:action.endpointUrl, payload:action.data});
+
+  try {
+    const data = yield call(api.getStations);
+    yield put(actions.getWxStationsResponse(data));
+  }
+  catch (e) {
+    throw e;
+  }
 
 }
 

@@ -42,12 +42,11 @@ interface DispatchProps {
   punt: (id: string) => void;
   wx: (id: string) => void;
   getQuakeData: (search:{mag:string, period:string}) => void;
+  getStations: ()=> void;
 }
 
 interface ComponentProps extends StateProps, DispatchProps {
   xxx?: string;
-  setQuakeMake: (mag: string)=> void;
-  setQuakePeriod: (period: string)=> void;
 }
 
 class RocketData extends React.Component<ComponentProps, StateProps> {
@@ -402,6 +401,9 @@ function mapDispatchToProps(dispatch: Dispatch<ActionType>): DispatchProps {
     },
     getQuakeData: (search:{mag:string, period:string})=> {
       dispatch(usgsActions.getQuakeRequest(search));
+    },
+    getStations: ()=> {
+      dispatch(actions.getWxStationsRequest());
     }
   };
 }

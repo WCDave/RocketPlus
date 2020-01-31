@@ -20,6 +20,7 @@ interface OwnProps {
   getQuakeData?: (search:{mag:string, period:string}) => void;
   wx?: (id: string) => void;
   punt?: (id: string) => void;
+  getStations?: ()=> void;
 }
 
 interface FormProps {
@@ -43,6 +44,10 @@ class Child extends React.Component<ComponentProps> {
     if (this.props.x !== prevProps.x) {
       this.props.wx(this.props.x);
     }
+  };
+
+  componentDidMount(): void {
+    // this.props.getStations();
   }
 
   onClick = (fProps: FormikProps<any>) => (
