@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {AirportData, Data} from "../app/api/weathergov/model";
-import { QuakeData } from "~/app/api/usgs/model";
+import { QuakeData } from '~/app/api/usgs/model';
+import { AirportData, Data } from '../app/api/weathergov/model';
 
 
 export interface JsonRoute {
