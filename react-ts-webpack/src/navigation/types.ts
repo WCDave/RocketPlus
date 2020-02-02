@@ -26,6 +26,14 @@ export interface EntityState<Entity> {
   error?: Error;
 }
 
+export interface AppDataState {
+  appData: DataState;
+}
+
+interface DataState {
+  aiportData: EntityState<AirportData[]>;
+}
+
 export enum ApiStatus {
   Idle = 0,
   Fetching = 1,

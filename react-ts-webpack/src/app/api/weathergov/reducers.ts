@@ -14,7 +14,7 @@ export const wx = (state:Partial<Data>={}, action:ActionTypes):Partial<Data> => 
     }
 };
 
-export const airportData =(state:EntityState<AirportData[]>={ status:ApiStatus.Idle }, action:ActionTypes)
+export const airportData =(state:EntityState<AirportData[]>={ status: ApiStatus.Idle }, action:ActionTypes)
   :EntityState<AirportData[]>=>{
   switch (action.type) {
     case TypeKeys.GET_WX_STATIONS_RESPONSE:
