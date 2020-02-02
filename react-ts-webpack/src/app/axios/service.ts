@@ -24,12 +24,13 @@ class AxiosService {
 
     get<Response = any>(request: {url:string, payload?:any}): AxiosPromise<Response> {
         const { url, payload } = request;
-        return this.client.get( url);
+        const data = this.client.get( url);
+        return data;
     }
 
     getHttps<Reponse=any>(request: {url:string, payload?:any}): any {
       const { url, payload } = request;
-      return this.client.get( url).then(_ => console.log(`${ _ }`)).catch(err=> console.log(err));
+      return this.client.get( `https://pkgstore.datahub.io/core/airport-codes/airport-codes_json/data/2e2089554f1ffb1103179fa79b9eade8/airport-codes_json.json`);
     }
 
 
@@ -59,14 +60,10 @@ const usgsService = serviceCreator({
   }});
 
 const stationsService = serviceCreator({
-  baseURL:'https://www.aviationweather.gov',
+  baseURL:'https://pkgstore.datahub.io',
   headers:{
-    Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
-  },
-  httpsAgent: new https.Agent({
-    host: 'www.aviationweather.gov',
-    rejectUnauthorized: false
-  })
+    Accept: 'application/json',
+  }
 });
 
 export { wxService as WxApiService };

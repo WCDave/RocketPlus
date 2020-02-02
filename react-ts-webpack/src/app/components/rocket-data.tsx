@@ -6,24 +6,21 @@ import {
   RowNode
 } from 'ag-grid-community';
 import 'ag-grid-community/src/styles/ag-grid.scss';
-// import 'ag-grid-community/src/styles/ag-theme-blue/sass/ag-theme-blue.scss';
-import { AgGridReact } from 'ag-grid-react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect, Formik, FormikContext, FormikProps } from 'formik';
-import { connect as reduxConnect } from 'react-redux';
 import * as React from 'react';
-import Select from 'react-select';
-import Child from '~/app/child';
-import { DaveTable } from "~/app/components/dave-table";
-import { Dispatch } from "redux";
-import { ActionType } from "~/app/axios/action-creator";
-import { actions } from "~/app/api/weathergov/actions";
-import { actions as usgsActions } from "~/app/api/usgs/actions";
-import { Data } from "~/app/api/weathergov/model";
-import { AppState } from "~/navigation/types";
-import { Feature, Properties, QuakeData } from "~/app/api/usgs/model";
-import { Quakes } from "~/app/components/quakes";
-import { ValueType } from "react-select/lib/types";
+import { connect as reduxConnect } from 'react-redux';
+import Select, { OptionsType, ValueType } from 'react-select';
+import { Dispatch } from 'redux';
+import { actions as usgsActions } from '~/app/api/usgs/actions';
+import { Feature, Properties, QuakeData } from '~/app/api/usgs/model';
+import { actions } from '~/app/api/weathergov/actions';
+import { AirportData, Data } from '~/app/api/weathergov/model';
+import { ActionType } from '~/app/axios/action-creator';
+import { Child } from '~/app/child';
+import { DaveSelect } from '~/app/components/dave-select';
+import { DaveTable } from '~/app/components/dave-table';
+import { Quakes } from '~/app/components/quakes';
+import { AppState } from '~/navigation/types';
 
 interface StateProps {
   rocketData?: object;
@@ -36,6 +33,7 @@ interface StateProps {
   quakeData?: QuakeData;
   quakeMag: string;
   quakePeriod: string;
+  airportData?:AirportData[];
 }
 
 interface DispatchProps {
@@ -48,6 +46,8 @@ interface DispatchProps {
 interface ComponentProps extends StateProps, DispatchProps {
   xxx?: string;
 }
+
+type OptType = {value:string, label:string};
 
 class RocketData extends React.Component<ComponentProps, StateProps> {
   rocketCountDown: number = null;
@@ -69,7 +69,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   }
 
   componentDidMount() {
-    this.props.getQuakeData && this.props.getQuakeData({mag: this.state.quakeMag, period:this.state.quakePeriod});
+    this.props.getQuakeData && this.props.getQuakeData({ mag: this.state.quakeMag, period:this.state.quakePeriod });
+    this.props.getStations && this.props.getStations();
     this.rocketData();
     this.rocketCountDown = setInterval(this.rocketData, 10000);
 
@@ -92,7 +93,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     // }
 
     // if (prevProps.match.params !== this.props.match.params) {
-    const {Id} = {Id: 'kmqs'};
+    const { Id } = { Id: 'kmqs' };
     // this.wxData();
     // if (Id) {
     //     this.setState({Id}, () => this.wxData());
@@ -109,17 +110,17 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
 
   setQuakeMag = (vt:ValueType<{label: string, value: string}>) => {
     const qm = vt as {value: string} ;
-    this.setState({quakeMag: qm.value}, ()=> this.getQuakeData());
+    this.setState({ quakeMag: qm.value }, ()=> this.getQuakeData());
   };
 
   setQuakePeriod = (vt:ValueType<{label: string, value: string}>) => {
     const pd = vt as {value: string} ;
-    this.setState({quakePeriod: pd.value}, ()=> this.getQuakeData());
+    this.setState({ quakePeriod: pd.value }, ()=> this.getQuakeData());
   };
 
   getQuakeData = ()=> {
-    this.props.getQuakeData({mag: this.state.quakeMag, period: this.state.quakePeriod});
-  }
+    this.props.getQuakeData({ mag: this.state.quakeMag, period: this.state.quakePeriod });
+  };
 
   // wxData = () => {
   //     const xmhr = new XMLHttpRequest();
@@ -137,17 +138,17 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
   // }
 
   wxdata1 = () => {
-    const time = new Date().getTime();
+    const time = `'${new Date().getTime().toString()}'`;
     fetch(
       `http://localhost:8080/FT2-0.0.1-SNAPSHOT/TestServlet?identifier=${
         this.state.Id
-      }&x='${time + ''}`
+      }&x='${time}`
     )
       .then(result => {
         return result.blob();
       })
       .then(file => {
-        this.setState({imageData: URL.createObjectURL(file)});
+        this.setState({ imageData: URL.createObjectURL(file) });
       })
       .catch(error => {
         console.log(error);
@@ -159,10 +160,10 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     try {
       const response = await fetch(
         'http://localhost:8080/SpringWSProject-0.0.1-SNAPSHOT/rest/rocketData/rd?x=REACT',
-        {method: 'GET'}
+        { method: 'GET' }
       );
       const data = await response.json();
-      this.setState({rocketData: data});
+      this.setState({ rocketData: data });
     } catch (e) {
       console.log(e);
     }
@@ -197,11 +198,9 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     this.filter = this.api.getFilterInstance('parameter');
   };
 
-  onRowClicked = (x: any) => {
-  };
   getIdent = (ev: React.SyntheticEvent) => {
     this.identifier = (ev.currentTarget as HTMLInputElement).value;
-    this.setState({Id: this.identifier}, () => this.wxdata1());
+    this.setState({ Id: this.identifier }, () => this.wxdata1());
   };
 
   filterChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -235,7 +234,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     };
 
     // console.log(this.props);
-    const { quakeData:{features} } = this.props;
+    const { quakeData:{ features }, airportData } = this.props;
     const keys = this.state.rocketData ? Object.keys(this.state.rocketData) : [];
     const rocketDisplay: any = keys.map((item: string) => {
       return {
@@ -252,7 +251,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         sortable: true,
         filter: true
       },
-      {headerName: 'Value', field: 'value', resizable: true}
+      { headerName: 'Value', field: 'value', resizable: true }
     ];
     const imgSrc: string = this.state.imageData;
     // '<img src="data:image/gif;base64,' + xmlhttp.responseText + '"/>';
@@ -275,18 +274,18 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             <div className="col-sm-6">
               <Select
                 options={[
-                  {label: '1', value: 1},
-                  {label: '2', value: 2},
-                  {label: '3', value: 3}
+                  { label: '1', value: 1 },
+                  { label: '2', value: 2 },
+                  { label: '3', value: 3 }
                 ]}
-                value={{label: '1', value: 1}}
+                value={{ label: '1', value: 1 }}
                 styles={{
-                  control: (base, _state) => ({
+                  control: (base) => ({
                     ...base,
                     minHeight: '25px',
                     height: '25px'
                   }),
-                  valueContainer: (base, _state) => ({
+                  valueContainer: (base) => ({
                     ...base,
                     minHeight: '25px',
                     height: '25px'
@@ -298,11 +297,21 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                 }}
               />
             </div>
-            <div className="col-sm-6"/>
+            <div className="col-sm-6" />
           </div>
         );
       }
     );
+
+    const filterFn =(input:string):OptType[] => {
+      return airportData.filter((ad:AirportData)=>{
+        return ad.name && ad.name.toLowerCase().includes(input.toLowerCase()) ||
+          ad.gps_code && ad.gps_code.toLowerCase() === input.toLowerCase();
+      }).map((ad:AirportData)=> {
+        // console.log(ad);
+        return { value: ad.gps_code, label: `${ad.name}(${ad.gps_code})` };
+      });
+    };
     return (
       <div className="row">
         <div className="col-sm-12">
@@ -341,14 +350,18 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             </div>
 
             <div className="col-sm-6">
-              <img src={imgSrc} width={700} height={700}/>
+              <img src={imgSrc} width={700} height={700} />
             </div>
           </div>
           <div id="yyy" className="row">
             <div className="col-sm-6">
               <div className="row">
-                <div className="col-sm-12">
-                  <input id="x" type="text" onBlur={this.getIdent}/>
+                <div className="col-sm-6">
+                  <input id="x" type="text" onBlur={this.getIdent} />
+                </div>
+                <div className="col-sm-6">
+                  <DaveSelect<OptType> isAsync filterFn={filterFn}
+                                       onChange={(x:OptType)=> this.setState({ Id:x.value })} />
                 </div>
               </div>
               <div className="row">
@@ -367,12 +380,12 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     return (
       <Formik
-        initialValues={{zzz: 'qzzzqq', yyy: 'yyy', xxx: false}}
+        initialValues={{ zzz: 'qzzzqq', yyy: 'yyy', xxx: false }}
         render={this.renderIt}
         onSubmit={() => {
         }}
@@ -387,7 +400,8 @@ function mapStateToProps(state: AppState): Partial<StateProps> {
     result: state.sampleReducer,
     adj: state.adjuster,
     wxData: state.wx,
-    quakeData: state.quakeData
+    quakeData: state.quakeData,
+    airportData: state.airportData
   };
 }
 

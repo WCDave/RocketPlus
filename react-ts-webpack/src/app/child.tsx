@@ -8,9 +8,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { accessorX } from '~/app/components/accessor1';
 import { DaveTable } from '~/app/components/dave-table';
+import { actions as usgsActions } from './api/usgs/actions';
 import { actions } from './api/weathergov/actions';
-import {actions as usgsActions } from './api/usgs/actions';
-import { Data } from './api/weathergov/model';
+import { AirportData, Data } from './api/weathergov/model';
 import { ActionType } from './axios/action-creator';
 
 
@@ -31,7 +31,7 @@ interface FormProps {
 
 interface ComponentProps extends  OwnProps {}
 
-class Child extends React.Component<ComponentProps> {
+export class Child extends React.Component<ComponentProps> {
   constructor(props: ComponentProps) {
     super(props);
   }
@@ -41,13 +41,13 @@ class Child extends React.Component<ComponentProps> {
     prevState: Readonly<{}>,
     snapshot?: any
   ): void {
-    if (this.props.x !== prevProps.x) {
+    if (this.props.wx && this.props.x !== prevProps.x) {
       this.props.wx(this.props.x);
     }
-  };
+  }
 
   componentDidMount(): void {
-    // this.props.getStations();
+    // this.props.getStations && this.props.getStations();
   }
 
   onClick = (fProps: FormikProps<any>) => (
@@ -139,13 +139,11 @@ class Child extends React.Component<ComponentProps> {
 
   render() {
     return (
-
       <Formik
         initialValues={{ email: 'qqq', password: '', chk: false }}
         render={this.renderIt}
         onSubmit={() => {}}
       />
-
     );
   }
 }
@@ -177,4 +175,4 @@ class Child extends React.Component<ComponentProps> {
 //   mapDispatchToProps
 // )(Child);
 
-export default Child;
+

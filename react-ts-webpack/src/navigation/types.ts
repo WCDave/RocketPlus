@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Data} from "../app/api/weathergov/model";
+import {AirportData, Data} from "../app/api/weathergov/model";
 import { QuakeData } from "~/app/api/usgs/model";
 
 
@@ -17,4 +17,5 @@ export interface AppState {
   adjuster: string;
   wx: Data;
   quakeData: QuakeData;
+  airportData: AirportData[];
 }

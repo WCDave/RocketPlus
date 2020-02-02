@@ -37,7 +37,7 @@ export class DaveTable extends React.Component<Partial<AgGridReactProps>& OwnPro
           <AgGridReact
             domLayout={layout}
             onGridReady={this.onGridReady}
-            onRowDataChanged={this.onGridReady}
+            onRowDataChanged={this.onRowDataChanged}
             {...rest}
             />
         </div>

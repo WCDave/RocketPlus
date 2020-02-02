@@ -1,23 +1,25 @@
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef';
 import * as React from 'react';
-import Select from 'react-select';
-import { OptionsType, ValueType } from 'react-select/lib/types';
+import { OptionsType, ValueType } from 'react-select/index';
 import { Feature, Properties } from '~/app/api/usgs/model';
+import { DaveSelect } from '~/app/components/dave-select';
 import { DaveTable } from '~/app/components/dave-table';
 
 const quakeColDefs:ColDef[] = [
   {
-    headerName: 'Title',
-    field: 'title',
+    headerName: 'Place',
+    field: 'place',
     resizable: true,
     suppressSizeToFit:false,
     sortable: true,
     filter: true
   },
-  { headerName: 'Magnitude', field: 'mag', resizable: true }
+  { headerName: 'Magnitude', field: 'mag' }
 ];
 
-const magOptions:OptionsType<{ label: string; value: string }> =  [
+type OptType =  {label: string, value: string};
+
+const magOptions:OptionsType<OptType> =  [
   { label: 'Sig', value: 'significant' },
   { label: '4.5+', value: '4.5' },
   { label: '2.5+', value: '2.5' },
@@ -25,37 +27,45 @@ const magOptions:OptionsType<{ label: string; value: string }> =  [
   { label: 'All', value: 'all' }
   ];
 
-const periodOptions:OptionsType<{ label: string; value: string }> =  [
+const periodOptions:OptionsType<OptType> =  [
   { label: 'Hour', value: 'hour' },
   { label: 'Day', value: 'day' },
   { label: 'Week', value: 'week' },
   { label: 'Month', value: 'month' }
 ];
 
+
 const quakes =(props:any) => {
-  const { quakeData:{ features }, quakeData } = props;
+  const { quakeData:{ features }, quakeData, onQuakeMagChange, onQuakePeriodChange } = props;
   const quakeDisplay: Properties[] = features ? features.sort((a:Feature, b:Feature)=> {
     return Number(a.properties.mag) > Number(b.properties.mag) ? -1 : 1;
   }).map((item: Feature) => {
     return item.properties;
 
   }) : [];
+
+  const onMagChange = (vt:ValueType<OptType>)=> {
+    onQuakeMagChange(vt);
+  };
+
+  const onPeriodChange = (vt:ValueType<OptType>)=> {
+    onQuakePeriodChange(vt);
+  };
   return (
+    <>
     <div className="row">
       <div className="col-sm-6">
-        <Select id="mag" options={magOptions} defaultValue={{ label: 'Sig', value: 'Significant' }}
-                onChange={(vt:ValueType<{label:string, value:string}>)=> {
-                  props.onQuakeMagChange(vt);
-                }}
+        <DaveSelect<OptType> id="mag" options={magOptions} defaultValue={{ label: 'Sig', value: 'Significant' }}
+                onChange={onMagChange}
         />
       </div>
       <div className="col-sm-6">
-        <Select id="period" options={periodOptions} defaultValue={{ label: 'Hour', value: 'hour' }}
-                onChange={(vt:ValueType<{label:string, value:string}>)=> {
-                  props.onQuakePeriodChange(vt);
-                }}
+        <DaveSelect<OptType> id="period" options={periodOptions} defaultValue={{ label: 'Hour', value: 'hour' }}
+                onChange={onPeriodChange}
         />
       </div>
+
+    </div>
       <div className="row">
         <div className="col-sm-12">
           <DaveTable label="quakes"
@@ -70,7 +80,7 @@ const quakes =(props:any) => {
           <pre>{JSON.stringify(quakeData, null, 2)}</pre>
         </div>
       </div>
-    </div>
+      </>
   );
 };
 

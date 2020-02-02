@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Child  from './child';
+import { Child }  from './child';
 import { RocketData } from './components/rocket-data';
 
 export const routes = [{

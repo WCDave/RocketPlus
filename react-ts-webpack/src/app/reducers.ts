@@ -1,28 +1,29 @@
-import { AnyAction, combineReducers } from 'redux';
-import adjuster from './DelayReducer';
 import reduceReducers from 'reduce-reducers';
-import {wx} from "./api/weathergov/reducers";
-import { quakeData } from "./api/usgs/reducers";
+import { AnyAction, combineReducers } from 'redux';
+import { quakeData } from './api/usgs/reducers';
+import { airportData, wx } from './api/weathergov/reducers';
+import adjuster from './DelayReducer';
 
 const appReducer = combineReducers({
-      sampleReducer: (state: any = {x:"lll"}, action: AnyAction) => {
+  adjuster,
+  wx,
+  quakeData,
+  airportData,
+      sampleReducer: (state: any = { x:'lll' }, action: AnyAction) => {
         switch (action.type) {
           case 'X' : {
-            return {...state, result: action.result};
+            return { ...state, result: action.result };
             break;
           }
           case  'Y': {
-            return {...state, field: action.field}
+            return { ...state, field: action.field };
           }
           default:
             return {
               ...state
-            }
+            };
         }
-      },
-      adjuster:adjuster,
-      wx,
-      quakeData
+      }
     }
 );
 

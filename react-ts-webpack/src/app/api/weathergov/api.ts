@@ -1,5 +1,5 @@
 import { StationsService, WxApiService } from '../../axios/service';
-import { Data } from './model';
+import {AirportData, Data} from './model';
 
 export async function getLatestWx(search: string): Promise<Data> {
     const request = {
@@ -13,10 +13,11 @@ export async function getLatestWx(search: string): Promise<Data> {
     return response.data;
 }
 
-export async function getStations():Promise<any> {
+export async function getStations():Promise<AirportData> {
   const request = {
-    url: `/docs/metar/stations.txt`
+    url: `/core/airport-codes/airport-codes_json/data/2e2089554f1ffb1103179fa79b9eade8/airport-codes_json.json`
   }
-  const response = await StationsService.getHttps<any>(request);
+  const response = await StationsService.get<any>(request);
+  return response.data;
 }
 
