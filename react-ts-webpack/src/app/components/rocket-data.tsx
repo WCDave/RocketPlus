@@ -401,7 +401,7 @@ function mapStateToProps(state: AppState): Partial<StateProps> {
     adj: state.adjuster,
     wxData: state.wx,
     quakeData: state.quakeData,
-    airportData: state.airportData
+    airportData: state.airportData.entity
   };
 }
 

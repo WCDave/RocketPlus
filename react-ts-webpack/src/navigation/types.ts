@@ -17,5 +17,19 @@ export interface AppState {
   adjuster: string;
   wx: Data;
   quakeData: QuakeData;
-  airportData: AirportData[];
+  airportData: EntityState<AirportData[]>;
+}
+
+export interface EntityState<Entity> {
+  status: ApiStatus;
+  entity?: Entity;
+  error?: Error;
+}
+
+export enum ApiStatus {
+  Idle = 0,
+  Fetching = 1,
+  Submitting = 2,
+  Success = 3,
+  Failure = 4
 }

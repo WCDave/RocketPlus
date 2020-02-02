@@ -1,3 +1,4 @@
+import { ApiStatus, EntityState } from '~/navigation/types';
 import { ActionTypes, TypeKeys } from './actions';
 import { AirportData, Data } from './model';
 
@@ -13,10 +14,11 @@ export const wx = (state:Partial<Data>={}, action:ActionTypes):Partial<Data> => 
     }
 };
 
-export const airportData =(state:Partial<AirportData[]>=[], action:ActionTypes):Partial<AirportData[]>=>{
+export const airportData =(state:EntityState<AirportData[]>={ status:ApiStatus.Idle }, action:ActionTypes)
+  :EntityState<AirportData[]>=>{
   switch (action.type) {
     case TypeKeys.GET_WX_STATIONS_RESPONSE:
-      return action.data;
+      return { ...state, entity: action.data };
     default:
       return state;
   }
