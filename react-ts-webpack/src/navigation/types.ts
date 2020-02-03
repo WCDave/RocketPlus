@@ -16,7 +16,7 @@ export interface AppState {
   sampleReducer: string;
   adjuster: string;
   wx: Data;
-  quakeData: QuakeData;
+  quakeData: EntityState<QuakeData>;
   airportData: EntityState<AirportData[]>;
 }
 
