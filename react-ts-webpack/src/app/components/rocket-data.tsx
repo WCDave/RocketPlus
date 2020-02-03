@@ -234,7 +234,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     };
 
     // console.log(this.props);
-    const { quakeData:{ features }, airportData } = this.props;
+    const { airportData } = this.props;
     const keys = this.state.rocketData ? Object.keys(this.state.rocketData) : [];
     const rocketDisplay: any = keys.map((item: string) => {
       return {

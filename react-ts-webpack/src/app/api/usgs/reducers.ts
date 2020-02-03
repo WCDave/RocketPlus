@@ -3,11 +3,12 @@ import { ActionTypes, TypeKeys } from './actions';
 import { QuakeData } from './model';
 
 
-export const quakeData = (state:EntityState<QuakeData>={ entity:undefined, status:ApiStatus.Idle }, action:ActionTypes):EntityState<QuakeData> => {
+export const quakeData = (state:EntityState<QuakeData>={ entity:undefined, status:ApiStatus.Idle }, action:ActionTypes)
+  :EntityState<QuakeData> => {
     switch (action.type) {
         case TypeKeys.GET_QUAKE_RESPONSE:
             return {
-                ...state, ...action.data
+                ...state, entity: action.data
             };
       case TypeKeys.GET_QUAKE_REQUEST:
         return {

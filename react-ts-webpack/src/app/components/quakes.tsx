@@ -36,7 +36,8 @@ const periodOptions:OptionsType<OptType> =  [
 
 
 const quakes =(props:any) => {
-  const { quakeData:{ features }, quakeData, onQuakeMagChange, onQuakePeriodChange } = props;
+  const { quakeData, onQuakeMagChange, onQuakePeriodChange } = props;
+  const features = quakeData ? quakeData.features: [];
   const quakeDisplay: Properties[] = features ? features.sort((a:Feature, b:Feature)=> {
     return Number(a.properties.mag) > Number(b.properties.mag) ? -1 : 1;
   }).map((item: Feature) => {
