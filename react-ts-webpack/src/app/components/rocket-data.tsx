@@ -402,7 +402,7 @@ function mapStateToProps(state: AppState): Partial<StateProps> {
   return {
     result: state.sampleReducer,
     adj: state.adjuster,
-    wxData: state.wx,
+    wxData: state.wx.entity,
     quakeData: state.quakeData.entity,
     airportData: state.airportData.entity
   };

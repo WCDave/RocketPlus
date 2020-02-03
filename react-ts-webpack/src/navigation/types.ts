@@ -15,7 +15,7 @@ export interface JsonRoute {
 export interface AppState {
   sampleReducer: string;
   adjuster: string;
-  wx: Data;
+  wx: EntityState<Data>;
   quakeData: EntityState<QuakeData>;
   airportData: EntityState<AirportData[]>;
 }

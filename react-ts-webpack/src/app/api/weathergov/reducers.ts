@@ -3,12 +3,16 @@ import { ActionTypes, TypeKeys } from './actions';
 import { AirportData, Data } from './model';
 
 
-export const wx = (state:Partial<Data>={}, action:ActionTypes):Partial<Data> => {
+export const wx = (state:EntityState<Data>={ status:ApiStatus.Idle }, action:ActionTypes):EntityState<Data> => {
     switch (action.type) {
         case TypeKeys.GET_LATEST_WX_RESPONSE:
             return {
-                ...state, ...action.data
+                ...state, entity: action.data
             };
+      case TypeKeys.GET_LATEST_WX_REQUEST:
+        return {
+          status: ApiStatus.Fetching, entity:undefined
+        };
         default:
             return state;
     }
@@ -19,6 +23,10 @@ export const airportData =(state:EntityState<AirportData[]>={ status: ApiStatus.
   switch (action.type) {
     case TypeKeys.GET_WX_STATIONS_RESPONSE:
       return { ...state, entity: action.data };
+    case TypeKeys.GET_WX_STATIONS_REQUEST:
+      return {
+        status: ApiStatus.Fetching, entity: undefined
+      };
     default:
       return state;
   }
