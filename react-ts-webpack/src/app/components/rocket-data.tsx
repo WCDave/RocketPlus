@@ -312,6 +312,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
         return { value: ad.gps_code, label: `${ad.name}(${ad.gps_code})` };
       });
     };
+
+    const stationChange =(x:OptType)=> this.setState({ Id:x.value });
     return (
       <div className="row">
         <div className="col-sm-12">
@@ -361,7 +363,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
                 </div>
                 <div className="col-sm-6">
                   <DaveSelect<OptType> isAsync filterFn={filterFn}
-                                       onChange={(x:OptType)=> this.setState({ Id:x.value })} />
+                                       onChange={stationChange}
+                  />
                 </div>
               </div>
               <div className="row">
