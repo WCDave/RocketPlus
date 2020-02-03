@@ -14,7 +14,13 @@ const quakeColDefs:ColDef[] = [
     sortable: true,
     filter: true
   },
-  { headerName: 'Magnitude', field: 'mag' }
+  { headerName: 'Magnitude', field: 'mag', valueFormatter: ((params) => {
+    return params.value.toLocaleString(navigator.language,
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }) }
 ];
 
 type OptType =  {label: string, value: string};
