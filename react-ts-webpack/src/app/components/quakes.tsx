@@ -64,7 +64,6 @@ const quakes =(props:any) => {
                 onChange={onPeriodChange}
         />
       </div>
-
     </div>
       <div className="row">
         <div className="col-sm-12">
