@@ -1,6 +1,7 @@
 import { call, put, select, take, takeLatest } from 'redux-saga/effects';
 import { actions, TypeKeys } from './actions';
 import * as api from './api';
+import { toast } from "react-toastify";
 
 export const sagaWatchers = [watchUsgsRequests];
 
@@ -15,7 +16,7 @@ function* getQuake(action: ReturnType<typeof actions.getQuakeRequest>){
         yield put(actions.getQuakeResponse(data));
     }
     catch (e) {
-      throw e;
+      toast(e);
     }
 
 }

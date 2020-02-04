@@ -2,6 +2,7 @@ import { call, put, select, take, takeLatest } from 'redux-saga/effects';
 import { actions, TypeKeys } from './actions';
 import * as api from './api';
 import { AirportData } from '~/app/api/weathergov/model';
+import { toast } from "react-toastify";
 
 export const sagaWatchers = [watchWeatherRequests, watchStationsRequests];
 
@@ -15,7 +16,7 @@ function* getLatestWx(action: ReturnType<typeof actions.getLatestWeatherRequest>
         yield put(actions.getLatestWeatherResponse(data));
     }
     catch (e) {
-      throw e;
+      toast(e);
     }
 }
 
@@ -30,7 +31,7 @@ function* getWxStations(action: ReturnType<typeof actions.getWxStationsRequest>)
     yield put(actions.getWxStationsResponse(data));
   }
   catch (e) {
-    throw e;
+    toast(e);
   }
 
 }
