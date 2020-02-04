@@ -306,9 +306,9 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
     const filterFn =(input:string):OptType[] => {
       return airportData.filter((ad:AirportData)=>{
         return ad.name && ad.name.toLowerCase().includes(input.toLowerCase()) ||
-          ad.gps_code && ad.gps_code.toLowerCase() === input.toLowerCase();
+          ad.gps_code && ad.gps_code.toLowerCase() === input.toLowerCase() ||
+          ad.municipality && ad.municipality.toLowerCase() === input.toLowerCase();
       }).map((ad:AirportData)=> {
-        // console.log(ad);
         return { value: ad.gps_code, label: `${ad.name}(${ad.gps_code})` };
       });
     };
