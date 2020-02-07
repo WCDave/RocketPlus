@@ -20,7 +20,19 @@ const quakeColDefs:ColDef[] = [
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
-    }) }
+    }) },
+  {
+    headerName: 'Time',
+    field: 'time',
+    resizable: true,
+    suppressSizeToFit: false,
+    sortable: true,
+    filter: true,
+    valueFormatter: ((params) => {
+      const d = new Date(params.value);
+      return `${d.toDateString()} ${d.toLocaleTimeString(navigator.language, { hour12:false })}`;
+    })
+  }
 ];
 
 type OptType =  {label: string, value: string};

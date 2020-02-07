@@ -7,7 +7,7 @@ export const wx = (state:EntityState<Data>={ status:ApiStatus.Idle }, action:Act
     switch (action.type) {
         case TypeKeys.GET_LATEST_WX_RESPONSE:
             return {
-                ...state, entity: action.data
+                status:ApiStatus.Success, entity: action.data
             };
       case TypeKeys.GET_LATEST_WX_REQUEST:
         return {

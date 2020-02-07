@@ -8,7 +8,7 @@ export const quakeData = (state:EntityState<QuakeData>={ entity:undefined, statu
     switch (action.type) {
         case TypeKeys.GET_QUAKE_RESPONSE:
             return {
-                ...state, entity: action.data
+                status: ApiStatus.Success, entity: action.data
             };
       case TypeKeys.GET_QUAKE_REQUEST:
         return {

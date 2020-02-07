@@ -1,8 +1,8 @@
-import { call, put, select, take, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+import { call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { AirportData } from '~/app/api/weathergov/model';
 import { actions, TypeKeys } from './actions';
 import * as api from './api';
-import { AirportData } from '~/app/api/weathergov/model';
-import { toast } from "react-toastify";
 
 export const sagaWatchers = [watchWeatherRequests, watchStationsRequests];
 
@@ -35,13 +35,3 @@ function* getWxStations(action: ReturnType<typeof actions.getWxStationsRequest>)
   }
 
 }
-
-
-// export async function accumulationRuleGet(get: AccumulationRuleGet) {
-//     const request: ApiRequest<AccumulationRuleGet> = {
-//         url: `${endpoint}/read`,
-//         data: get
-//     };
-//     const response = await ApiService.post<AccumulationRuleGet, GetAccumulationRuleResponse>(request);
-//     return response.data.accumulationRule;
-// }
