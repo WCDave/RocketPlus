@@ -78,7 +78,7 @@ ReactDOM.render(
         </Switch>
       </Router>
     </Provider>
-    <ToastContainer position={'top-center'} />
+    <ToastContainer position={'top-center'} enableMultiContainer containerId={'MAIN'} />
   </ErrorBoundary>,
   document.getElementById('root')
 );

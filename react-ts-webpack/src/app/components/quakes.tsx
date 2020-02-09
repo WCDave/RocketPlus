@@ -4,6 +4,7 @@ import { OptionsType, ValueType } from 'react-select/index';
 import { Feature, Properties } from '~/app/api/usgs/model';
 import { DaveSelect } from '~/app/components/dave-select';
 import { DaveTable } from '~/app/components/dave-table';
+import {ToastContainer} from "react-toastify";
 
 const quakeColDefs:ColDef[] = [
   {
@@ -98,6 +99,7 @@ const quakes =(props:any) => {
           <pre>{JSON.stringify(quakeData, null, 2)}</pre>
         </div>
       </div>
+      <ToastContainer containerId={'QUAKES'} enableMultiContainer />
       </>
   );
 };

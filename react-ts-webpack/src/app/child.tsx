@@ -5,6 +5,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { Form, Formik, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Dispatch } from 'redux';
 import { accessorX } from '~/app/components/accessor1';
 import { DaveTable } from '~/app/components/dave-table';
@@ -60,6 +61,7 @@ export class Child extends React.Component<ComponentProps> {
     console.log(this.props.x);
     this.props.wx(this.props.x);
     this.props.punt('kk');
+    toast.info('wx', { containerId:'MAIN' });
   };
 
   renderIt = (formProps: FormikProps<FormProps>) => {

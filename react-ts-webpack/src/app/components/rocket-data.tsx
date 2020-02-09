@@ -10,6 +10,7 @@ import { connect, Formik, FormikContext, FormikProps } from 'formik';
 import * as React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import Select, { OptionsType, ValueType } from 'react-select';
+import { toast } from 'react-toastify';
 import { Dispatch } from 'redux';
 import { actions as usgsActions } from '~/app/api/usgs/actions';
 import { Feature, Properties, QuakeData } from '~/app/api/usgs/model';
@@ -21,7 +22,6 @@ import { DaveSelect } from '~/app/components/dave-select';
 import { DaveTable } from '~/app/components/dave-table';
 import { Quakes } from '~/app/components/quakes';
 import { AppState } from '~/navigation/types';
-import {toast} from "react-toastify";
 
 interface StateProps {
   rocketData?: object;
@@ -168,7 +168,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       this.setState({ rocketData: data });
     } catch (e) {
       console.log((e as Error));
-      toast((e as Error).message);
+      toast.error((e as Error).message, { containerId:'MAIN' });
     }
 
     // fetch(

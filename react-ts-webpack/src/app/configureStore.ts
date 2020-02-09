@@ -9,7 +9,7 @@ import { rootReducer }  from './reducers';
 import { rootSaga } from './sagas';
 
 export function configureStore(preloadedState?:any) {
-  toast.configure({ position:'top-center' });
+  toast.configure({ position: toast.POSITION.TOP_CENTER });
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [logger, thunkMiddleware, sagaMiddleware];
   const middlewareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
