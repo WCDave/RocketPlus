@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { applyMiddleware, compose, createStore, StoreEnhancer } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
@@ -8,6 +9,7 @@ import { rootReducer }  from './reducers';
 import { rootSaga } from './sagas';
 
 export function configureStore(preloadedState?:any) {
+  toast.configure({ position:'top-center' });
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [logger, thunkMiddleware, sagaMiddleware];
   const middlewareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));

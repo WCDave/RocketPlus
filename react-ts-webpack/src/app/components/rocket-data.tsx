@@ -21,6 +21,7 @@ import { DaveSelect } from '~/app/components/dave-select';
 import { DaveTable } from '~/app/components/dave-table';
 import { Quakes } from '~/app/components/quakes';
 import { AppState } from '~/navigation/types';
+import {toast} from "react-toastify";
 
 interface StateProps {
   rocketData?: object;
@@ -152,6 +153,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       })
       .catch(error => {
         console.log(error);
+        toast((error as Error).message);
       });
   };
 
@@ -165,7 +167,8 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       const data = await response.json();
       this.setState({ rocketData: data });
     } catch (e) {
-      console.log(e);
+      console.log((e as Error));
+      toast((e as Error).message);
     }
 
     // fetch(

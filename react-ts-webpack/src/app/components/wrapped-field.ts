@@ -1,5 +1,7 @@
 import { Field } from 'formik';
 import { hoc1 } from '../hoc/hoc1';
 
-export const  hoc = hoc1(Field );
+const  hoc = hoc1(Field );
+
+export { hoc as WrappedField };
 

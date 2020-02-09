@@ -13,6 +13,7 @@ function* getQuake(action: ReturnType<typeof actions.getQuakeRequest>){
     try {
         const data = yield call(api.getQuake, action.data);
         yield put(actions.getQuakeResponse(data));
+        toast(action.data.mag, { delay:10 });
     }
     catch (e) {
       toast(e);

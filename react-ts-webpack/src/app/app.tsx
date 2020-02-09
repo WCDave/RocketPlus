@@ -6,6 +6,8 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, RouteComponentProps } from 'react-router';
 import { Router, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
@@ -76,6 +78,7 @@ ReactDOM.render(
         </Switch>
       </Router>
     </Provider>
+    <ToastContainer position={'top-center'} />
   </ErrorBoundary>,
   document.getElementById('root')
 );

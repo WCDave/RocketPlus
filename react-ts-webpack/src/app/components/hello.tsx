@@ -9,9 +9,9 @@ import { Moment } from 'moment';
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
-import Select from 'react-select';
-import { ValueType } from 'react-select/lib/types';
-import WrappedField from './wrapped-field';
+import Select, { ValueType } from 'react-select';
+
+import { WrappedField } from './wrapped-field';
 
 declare type ComponentProps = Props;
 
@@ -52,7 +52,7 @@ const selectOptions: ValueType<{ value: string; label: string }>[] = [
 
 const customSelect = (props: FieldProps) => (
   <Select
-    onChange={(opt: ValueType<{ value: string; label: string }>, at) => {
+    onChange={(opt: ValueType<{ value: string; label: string }>) => {
       props.form.setFieldValue(props.field.name, opt);
     }}
     value={props.form.values[props.field.name]}
@@ -63,7 +63,7 @@ const customSelect = (props: FieldProps) => (
   />
 );
 
-export default class Hello extends React.Component<ComponentProps, {}> {
+export  class Hello extends React.Component<ComponentProps, {}> {
   constructor(props: ComponentProps) {
     super(props);
     this.state = { name: '', password: '' };
