@@ -16,7 +16,7 @@ function* getQuake(action: ReturnType<typeof actions.getQuakeRequest>){
         toast.info(action.data.mag, { delay:10, containerId:'QUAKES', position:toast.POSITION.BOTTOM_CENTER });
     }
     catch (e) {
-      toast(e);
+      toast.error((e as Error).message, { containerId:'MAIN' });
     }
 }
 
