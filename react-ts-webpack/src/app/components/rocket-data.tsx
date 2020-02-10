@@ -168,7 +168,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
       this.setState({ rocketData: data });
     } catch (e) {
       console.log((e as Error));
-      toast.error((e as Error).message, { containerId:'MAIN' });
+      toast.error(`${(e as Error).message} Rocket data`, { containerId:'MAIN' });
     }
 
     // fetch(
