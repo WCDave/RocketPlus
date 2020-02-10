@@ -324,6 +324,7 @@ class RocketData extends React.Component<ComponentProps, StateProps> {
             <div className="col-sm-6">
               <DaveTable
                 label="rocket"
+                borderColor="purple"
                 alwaysShowVerticalScroll
                 pagination
                 onGridReady={this.onGridReady}
