@@ -9,7 +9,7 @@ import { Dispatch } from 'redux';
 import * as Yup from 'yup';
 import '../App.scss';
 import AgGridPanel from './agGridPanel';
-import Hello from './hello';
+import { Hello } from './hello';
 import { TestComponent } from './test-component';
 
 

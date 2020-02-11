@@ -1,6 +1,6 @@
 import { ErrorMessage, Field } from 'formik';
 import * as React from 'react';
-import { hoc as WrappedField } from './wrapped-field';
+import { WrappedField } from './wrapped-field';
 
 
 export  class TestComponent extends React.Component<any, {}, {}> {
