@@ -76,12 +76,12 @@ const quakes =(props:any) => {
     <div className="row">
       <div className="col-sm-6">
         <DaveSelect<OptType> id="mag" options={magOptions} defaultValue={{ label: 'Sig', value: 'Significant' }}
-                onChange={onMagChange}
+                onChange={onMagChange} isSearchable={false}
         />
       </div>
       <div className="col-sm-6">
         <DaveSelect<OptType> id="period" options={periodOptions} defaultValue={{ label: 'Hour', value: 'hour' }}
-                onChange={onPeriodChange}
+                onChange={onPeriodChange} isSearchable={false}
         />
       </div>
     </div>
