@@ -1,10 +1,10 @@
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef';
 import * as React from 'react';
 import { OptionsType, ValueType } from 'react-select/index';
+import { ToastContainer } from 'react-toastify';
 import { Feature, Properties } from '~/app/api/usgs/model';
 import { DaveSelect } from '~/app/components/dave-select';
 import { DaveTable } from '~/app/components/dave-table';
-import {ToastContainer} from "react-toastify";
 
 const quakeColDefs:ColDef[] = [
   {
