@@ -1,10 +1,9 @@
-package main;
-
-
 import enums.MouseStates;
 import gfxmain.GFXException;
 import gfxmain.GFXFramework;
 import gfxmain.VisSpect;
+import main.CaptureBox;
+import main.ComplexNumber;
 
 import java.awt.Color;
 import java.awt.Dimension;
