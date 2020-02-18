@@ -62,7 +62,7 @@
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
-                                    <mainClass>main.MainAppMandel</mainClass>
+                                    <mainClass>MainAppMandel</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
