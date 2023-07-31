@@ -77,6 +77,7 @@ public class Cylinder extends Abstract3DModelObject implements Composed3DObject<
     boolean outlineFlag = VMath.mag(vectorFromView) < OUTLINELIMIT && drawFaceOutlines;
     for (int i = 0; i < faceList.size(); i++) {
       Facet f = faceList.get(i);
+      f.setColor(f.accept(getShadingVisitor()));
       f.set3DObjectForDraw(aView);
       f.setDrawFaceOutlines(outlineFlag);
     }

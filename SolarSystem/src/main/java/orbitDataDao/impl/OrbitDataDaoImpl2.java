@@ -29,7 +29,7 @@ public class OrbitDataDaoImpl2 implements IOrbitData {
         File inputFile = new File(orbitData);
         log.info("File " + inputFile.getAbsolutePath() + " exists: " + inputFile.exists());
 
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory sf = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
         StreamSource ss = new StreamSource(OrbitDataDaoImpl2.class.getResourceAsStream("/xsds/OrbitData.xsd"));
 
         Schema schema = sf.newSchema(ss);

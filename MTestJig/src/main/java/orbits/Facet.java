@@ -19,10 +19,10 @@ public class Facet extends Abstract3DModelObject implements Visitable {
   transient private GeneralPath itsPath;
   private boolean isIlluminated = false;
   private boolean isBlocked;
-  private Abstract3DModelObject composedObject;
+  transient private Abstract3DModelObject composedObject;
   //private List<double[]> surfaceFeatureData=new ArrayList<double[]>();
   //private final static Color shadowColor = new Color(50,50,50);
-  private Color outlineColor = Color.black;
+  protected Color outlineColor = Color.black;
   private List<double[]> vectorList;
   private double[] mv;
   private boolean topLevel = true;
@@ -38,20 +38,21 @@ public class Facet extends Abstract3DModelObject implements Visitable {
   public static double detailDot = -.9;
 
 
-  private boolean paintBothSides = false;
+  protected boolean paintBothSides = false;
 
   public Facet(List<double[]> vertexList, Abstract3DModelObject object, boolean hasDetailFacets, String name, Facet parentFace) {
-    //if (vertexList.size() > 2) {
-    vectorList = new ArrayList<double[]>(vertexList);
-
-    double[] mvv = starterArray;
-    for (double[] u : vectorList) {
-      mvv = VMath.vecAdd(mvv, u);
-    }
-
-    mv = VMath.vecMultByScalar(mvv, 1.0 / (double) vectorList.size());
-
-    composedObject = object;
+//    //if (vertexList.size() > 2) {
+//    vectorList = new ArrayList<double[]>(vertexList);
+//
+//    double[] mvv = starterArray;
+//    for (double[] u : vectorList) {
+//      mvv = VMath.vecAdd(mvv, u);
+//    }
+//
+//    mv = VMath.vecMultByScalar(mvv, 1.0 / (double) vectorList.size());
+//
+//    composedObject = object;
+    this(vertexList, object);
     this.shadowColor = composedObject.shadowColor;
     this.name = name;
 
@@ -68,6 +69,12 @@ public class Facet extends Abstract3DModelObject implements Visitable {
 
   public Facet(List<double[]> vertexList, Abstract3DModelObject object) {
     vectorList = new ArrayList<double[]>(vertexList);
+    double[] mvv = starterArray;
+    for (double[] u : vectorList) {
+      mvv = VMath.vecAdd(mvv, u);
+    }
+
+    mv = VMath.vecMultByScalar(mvv, 1.0 / (double) vectorList.size());
     composedObject = object;
   }
 
@@ -171,23 +178,23 @@ public class Facet extends Abstract3DModelObject implements Visitable {
   }
 
   @Override
-  public void draw(final AbstractView aView) {
+  public void draw(final AbstractView<?> aView) {
 
     if (getDetailList().isEmpty()) {
       Shape aGp = createShapePoly(aView, this);
       if (aGp != null) {
-        Color shadedColor = accept(((Shadeable) composedObject).getShadingVisitor());
+//        Color shadedColor = accept(((Shadeable) composedObject).getShadingVisitor());
         Graphics2D g2 = aView.getViewCanvas().getG2();
         //synchronized (g2 ){
-        g2.setPaint(shadedColor);
+        g2.setPaint(color);
         g2.fill(aGp);
         if (drawFaceOutlines) {
           g2.setColor(outlineColor);
         }
         //if(!paintBothSides) {
-        if(shadedColor != null && shadedColor.getAlpha() == 255) {
+//        if(shadedColor != null && shadedColor.getAlpha() == 255) {
           g2.draw(aGp);
-        }
+//        }
         // }
         //}
       }
@@ -326,8 +333,10 @@ public class Facet extends Abstract3DModelObject implements Visitable {
       Shadeable object = (Shadeable) f.composedObject;
       BufferedImage im = object.getColorModel().getModelImage();
       if (im != null) {
-        result = MapHelper.getColorFromMapForFace(im, f);
+        result = MapHelper.getColorFromMapForFace(im, f);       
       }
+      f.color = result;
+      result = f.accept(((Shadeable) f.composedObject).getShadingVisitor());
     }
     return result;
   }

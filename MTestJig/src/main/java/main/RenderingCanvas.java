@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.List;
 
+import Foundation.Utils;
+
 public class RenderingCanvas extends Canvas {
 
   private Container parentComponent;
@@ -39,7 +41,7 @@ public class RenderingCanvas extends Canvas {
           c.paint(g2);
       }
     }
-    g2 = (Graphics2D) strategy.getDrawGraphics();
+//    g2 = (Graphics2D) strategy.getDrawGraphics();
     strategy.show();
   }
 

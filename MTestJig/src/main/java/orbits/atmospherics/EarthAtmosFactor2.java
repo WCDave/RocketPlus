@@ -23,6 +23,7 @@ public class EarthAtmosFactor2 implements IAtmosFactor {
     double density = P / (.2869 * (T + 273.1));
 
     sos = (float) FastMath.sqrt(1.4 * (P * 10 / density)) * 10;
+//    System.out.println(density+", "+sos);
 
     return density;
   }

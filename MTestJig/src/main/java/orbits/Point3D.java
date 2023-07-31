@@ -22,7 +22,7 @@ public class Point3D extends Abstract3DModelObject {
   }
 
   @Override
-  public void draw(AbstractView view) {
+  public void draw(AbstractView<?> view) {
     Dimension d = view.getViewCanvas().getScreenCenter();
     CoordSys viewSys = view.getCoordSys();
     ScreenPoint screenPoint = viewSys.getScrnCoords(position, d.width, d.height);
@@ -40,7 +40,7 @@ public class Point3D extends Abstract3DModelObject {
   }
 
   @Override
-  public void set3DObjectForDraw(AbstractView view) {
+  public void set3DObjectForDraw(AbstractView<?> view) {
     CoordSys viewSys = view.getCoordSys();
     setVectorFromView(VMath.vecSubtract(position, viewSys.getPositionVec()));
     view.getDrawableList().add(this);

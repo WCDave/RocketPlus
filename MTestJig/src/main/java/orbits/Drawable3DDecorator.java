@@ -15,7 +15,7 @@ public class Drawable3DDecorator implements Drawable3D {
   }
 
   @Override
-  public void draw(AbstractView view) {
+  public void draw(AbstractView<?> view) {
     if (drawable3D != null)
       drawable3D.draw(view);
   }

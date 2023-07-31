@@ -99,7 +99,10 @@ public class ECU {
           double[] velVec = RVMath.VMath.vectorRandomizer(RVMath.VMath.vecMultByScalar(engine.getRocket().getCoordSys().zAxis().getVectorForm(), -engine.getThrottleSetting()*40), .1f);
 
           double[] posVec = engine.getRocket().getPosition();
-          World3DContainer.getInstance().addCraft(ParticleGenerator.generateFacetCraft(posVec, VMath.vecAdd(velVec,engine.getRocket().getCoordSys().getVelocityAsVec()), c, 50));
+//          World3DContainer.getInstance().addCraft(ParticleGenerator.generateFacetCraft(posVec, VMath.vecAdd(velVec,engine.getRocket().getCoordSys().getVelocityAsVec()), c, 50));
+//          World3DContainer.getInstance().addCraft(ParticleGenerator.generateTetrahedronCraft(posVec, VMath.vecAdd(velVec,engine.getRocket().getCoordSys().getVelocityAsVec()), c, 50));
+          World3DContainer.getInstance().addCraft(ParticleGenerator.generateRandomParticle(posVec, VMath.vecAdd(velVec,engine.getRocket().getCoordSys().getVelocityAsVec()), c));
+          
         }
       }
     }

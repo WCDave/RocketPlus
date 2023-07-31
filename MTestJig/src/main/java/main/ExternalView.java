@@ -1,16 +1,17 @@
 package main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import enums.ViewTypes;
 import main.externalView.keyResponder.ExternalSlewKeyResponder;
 import main.externalView.keyResponder.IKeyResponder;
 import main.externalView.mouse.ExternalViewMouseInputListener;
 import orbits.CoordSys;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -25,7 +26,7 @@ import java.util.Map;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class ExternalView extends AbstractView implements KeyListener {
+public class ExternalView extends AbstractView implements KeyListener{
 
   /**
    *
@@ -170,10 +171,8 @@ public class ExternalView extends AbstractView implements KeyListener {
   @Override
   public void setVisible(boolean flag) {
     super.setVisible(flag);
-//    if(!flag) {
-//      viewType.getViewStrategy().shutdown();
-//    }
+    if(!flag) {
+      viewType.getViewStrategy().reset();
+    }
   }
-
-
 }

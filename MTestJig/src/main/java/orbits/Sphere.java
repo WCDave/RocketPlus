@@ -99,7 +99,7 @@ public abstract class Sphere extends Abstract3DModelObject implements Shadeable,
   }
 
   @Override
-  public void set3DObjectForDraw(AbstractView aView) {
+  public void set3DObjectForDraw(AbstractView<?> aView) {
 
     vectorFromView = aView.getObjectVectorFromView();
 //        double zDotProdCheck = VMath.dotprod(aView.getCoordSys().getVectorForViewDirection(), VMath.normalize(vectorFromView) ) + Math.asin(sRadius/VMath.mag(vectorFromView));

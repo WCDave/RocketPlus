@@ -5,6 +5,7 @@ import RVMath.VMath;
 import orbits.Abstract3DModelObject;
 import orbits.Planet;
 import orbits.World3DContainer;
+import orbits.Object3D.impl.AbstractGroundStructure;
 import orbits.movement.Moveable;
 
 import java.util.List;
@@ -118,6 +119,7 @@ public class PhysicsRunnable implements Runnable {
         craft.setRelativeWind(relativeWind);
         double relWindMag = VMath.mag(relativeWind);
         dragCoeff = craft.getDragFactor() * p.getAtmosFactor().getAtmosDensityValue(planToBodDist - p.getRadius()) * relWindMag * relWindMag;
+//        System.out.println(craft.getName());
         drag = VMath.vecMultByScalar(VMath.normalize(relativeWind), dragCoeff);
         craft.setMach(p.getAtmosFactor().getMachNumber(relWindMag));
         craft.setTAT(p.getAtmosFactor().getTAT(relWindMag));
@@ -136,9 +138,9 @@ public class PhysicsRunnable implements Runnable {
     for (int i = 0; i < 3; i++)
       velVec[i] += dt * (grav[i] + thrust[i] + drag[i] + norm[i]) / craft.getMass();
 
-    synchronized (craft.getCoordSys()) {
+//    synchronized (craft.getCoordSys()) {
       craft.setPositionVec(VMath.vecAdd(craft.getPosition(), VMath.vecMultByScalar(velVec, dt)));
-    }
+//    }
     //System.out.println(trackedBody.getPositionVec()[0]+" "+trackedBody.getPositionVec()[1]+" "+trackedBody.getPositionVec()[2]);
     //System.out.println(VMath.mag(aBody.getPositionVec()));
     //System.out.println("Thrust="+VMath.mag(thrust)+" Grav="+VMath.mag(grav)+" Vel="+VMath.mag(aBody.getVelocityVec())+" Drag="+VMath.mag(drag)+" Alt="+VMath.mag(aBody.getPositionVec())+" dt="+dt);

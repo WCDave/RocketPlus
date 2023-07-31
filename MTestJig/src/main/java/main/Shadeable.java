@@ -3,9 +3,9 @@ package main;
 
 public interface Shadeable {
 
-  IDrawingVisitor getShadingVisitor();
+  IDrawingVisitor<?> getShadingVisitor();
 
-  void setShadingVisitor(IDrawingVisitor v);
+  void setShadingVisitor(IDrawingVisitor<?> v);
 
   ColorModel getColorModel();
 }

@@ -330,6 +330,10 @@ V being the velocity, R being the point of collision in respect to center of mas
   public void setViewDirection(DirectionTypes viewDirection) {
     this.viewDirection = viewDirection;
   }
+  
+  public DirectionTypes getViewDirection() {
+	    return this.viewDirection;
+	  }
 
   public double[] getViewAxis() {
     switch (viewDirection) {

@@ -1,6 +1,7 @@
 package main;
 
 import RVMath.VMath;
+import orbits.Abstract3DModelObject;
 import orbits.Facet;
 import orbits.Planet;
 import orbits.World3DContainer;
@@ -36,10 +37,10 @@ public class DrawingVisitor implements IDrawingVisitor<Facet> {
   }
 
   @Override
-  public void visit(Facet facet, AbstractView view) {
+  public void visit(Facet facet, AbstractView<?> view) {
     float sunAngleFactor = getSunAngleFactor(facet);
     sunAngleFactor = sunAngleFactor < 0 ? 1 : sunAngleFactor;
-    double dotProdWithView = VMath.dotprod(view.getCoordSys().getViewAxis(), VMath.normalize(facet.mv()));
+//    double dotProdWithView = VMath.dotprod(view.getCoordSys().getViewAxis(), VMath.normalize(facet.mv()));
     double distanceOfFacetFromView = VMath.mag(facet.getVectorFromView());
     int alpha = FastMath.min((int)(255 * (1-sunAngleFactor)*(1 - FastMath.exp(-distanceOfFacetFromView/5e6))), 255);
     //if(alpha < 255) {

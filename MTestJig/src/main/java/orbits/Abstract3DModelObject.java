@@ -34,7 +34,7 @@ public abstract class Abstract3DModelObject implements Comparable<Abstract3DMode
     this.sSys = cs;
   }
 
-  public void set3DObjectForDraw(AbstractView view) {
+  public void set3DObjectForDraw(AbstractView<? extends Abstract3DModelObject> view) {
     view.getDrawableList().add(this);
   }
 
@@ -115,12 +115,12 @@ public abstract class Abstract3DModelObject implements Comparable<Abstract3DMode
     }
 
     @Override
-    public void draw(AbstractView view) {
+    public void draw(AbstractView<? extends Abstract3DModelObject> view) {
 
     }
 
     @Override
-    public IDrawingVisitor getShadingVisitor() {
+    public IDrawingVisitor<Facet> getShadingVisitor() {
       return new IDrawingVisitor<Facet>() {
         @Override
         public Color visit(Facet f) {
@@ -128,14 +128,14 @@ public abstract class Abstract3DModelObject implements Comparable<Abstract3DMode
         }
 
         @Override
-        public void visit(Facet facet, AbstractView view) {
+        public void visit(Facet facet, AbstractView<? extends Abstract3DModelObject > view) {
 
         }
       };
     }
 
     @Override
-    public void setShadingVisitor(IDrawingVisitor v) {
+    public void setShadingVisitor(IDrawingVisitor<?> v) {
 
     }
 

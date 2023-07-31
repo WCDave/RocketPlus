@@ -6,6 +6,6 @@ public interface IDrawingVisitor<T> {
 
   Color visit(T t);
 
-  void visit(T t, AbstractView view);
+  void visit(T t, AbstractView<?> view);
 
 }

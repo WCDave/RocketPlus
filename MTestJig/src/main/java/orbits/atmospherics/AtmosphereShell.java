@@ -57,7 +57,7 @@ public class AtmosphereShell extends Planet implements Shadeable {
   }
 
   @Override
-  public IDrawingVisitor getShadingVisitor() {
+  public IDrawingVisitor<Facet> getShadingVisitor() {
     return drawingVisitor;
   }
 

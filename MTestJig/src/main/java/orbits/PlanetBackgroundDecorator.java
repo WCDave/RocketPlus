@@ -15,7 +15,7 @@ public class PlanetBackgroundDecorator extends Drawable3DDecorator {
   }
 
   @Override
-  public void draw(AbstractView view) {
+  public void draw(AbstractView<?> view) {
     super.draw(view);
     ScreenPoint planetVec;
     Dimension d = view.getViewCanvas().getScreenCenter();

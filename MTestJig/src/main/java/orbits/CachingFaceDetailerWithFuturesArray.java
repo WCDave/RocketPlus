@@ -3,12 +3,24 @@ package orbits;
 
 import RVMath.VMath;
 import com.google.common.collect.MapMaker;
+
+import Foundation.Utils;
 import main.AbstractView;
+import main.Shadeable;
+
 import org.apache.commons.math3.util.FastMath;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +42,7 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
 
   public CachingFaceDetailerWithFuturesArray(int maxLevel) {
     this.maxLevel = maxLevel;
-    LIST_SIZE = 2 << (13 - 1);
+    LIST_SIZE = 2 << (maxLevel+1);
   }
 
   @Override
@@ -38,7 +50,8 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
     f.setVectorFromView(VMath.vecAdd(view.getObjectVectorFromView(), f.mv()));
     if (f.hasDetailFacets()) {
 
-      final int level = FastMath.max(3, FastMath.min((int) (FastMath.exp(-FastMath.pow(VMath.mag(f.vectorFromView), .95) / (f.getComposedObject().getDetailingFactor())) * 20), view.getDetailLevel()));
+      final int level = FastMath.max(3, FastMath.min((int) (FastMath.exp(-FastMath.pow(VMath.mag(f.vectorFromView), .93) / (f.getComposedObject().getDetailingFactor())) * 20), view.getDetailLevel()));
+//    	 final int level = 12;
 
       if (f.getLastDetailLevel() != level) {
         List<Facet>[] levelMap = facetLevelMap.get(f);
@@ -49,6 +62,7 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
 
         if (cachedList == null) {
           facetLevelMap.put(f, (List<Facet>[]) new List<?>[15]);
+//          System.out.println(f.name);
           executor.submit(new FutureTask<>(new DetailCallable(f, level)));
         } else {
           f.setLastDetailLevel(level);
@@ -57,15 +71,9 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
         }
       }
 
-//      for (Facet face : f.getDetailList()) {
-//        face.setColor(Facet.determineFaceColor(face));
-//        //face.set3DObjectForDraw(view);
-//      }
-
      executor.submit((Runnable) () -> {
        for (Facet face : f.getDetailList()) {
          face.setColor(Facet.determineFaceColor(face));
-         //face.set3DObjectForDraw(view);
        }
      });
     }
@@ -96,12 +104,46 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
       return null;
     }
 
-    private void createAuxFaces(Facet f, int level) {
+    private void createAuxFaces(Facet f, int level) {    	
 
       List<Facet> resultList = new ArrayList<Facet>(LIST_SIZE);
       resultList.add(f);
+//    if(level >5) { 
+//      Utils.sleep(5000);
+//    }
 
       tesselateTriangles(resultList, level);
+//      if(level == CachingFaceDetailerWithFuturesArray.this.maxLevel && !new File("facets/"+f.getComposedObject().getName()+"-"+f.getName()).exists()) {
+//    	  new Thread() {
+//  			public void run() {
+//  				 ObjectOutputStream oos = null;
+//  				 FileOutputStream result;
+//				try {
+//					System.out.println("facets/"+f.getComposedObject().getName()+"-"+", "+f.getName());
+//					File file = new File("facets/"+f.getComposedObject().getName()+"-"+f.getName());
+//					file.getParentFile().mkdirs(); // Will create parent directories if not exists
+//					file.createNewFile();
+//					FileOutputStream s = new FileOutputStream(file,false);
+////					result = new FileOutputStream(f.getComposedObject().getName()+"-"+f.getName());
+//					 oos = new ObjectOutputStream(s);
+//					 oos.writeObject(new ArrayList<Facet>(resultList));
+//				} catch (Exception e) {
+//					
+//					e.printStackTrace();
+//				}
+//				finally {
+//				      if(oos != null) {
+//				        try {
+//				          oos.close();
+//				        }
+//				        catch (IOException e) {
+//				          e.printStackTrace();
+//				        }
+//				      }
+//				    }  			     
+//  			}
+//  		}.start();
+//      }
     }
 
     private void tesselateTriangles(List<Facet> faceList, int level) {
@@ -136,6 +178,7 @@ public class CachingFaceDetailerWithFuturesArray implements ICachingDetailer<Fac
         faceList.addAll(tempList);
         tesselateTriangles(faceList, --level);
         facetLevelMap.get(facet)[this.level - level] = tempList;
+//        Utils.sleep(10000);
       }
 
     }

@@ -196,7 +196,7 @@ public class MainApp extends JFrame {
   private void initModel() {
     log.debug("Initializing Model");
     World3DContainer container = World3DContainer.getInstance();
-    IDrawingVisitor v = new DrawingVisitor();
+    IDrawingVisitor<Facet> v = new DrawingVisitor();
 
     Abstract3DModelObject[] anArray = new Abstract3DModelObject[5];
 
@@ -287,6 +287,7 @@ public class MainApp extends JFrame {
     }
 
     container.addItemsAsArray(anArray);
+    container.getShadowProducers().remove(anArray[0]);
     container.setLiteEmitter(anArray[0]);
 
 //    for (Facet f : ((Sphere) anArray[1]).getFaceList()) {

@@ -6,6 +6,9 @@ import orbits.CoordSys;
 import orbits.World3DContainer;
 
 import javax.swing.*;
+
+import Foundation.Utils;
+
 import java.awt.*;
 import java.util.Collection;
 
@@ -45,14 +48,10 @@ public abstract class AbstractView<T extends Abstract3DModelObject> extends JPan
   @Override
   public void update() {
 
-    //Graphics2D g2 = getViewCanvas().getG2();
-    //T[] array = (T[]) World3DContainer.getInstance().getItemsAsArray();
     Collection<T> items = (Collection<T>) World3DContainer.getInstance().getItems();
 
     drawableList.clear();
-
-    //Arrays.sort(array);
-    //for(int i = 0;i<array.length;i++) {
+   
    //long t0 = System.nanoTime();
     for (T item : items) {
       distanceDrawingFactorForView = 0;
@@ -60,25 +59,19 @@ public abstract class AbstractView<T extends Abstract3DModelObject> extends JPan
       item.set3DObjectForDraw(this);
     }
     //System.out.println("dt= "+(System.nanoTime() - t0));
-
-    //if(drawableList.size() < 100) Utils.sleep(4);
+   
     World3DContainer.getInstance().getBackground().draw(this);
-    //Utils.sleep(0, 1000);
-
-    //long t1 = new Date().getTime();
-    //****  This sort is proper but more time consuming that Arrays.sort above
-    //Collections.sort(drawableList);
-    //****
-    //System.out.println(drawableList.size());
+   
 
     drawableList.sort();
+//    drawableList.pruneList();
     for (int i = 0; i < drawableList.size(); i++) {
       drawableList.get(i).draw(this);
     }
 
-    //System.out.println("%%%% "+(new Date().getTime()-t1));
+   
     getViewCanvas().repaint();
-    //System.out.println(drawableList.size());
+//    Utils.sleep(200);
   }
 
 

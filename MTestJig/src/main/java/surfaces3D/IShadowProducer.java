@@ -2,5 +2,5 @@ package surfaces3D;
 
 
 public interface IShadowProducer {
-  IShadowCalculator getShadowCalculator();
+  <T> IShadowCalculator<T> getShadowCalculator();
 }

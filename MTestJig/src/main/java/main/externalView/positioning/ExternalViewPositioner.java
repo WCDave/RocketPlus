@@ -32,7 +32,7 @@ public class ExternalViewPositioner implements IExtViewPositioner {
 
 
   @Override
-  public void postionViewingSys() {
+  public void positionViewingSys() {
     viewingSys.setPositionAsVec(positionVectorOfObject);
     World3DContainer.getInstance().aimCoordSysAtObject(viewingSys, objectToPointTo);
     viewingSys.zRotate(-90);

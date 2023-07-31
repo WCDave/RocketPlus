@@ -38,4 +38,14 @@ public class ArrayWrapper<T extends Abstract3DModelObject> {
   public List<T> getList() {
     return (List<T>) Arrays.asList(array);
   }
+  
+  public void pruneList() {
+//	  System.out.println(nextIdx);
+	  if(nextIdx > 1500) {
+		  Abstract3DModelObject[] target = new Abstract3DModelObject[15000];
+		  System.arraycopy(array, nextIdx/2, target, 0, nextIdx/2);
+		  array = target;
+		  nextIdx = nextIdx/2-1;
+	  }
+  }
 }

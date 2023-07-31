@@ -36,6 +36,7 @@ public class FacetElaborator implements IObjectElaborator<Facet> {
   }
 
   List<Facet> elaborateFace(Facet f) {
+	  int i = 0;
 
     List<Facet> result = new ArrayList<Facet>();
     double[] p1 = f.getVectorList().get(0);
@@ -46,19 +47,19 @@ public class FacetElaborator implements IObjectElaborator<Facet> {
     double[] newVert2 = VMath.vecMultByScalar(VMath.normalize(VMath.vecAdd(p2, VMath.vecMultByScalar(VMath.vecSubtract(p3, p2), 0.5))), s.getRadius());
     double[] newVert3 = VMath.vecMultByScalar(VMath.normalize(VMath.vecAdd(p3, VMath.vecMultByScalar(VMath.vecSubtract(p1, p3), 0.5))), s.getRadius());
 
-    Facet newFace = new Facet(Arrays.asList(newVert1, newVert2, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), null, null);
+    Facet newFace = new Facet(Arrays.asList(newVert1, newVert2, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), f.getName()+i++, null);
     //newFace.setColor(Facet.determineFaceColor(newFace));
     result.add(newFace);
 
-    newFace = new Facet(Arrays.asList(p1, newVert1, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), null, null);
+    newFace = new Facet(Arrays.asList(p1, newVert1, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), f.getName()+i++, null);
     //newFace.setColor(Facet.determineFaceColor(newFace));
     result.add(newFace);
 
-    newFace = new Facet(Arrays.asList(newVert1, p2, newVert2), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), null, null);
+    newFace = new Facet(Arrays.asList(newVert1, p2, newVert2), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), f.getName()+i++, null);
     //newFace.setColor(Facet.determineFaceColor(newFace));
     result.add(newFace);
 
-    newFace = new Facet(Arrays.asList(newVert2, p3, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), null, null);
+    newFace = new Facet(Arrays.asList(newVert2, p3, newVert3), s, s.getBuildFactor() > IViewPositionListener.RebuildFactor.firstLevelFactorThreshold(), f.getName()+i++, null);
     //newFace.setColor(Facet.determineFaceColor(newFace));
     result.add(newFace);
 

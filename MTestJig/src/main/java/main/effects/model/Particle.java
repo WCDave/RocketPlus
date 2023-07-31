@@ -56,6 +56,16 @@ public class Particle extends Craft {
 
   @Override
   public void draw(AbstractView view) {
+	  if(impl instanceof Facet) {
+//	      setVectorFromView(VMath.vecAdd(view.getObjectVectorFromView(), impl.getCoordSys().getPositionVec()));
+	      java.util.List<double[]> vecs = ((Facet) impl).getVectorList();
+	      for (double[] vec : vecs) {
+	        double[] tVec = impl.getCoordSys().transformVec(vec);
+	        vec[0] = tVec[0];
+	        vec[1] = tVec[1];
+	        vec[2] = tVec[2];
+	      }
+	    }
     this.impl.draw(view);
   }
 
@@ -69,22 +79,22 @@ public class Particle extends Craft {
   public void set3DObjectForDraw(AbstractView view) {
     if(System.currentTimeMillis()%150 == 0) grayFade();
 
-    if(impl instanceof Facet) {
-      impl.setVectorFromView(VMath.vecAdd(view.getObjectVectorFromView(), ((Facet) impl).mv()));
-      java.util.List<double[]> vecs = ((Facet) impl).getVectorList();
-      for (double[] vec : vecs) {
-        double[] tVec = impl.getCoordSys().transformVec(vec);
-        vec[0] = tVec[0];
-        vec[1] = tVec[1];
-        vec[2] = tVec[2];
-      }
-    }
+//    if(impl instanceof Facet) {
+//      impl.setVectorFromView(VMath.vecAdd(view.getObjectVectorFromView(), ((Facet) impl).mv()));
+//      java.util.List<double[]> vecs = ((Facet) impl).getVectorList();
+//      for (double[] vec : vecs) {
+//        double[] tVec = impl.getCoordSys().transformVec(vec);
+//        vec[0] = tVec[0];
+//        vec[1] = tVec[1];
+//        vec[2] = tVec[2];
+//      }
+//    }
     super.set3DObjectForDraw(view);
   }
 
   private void grayFade() {
     Color c = impl.getColor();
-    impl.setColor(new Color((int) Math.max(c.getRed() * .7, 32), (int) Math.max(c.getGreen() * .7, 32), (int) Math.min(c.getBlue() * 1.3, 32), 190));
+    impl.setColor(new Color((int) Math.max(c.getRed() * .7, 32), (int) Math.max(c.getGreen() * .7, 32), (int) Math.min(c.getBlue() * 1.3, 32), 254));
   }
 
   @Override

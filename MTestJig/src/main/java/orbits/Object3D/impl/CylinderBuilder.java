@@ -46,15 +46,18 @@ public class CylinderBuilder implements IObjectBuilder<Cylinder> {
         pointList.add(c.getCoordSys().transformVec(new double[]{x1, y1, z2}));
 
         Facet face = new Facet(pointList, c, true, x1 + "," + y1 + "," + z1, null);
+        face.setColor(c.getColor());
         face.setMv(c.getCoordSys().transformVec(VMath.normalize(new double[]{x1, y1, 0})));
         c.getFaceList().add(face);
       }
     }
     if (c.isCappedEnds()) {
       Facet capTop = new Facet(topVertexList, c, true, "topcap", null);
+      capTop.setColor(c.getColor());
       c.getFaceList().add(capTop);
 
       Facet capBottom = new Facet(bottomVertexList, c, true, "bottomcap", null);
+      capBottom.setColor(c.getColor());
       c.getFaceList().add(capBottom);
     }
 //        if(c.getFaceList().size() != c.getNumFaces()) {

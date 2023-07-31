@@ -52,7 +52,7 @@ public class GravityTurn extends AFCSTargetingStrategy {
     while (FastMath.abs(VMath.dotprod(cs.zAxis().getVectorForm(), VMath.normalize(c.getRelativeWind()))) < .9999) {
       Utils.sleep(30);
     }
-    c.setPitchRate(1.5f);
+    c.setPitchRate(1.47f);
 
     while (!targetReached()) {
       Utils.sleep(10);
@@ -91,10 +91,10 @@ public class GravityTurn extends AFCSTargetingStrategy {
 
   @Override
   public boolean targetReached() {
-    double r[] = VMath.vecSubtract(cs.getPositionVec(), referencedObject.getCoordSys().getPositionVec());
-    double alt = VMath.mag(r);
-    double nz[] = VMath.normalize(cs.zAxis().getVectorForm());
-    r = VMath.normalize(r);
+//    double r[] = VMath.vecSubtract(cs.getPositionVec(), referencedObject.getCoordSys().getPositionVec());
+//    double alt = VMath.mag(r);
+//    double nz[] = VMath.normalize(cs.zAxis().getVectorForm());
+//    r = VMath.normalize(r);
 //    double value = VMath.mag(VMath.crossprd(r, nz));
 //    double value=VMath.mag(VMath.crossprd(VMath.normalize(r),cs.zAxis().getVectorForm()));
 //    System.out.println(VMath.mag(VMath.crossprd(r, nz)));

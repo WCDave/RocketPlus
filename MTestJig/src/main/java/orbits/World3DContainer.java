@@ -149,7 +149,7 @@ public class World3DContainer<T extends Abstract3DModelObject> {
   }
 
   public void addForEventualRemoval(Craft c) {
-    System.out.println("addForEventualRemoval");
+	log.debug("addForEventualRemoval");
     addCraft(c);
     synchronized (removalList) {
       removalList.add(c);
@@ -158,7 +158,7 @@ public class World3DContainer<T extends Abstract3DModelObject> {
 
   public void createRemovalJob(final long millisecondsBeforeRun) {
     //System.out.println("createRemovalJob");
-    Thread t = new Thread() {
+    Thread t = new Thread("removalJob") {
       public void run() {
         //System.out.println("removal job running0 " + new Date());
         Utils.sleep(millisecondsBeforeRun);

@@ -71,7 +71,7 @@ public class ExternalViewPositionerTest {
       allowing(p).getCoordSys();will(returnValue(new CoordSys()));
       oneOf(solarSystemObject).getGeoPositionVec();will(returnValue(new double[]{5,0,0}));
     }});
-    iut.postionViewingSys();
+    iut.positionViewingSys();
     assertArrayEquals(new double[]{5,0,10000}, testSys.getPositionVec(), .1);
     assertArrayEquals(new double[]{1,0,0}, testSys.xAxis().getVectorForm(), .1);
     assertArrayEquals(new double[]{0,-1,0}, testSys.yAxis().getVectorForm(), .1);
