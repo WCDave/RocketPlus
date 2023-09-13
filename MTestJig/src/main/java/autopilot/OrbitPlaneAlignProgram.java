@@ -33,7 +33,6 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
       result = value >= .997;
     }
     alignmentInhibited = result;
-//    System.out.println("%%% "+ result+", *** "+value);
     //log.info("Angle to node: "+Math.acos(value)*180/Math.PI+" a="+alignmentInhibited);
     return result;
   }
@@ -88,8 +87,8 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
     }
     computer.getControlAdapter().setThrottle(0);
     if(button != null) {
-    button.setSelected(false);
-    button.doClick();
+	    button.setSelected(false);
+	    button.doClick();
     }
     log.info("Plane align complete");
     try {
