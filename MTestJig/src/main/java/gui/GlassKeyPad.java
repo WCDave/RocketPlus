@@ -119,9 +119,12 @@ public class GlassKeyPad extends Container implements INamedControlContainer {
 
     cmd = CommandBuilder.createCommand().setExecutionObject(adapter).setExecutionMethod("addValue").seteArgs(new String[]{"I"}).buildCommand();
     GlassButton planeChangeButton = new GlassButton("I", 63, getHeight() - 13, 11, 11, Color.RED, cmd);
+    
+    cmd = CommandBuilder.createCommand().setExecutionObject(adapter).setExecutionMethod("addValue").seteArgs(new String[]{"T"}).buildCommand();
+    GlassButton satelliteRefButton = new GlassButton("T", 78, getHeight() - 13, 11, 11, Color.RED, cmd);
 
     cmd = CommandBuilder.createCommand().setExecutionObject(this).setExecutionMethod("storeCommandFragment").buildCommand();
-    GlassButton pgmButton = new GlassButton("PGM", 78, getHeight() - 13, 25, 11, Color.red, cmd);
+    GlassButton pgmButton = new GlassButton("PGM", 93, getHeight() - 13, 25, 11, Color.red, cmd);
     
     cmd = CommandBuilder.createCommand().setExecutionObject(this).setExecutionMethod("serializeA3Os").buildCommand();
     GlassButton serializeButton = new GlassButton("S", 78, getHeight() - 30, 11, 11, Color.red, cmd);
@@ -136,6 +139,7 @@ public class GlassKeyPad extends Container implements INamedControlContainer {
     add(moonButton);
     add(apogeeButton);
     add(planeChangeButton);
+    add(satelliteRefButton);
     add(circularizeButton);
   }
 

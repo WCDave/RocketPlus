@@ -33,6 +33,7 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
       result = value >= .997;
     }
     alignmentInhibited = result;
+//    System.out.println("%%% "+ result+", *** "+value);
     //log.info("Angle to node: "+Math.acos(value)*180/Math.PI+" a="+alignmentInhibited);
     return result;
   }
@@ -86,8 +87,10 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
       transformer.computeOrbitNormal();
     }
     computer.getControlAdapter().setThrottle(0);
+    if(button != null) {
     button.setSelected(false);
     button.doClick();
+    }
     log.info("Plane align complete");
     try {
       executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();

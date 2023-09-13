@@ -99,7 +99,7 @@ public class NavComputer extends AbstractInstrument {
 
     targetingStrategyMap = new HashMap<Pattern, ICommandHandler>(){{
       put(Pattern.compile("[A]\\d{1,5}.?\\d*"), new ApogeeCommandHandler(NavComputer.this));
-      put(Pattern.compile("[I]-?\\d{1,5}.?\\d*"), new PlaneChangeCommandHandler(NavComputer.this));
+      put(Pattern.compile("([I][T]?)-?\\d?{1,5}.?\\d*"), new PlaneChangeCommandHandler(NavComputer.this));
       put(Pattern.compile("[C]-?"), new CircularizeCommandHandler(NavComputer.this));
       put(Pattern.compile("[M]"), new MoonCommandHandler(NavComputer.this));
     }};
