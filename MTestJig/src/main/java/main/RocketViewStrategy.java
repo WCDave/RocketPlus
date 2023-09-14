@@ -32,8 +32,8 @@ public class RocketViewStrategy implements IExternalViewStrategy<ExternalView> {
 	@Override
 	public void reset() {
 		ViewChaseCraft viewCraft = (ViewChaseCraft) World3DContainer.getInstance().getItem(ViewChaseCraft.CHASE_NAME);
-		viewCraft.stopThread();
 		if (viewCraft != null) {
+			viewCraft.stopThread();
 			World3DContainer.getInstance().removeCraft(viewCraft);
 		}
 	}
