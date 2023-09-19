@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang.math.NumberUtils;
 
 import autopilot.AFCSTargetingStrategy;
-import autopilot.CraftPlaneOrbitPlaneChangePlaneAlignProgram;
+import autopilot.CraftOrbitPlaneChangePlaneAlignProgram;
 import autopilot.PlanetPlaneChangePlaneAlignProgram;
 
 /**
@@ -27,7 +27,7 @@ public class PlaneChangeCommandHandler implements ICommandHandler<Matcher, AFCST
 		AFCSTargetingStrategy p;
 		String resultCommand = m.group().substring(1);
 		if (!NumberUtils.isNumber(resultCommand)) {
-			p = new CraftPlaneOrbitPlaneChangePlaneAlignProgram(computer);
+			p = new CraftOrbitPlaneChangePlaneAlignProgram(computer, "Test1");
 		} else {
 			float targetPlaneAngle = Float.parseFloat(resultCommand);
 			computer.setOrbitInclination(targetPlaneAngle);
