@@ -3,6 +3,9 @@ package main;
 import Foundation.ThreadMonitorAndFactory;
 import Foundation.Utils;
 import RVMath.VMath;
+
+import com.aparapi.Kernel;
+import com.aparapi.Kernel.KernelState;
 import com.github.mustachejava.DefaultMustacheFactory;
 import enums.ViewTypes;
 import mapUtils.MapHelper;
@@ -75,6 +78,22 @@ public class MainApp extends JFrame {
   }
 
   public static void main(String[] args) {
+	  GraphicsEnvironment. getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+//	  int[] x = new int[10];
+//	  Kernel k = new Kernel() {
+//
+//		@Override
+//		public void run() {
+//           int i = getGlobalId();
+//           for(int jj = 0;jj<10;jj++) {
+//        	  x[jj]=jj; 
+//           }
+//           
+//			
+//		}};
+//		KernelState ks = k.getKernelState();
+//		k.execute(10);
+//	System.out.println(k.getKernelState().describe());
 
     MainApp inst = new MainApp();
 
@@ -516,6 +535,13 @@ public class MainApp extends JFrame {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+//   System.out.println("^^^***^^^ ifs   "+this.getGraphicsConfiguration().getDevice().isFullScreenSupported());
+//   GraphicsDevice d = this.getGraphicsConfiguration().getDevice();
+//   
+//   this.getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
+////   d.getFullScreenWindow().setBounds(this.getBounds());
+//   int hh=0;
   }
 
   private void displayHelp() {
