@@ -336,7 +336,7 @@ public final class VMath {
 
 	public static int calculateHeading(CoordSys planetSys, CoordSys craftSys) {
 		double[] bodyToPlanetVec = VMath.vecSubtract(craftSys.getPositionVec(), planetSys.getPositionVec());
-		bodyToPlanetVec = VMath.normalize(bodyToPlanetVec);
+//		bodyToPlanetVec = VMath.normalize(bodyToPlanetVec);
 
 		double[] ee = VMath.normalize(VMath.crossprd(planetSys.zAxis().getVectorForm(), bodyToPlanetVec));
 		double[] nn = VMath.normalize(VMath.crossprd(bodyToPlanetVec, ee));
