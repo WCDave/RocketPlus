@@ -335,15 +335,25 @@ public final class VMath {
 	}
 
 	public static int calculateHeading(CoordSys planetSys, CoordSys craftSys) {
-		double[] bodyToPlanetVec = VMath.vecSubtract(craftSys.getPositionVec(), planetSys.getPositionVec());
-//		bodyToPlanetVec = VMath.normalize(bodyToPlanetVec);
 
-		double[] ee = VMath.normalize(VMath.crossprd(planetSys.zAxis().getVectorForm(), bodyToPlanetVec));
-		double[] nn = VMath.normalize(VMath.crossprd(bodyToPlanetVec, ee));
-//	    
-//	    System.out.println(Math.toDegrees(Math.atan2(VMath.dotprod(craftSys.zAxis().getVectorForm(), ee), VMath.dotprod(craftSys.zAxis().getVectorForm(), nn))));
-		return (360+(int) Math.toDegrees(Math.atan2(VMath.dotprod(craftSys.zAxis().getVectorForm(), ee),
+		double[] bodyToPlanetVec = VMath.normalize(VMath.vecSubtract(craftSys.getPositionVec(), planetSys.getPositionVec()));
+
+		double[] ee = VMath.crossprd(planetSys.zAxis().getVectorForm(), bodyToPlanetVec);
+		double[] nn = VMath.crossprd(bodyToPlanetVec, ee);
+
+		return (360 + (int) Math.toDegrees(Math.atan2(VMath.dotprod(craftSys.zAxis().getVectorForm(), ee),
 				VMath.dotprod(craftSys.zAxis().getVectorForm(), nn)))) % 360;
+	}
+	
+	public static int calculateCourse(CoordSys planetSys, CoordSys craftSys) {
+
+		double[] bodyToPlanetVec = VMath.normalize(VMath.vecSubtract(craftSys.getPositionVec(), planetSys.getPositionVec()));
+
+		double[] ee = VMath.crossprd(planetSys.zAxis().getVectorForm(), bodyToPlanetVec);
+		double[] nn = VMath.crossprd(bodyToPlanetVec, ee);
+
+		return (360 + (int) Math.toDegrees(Math.atan2(VMath.dotprod(craftSys.getVelocityAsVec(), ee),
+				VMath.dotprod(craftSys.getVelocityAsVec(), nn)))) % 360;
 	}
 
 	public static void main(String[] args) {
