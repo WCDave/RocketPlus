@@ -7,6 +7,7 @@ import enums.DirectionTypes;
 import gui.INamedControlContainer;
 import orbits.Abstract3DModelObject;
 import orbits.CoordSys;
+import orbits.Drawable3DDecorator;
 import orbits.NavComputer;
 import orbits.NavigationForeground;
 import rocketComponents.RocketControlAdapter;
@@ -96,7 +97,7 @@ public class CockPitView extends AbstractView
 	private CountDownLatch countDownLatch;
 
 	private int maxDetailLevel;
-	private NavigationForeground drawableDecorator;
+	private Drawable3DDecorator drawableDecorator;
 
 	private static Dimension COCKPIT_VIEW_SIZE_DIM = new Dimension(MainApp.APP_SIZE_DIM.width - 25,
 			MainApp.APP_SIZE_DIM.height - 320);
