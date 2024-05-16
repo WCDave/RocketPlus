@@ -69,7 +69,7 @@ public class CircularizeProgram extends AFCSTargetingStrategy {
     computer.setFlashAnnun(true);
     Utils.sleep(10000);
     try {
-      executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();
+      executorService.submit(new KeplerCalc(rocket, computer.getReferenceObject(), true)).get().getKeplerianElements();
       executorService.submit(new KeplerCalc(computer.getReferenceObject(), true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}

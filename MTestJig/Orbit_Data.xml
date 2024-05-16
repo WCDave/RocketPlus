@@ -99,5 +99,14 @@
         <od:planet-name>Vesta</od:planet-name>
         <od:color red="0" green="0" blue="255"/>
     </od:planet>
+    
+    <od:planet true-anamoly="0.0" eccentricity=".966707" inclination="162.21" semi-major-axis="2.6534174e+12"
+                 radius="1500000.0" ascending-node="59.396" obliquity="119.6" atmo="false" epoch-longitude="180.15" epoch-longitudeDelta="0"
+                 arg-of-perhelion="112.05" mass="1.4E22" perihelion-angle="149.84" mean-anamoly0="138.49976"
+                 dm="0.271524" period="74.7" mean-anamoly="0.0" rotational-period="153.29" oblateness="0.0"
+                 epochDateTime="2023-12-23T00:00:00-00:00" inclinationDelta="0"  ascending-nodeDelta="0" semi-major-axisDelta="0" arg-of-perhelionDelta="0" eccentricityDelta="0">
+        <od:planet-name>Halley</od:planet-name>
+        <od:color red="255" green="255" blue="255"/>
+    </od:planet>  
 
 </od:solar-system>

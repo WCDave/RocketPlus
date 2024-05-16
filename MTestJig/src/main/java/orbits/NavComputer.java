@@ -343,7 +343,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
   public void dataR() {
     ExecutorService executorService = Executors.newFixedThreadPool(2);
     try {
-      commandListener.sendOrbitalElements(executorService.submit(new KeplerCalc(this.craft,true)).get().getKeplerianElements());
+      commandListener.sendOrbitalElements(executorService.submit(new KeplerCalc(this.craft, this.getReferenceObject(), true)).get().getKeplerianElements());
       executorService.submit(new KeplerCalc(this.getReferenceObject(), true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
@@ -357,7 +357,7 @@ Answer = asin((cos(orbInc)/cos(lat)))            = 59.87768663486
     if(satellite != null && satellite instanceof Craft) {
       ExecutorService executorService = Executors.newFixedThreadPool(2);
       try {
-        executorService.submit(new KeplerCalc((Craft)satellite, true)).get().getKeplerianElements();
+        executorService.submit(new KeplerCalc((Craft)satellite, this.getReferenceObject(), true)).get().getKeplerianElements();
         executorService.submit(new KeplerCalc(this.getReferenceObject(), true)).get().getKeplerianElements();
       } catch (Exception e) {
       } finally {

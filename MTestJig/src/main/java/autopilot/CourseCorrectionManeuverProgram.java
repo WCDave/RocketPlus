@@ -3,10 +3,14 @@ package autopilot;
 import Foundation.Utils;
 import RVMath.VMath;
 import enums.OrbitElementKeys;
+import main.PhysicsRunnable;
 import orbits.IOrbitPlaneChangeTransformer;
 import orbits.NavComputer;
 import orbits.Planet;
+import orbits.World3DContainer;
 import orbits.keplerian.KeplerCalc;
+import orbits.keplerian.KeplerianElements;
+
 import org.apache.commons.math3.util.FastMath;
 import org.apache.log4j.Logger;
 
@@ -91,7 +95,7 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 //		button.doClick();
 
     try {
-      executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();
+      executorService.submit(new KeplerCalc(rocket,computer.getReferenceObject(),true)).get().getKeplerianElements();
       executorService.submit(new KeplerCalc(computer.getReferenceObject(), true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
@@ -106,8 +110,6 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
     Map<OrbitElementKeys, Object> map = null;
     while (continueBurn) {
       map = computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet);
-//      double[] rockToMoonVec = VMath.vecSubtract(planet.getPosition(), rocket.getPosition());
-//      dotProd = VMath.dotprod(rocket.getVelocity(), VMath.vecSubtract(VMath.vecMultByScalar(rocket.getCoordSys().zAxis().getVectorForm(), VMath.dotprod(rockToMoonVec, rocket.getCoordSys().zAxis().getVectorForm())), rockToMoonVec));
       double[] rP = VMath.vecSubtract(rocket.getPosition(), planet.getPosition());
       double[] vP = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
       dotProd = VMath.dotprod(VMath.crossprd(vP, VMath.crossprd(rP, vP)), planet.getVelocity());
@@ -121,6 +123,13 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
           computer.getControlAdapter().rcsThrustForward();
         }
       }
+      Utils.sleep(500);
+
+//    	try {
+//    		KeplerianElements ke = executorService.submit(new KeplerCalc(rocket,computer.getReferenceObject(),false)).get().getKeplerianElements();
+//    	     
+//    	    }
+//    	    catch (Exception  e) {}
     }
     computer.getControlAdapter().rcsThrustOff();
     log.info("burn ended " + ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE - 170) + ", " + dotProd);
@@ -129,13 +138,25 @@ public class CourseCorrectionManeuverProgram extends AFCSTargetingStrategy {
 
   @Override
   public boolean targetReached() {
-    // double[] r = (double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec);
-    double[] r = (double[])computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec);
-    return VMath.mag(r) <= tliAdjustmentStart * NavComputer.METERS_PER_MILE;
+//    // double[] r = (double[]) computer.getRocketOrbitElements().get(OrbitElementKeys.radiusVec);
+//    double[] r = (double[])computer.computeOrbitalElements(computer.getCraft().getCoordSys(), this.planet).get(OrbitElementKeys.radiusVec);
+//    return VMath.mag(r) <= tliAdjustmentStart * NavComputer.METERS_PER_MILE;
+	  return gravTarget();
   }
 
   private boolean targetTwo() {
     return ((Double) computer.getOrbitElements().get(OrbitElementKeys.rPer)) * NavComputer.METERS_PER_MILE <= this.periapsis;
+  }
+  
+  private boolean gravTarget() {
+	  double tRad = VMath.mag(VMath.vecSubtract(rocket.getPosition(), planet.getPosition()));
+	  double targetGrav = Math.abs(PhysicsRunnable.G * this.planet.getMass() / (tRad*tRad));
+	  
+	  double eRad = VMath.mag(rocket.getPosition());
+	  double earthGrav  = Math.abs(PhysicsRunnable.G * ((Planet) World3DContainer.getInstance().getItem("Earth")).getMass() / (eRad*eRad));
+	  
+//	  log.info("%%%%% t="+targetGrav+"    "+"e="+earthGrav);
+	  return targetGrav > earthGrav;
   }
 
   private void makePlaneAdjustment() {
@@ -181,10 +202,25 @@ private class DebugThread extends Thread {
       double[] rockVelRelMoon = VMath.vecSubtract(rocket.getVelocity(), planet.getVelocity());
       double[] angMo = VMath.crossprd(rockToMoonVec, rockVelRelMoon);
       double dotProd = VMath.dotprod(VMath.crossprd(rockVelRelMoon, angMo), planet.getVelocity());
+      
+      double tRad = VMath.mag(VMath.vecSubtract(rocket.getPosition(), planet.getPosition()));
+	  double targetGrav = Math.abs(PhysicsRunnable.G * planet.getMass() / (tRad*tRad));
+	  
+	  double eRad = VMath.mag(rocket.getPosition());
+	  double earthGrav  = Math.abs(PhysicsRunnable.G * ((Planet) World3DContainer.getInstance().getItem("Earth")).getMass() / (eRad*eRad));
+	  
+	  log.info("%%%%% t="+targetGrav+"    "+"e="+earthGrav);
 
 
       log.info(dotProd + ", rockVelM="+VMath.mag(rockVelRelMoon)+", moonVel="+VMath.mag(planet.getVelocity())+", angMo="+VMath.mag(angMo)+", currPeri="+
               ((Double) map.get(OrbitElementKeys.rPer) - planet.getRadius() / NavComputer.METERS_PER_MILE));
+      try {
+          executorService.submit(new KeplerCalc(rocket, planet, true)).get().getKeplerianElements();
+          executorService.submit(new KeplerCalc(planet, true)).get().getKeplerianElements();
+        }
+        catch (Exception  e) {
+
+        }
       Utils.sleep(60000);
     }
     System.out.println("end thread");

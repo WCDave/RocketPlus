@@ -25,7 +25,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
 
   private static final String TLI_CRIT_ANGLE = "TLI_CRIT_ANGLE";
 
-  private float burnTargetVelocity = 25000 / 2.236f;
+  private float burnTargetVelocity = 24800 / 2.236f;
 
   private Logger log = Logger.getLogger(TLIProgram.class);
 
@@ -90,7 +90,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
     button.setSelected(true);
     button.doClick();
     try {
-      executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();
+      executorService.submit(new KeplerCalc(rocket,computer.getReferenceObject(),true)).get().getKeplerianElements();
       executorService.submit(new KeplerCalc(moon, true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
@@ -116,7 +116,7 @@ public class TLIProgram extends AFCSTargetingStrategy {
      double[] motionCross = VMath.crossprd( VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(rke.getCoordSys().getVelocityAsVec()));
      double[] testCross = VMath.crossprd(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
      double testDot = VMath.dotprod(VMath.normalize(rke.getCoordSys().getPositionVec()), VMath.normalize(mke.getCoordSys().getPositionVec()));
-     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .68d && VMath.mag(testCross) < .74d  ;
+     return VMath.dotprod(testCross, motionCross) > 0 && testDot < 0 && VMath.mag(testCross) > .69d && VMath.mag(testCross) < .75d  ;
   }
 
   private boolean targetMethod1(KeplerianElements rke, KeplerianElements mke) {

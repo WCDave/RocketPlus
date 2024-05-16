@@ -14,9 +14,10 @@ public class KeplerianElements implements Serializable {
   private double raan;
   private double aop;
   private double ta;
+  private double mu;
   private CoordSys sys;
 
-  public KeplerianElements(double a, double e, double i, double raan, double aop, double ta, CoordSys sys) {
+  public KeplerianElements(double a, double e, double i, double raan, double aop, double ta, CoordSys sys, double mu) {
     this.a = a;
     this.e = e;
     this.i = i;
@@ -24,6 +25,16 @@ public class KeplerianElements implements Serializable {
     this.aop = aop;
     this.ta = ta;
     this.sys = sys;
+    this.mu = mu;
+    /*
+     *  double trPer = (1 - e) * a;
+    double trAph = (1 + e) * a;
+
+    double rPer = trPer / METERS_PER_MILE;
+    double rAph = trAph / METERS_PER_MILE;
+    double vPer = FastMath.sqrt(((1 + e) * mu) / trPer) * 2.236;
+    double vAph = FastMath.sqrt(((1 - e) * mu) / trAph) * 2.236;
+     */
   }
 
   public double getA() {
@@ -55,6 +66,6 @@ public class KeplerianElements implements Serializable {
   }
 
   public double getPeriod() {
-    return KeplerCalc.TWO_PI * FastMath.sqrt(this.a*this.a*this.a/KeplerCalc.mu);
+    return KeplerCalc.TWO_PI * FastMath.sqrt(this.a*this.a*this.a/this.mu);
   }
 }

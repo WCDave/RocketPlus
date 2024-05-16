@@ -69,7 +69,7 @@ public class PhysicsRunnable implements Runnable {
   }
 
   private void updateVelocityVector(Craft craft, double dt) {
-    double[] bodyVec = craft.getPosition();
+//    double[] bodyVec = craft.getPosition();
     double[] planVec;
     double[] planToBodVec;
     double[] velVec;
@@ -88,8 +88,6 @@ public class PhysicsRunnable implements Runnable {
         VMath.zero3DVect(windVec);
         VMath.zero3DVect(relativeWind);     */
 
-    double[] launchVec;
-
     if (craft instanceof Rocket) {
       thrust = ((Rocket) craft).computeThrust(dt);
     }
@@ -105,7 +103,7 @@ public class PhysicsRunnable implements Runnable {
       }
 
       planVec = p.getCoordSys().getPositionVec();
-      planToBodVec = VMath.vecSubtract(bodyVec, planVec);
+      planToBodVec = VMath.vecSubtract(craft.getPosition(), planVec);
       planToBodDist = VMath.mag(planToBodVec);
 
       gravCoeff = G * craft.getMass() * p.getMass() / (planToBodDist * planToBodDist * planToBodDist);

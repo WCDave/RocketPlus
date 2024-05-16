@@ -45,7 +45,7 @@ public class OrbitInsertion extends AFCSTargetingStrategy {
     Utils.sleep(7000);
     computer.setFlashAnnun(false);
     try {
-      executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();
+      executorService.submit(new KeplerCalc(rocket,computer.getReferenceObject(),true)).get().getKeplerianElements();
       executorService.submit(new KeplerCalc(computer.getReferenceObject(), true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}

@@ -92,7 +92,7 @@ public abstract class OrbitPlaneAlignProgram extends AFCSTargetingStrategy {
     }
     log.info("Plane align complete");
     try {
-      executorService.submit(new KeplerCalc(rocket,true)).get().getKeplerianElements();
+      executorService.submit(new KeplerCalc(rocket,computer.getReferenceObject(),true)).get().getKeplerianElements();
       executorService.submit(new KeplerCalc(computer.getReferenceObject(), true)).get().getKeplerianElements();
     }
     catch (Exception  e) {}
