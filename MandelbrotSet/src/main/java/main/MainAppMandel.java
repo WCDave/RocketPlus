@@ -1,18 +1,18 @@
-import enums.MouseStates;
-import gfxmain.GFXException;
-import gfxmain.GFXFramework;
-import gfxmain.VisSpect;
-import main.CaptureBox;
-import main.ComplexNumber;
-
+package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.math.BigDecimal;
 
 import javax.swing.JFrame;
+
+import enums.MouseStates;
+import gfxmain.GFXException;
+import gfxmain.GFXFramework;
+import gfxmain.VisSpect;
 
 public class MainAppMandel extends JFrame {
 	private final double minX =  -2.25;
@@ -28,6 +28,8 @@ public class MainAppMandel extends JFrame {
     private Rectangle2D.Double currentBounds = (Rectangle2D.Double)startingBounds.clone();
     private boolean redraw;
     
+    private IMandelValue getMandelValueImpl;
+    
     private GFXFramework gfx;
     
     public MainAppMandel(){
@@ -42,7 +44,8 @@ public class MainAppMandel extends JFrame {
 		} 
     	pack();
     	gfx.init();    	
-        setVisible(true);     	
+        setVisible(true); 
+//        getMandelValueImpl = new GetMandelValueImpl();
     }
     
     public static void main(String[] args){
@@ -131,8 +134,9 @@ public class MainAppMandel extends JFrame {
     	Graphics2D g2=gfx.getG2();
     	for(int y=0;y<SCREEN_HEIGHT;y++){
     		for(int x=0;x<SCREEN_WIDTH;x++){
-    			ComplexNumber c = new ComplexNumber((double)x*dx+currentBounds.x,(double)y*dy+currentBounds.y);
-    			int i=getMandelValueFor(c,5000);
+//    			IComplexNumber c = new ComplexNumberSimple((double)x*dx+currentBounds.x,(double)y*dy+currentBounds.y);
+    			IComplexNumberBigDecimal c = new ComplexNumberBigDecimal(new BigDecimal(x*dx+currentBounds.x), new BigDecimal(y*dy+currentBounds.y));
+    			long i = GetMandelValueImplBuilder.createBuilder(c).execute(50);    			
     			Color color = VisSpect.getSpectralColor(((double)i*areaFactor+378d));
     			g2.setColor(color);
     			g2.drawLine(x, y, x, y);    			
@@ -141,12 +145,21 @@ public class MainAppMandel extends JFrame {
     	}
 	}
     
-    private int getMandelValueFor(ComplexNumber nbr, int maxIter) {
-        int counter = 0;
-        ComplexNumber n2 = nbr;
-        while ((ComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {        	
-        	n2 = ComplexNumber.complexAdd(nbr, ComplexNumber.complexMult(n2, n2));
-        }
-        return counter;
-    }
+//    private int getMandelValueFor(ComplexNumberSimple nbr, int maxIter) {
+//        int counter = 0;
+//        ComplexNumberSimple n2 = nbr;
+//        while ((IComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {        	
+//        	n2 = IComplexNumber.complexAdd(nbr, IComplexNumber.complexMult(n2, n2));
+//        }
+//        return counter;
+//    }
+//    
+//    private int getMandelValueForBigDecimal(IComplexNumberBigDecimal nbr, int maxIter) {
+//        int counter = 0;
+//        IComplexNumberBigDecimal n2 = nbr;
+//        while ((IComplexNumberBigDecimal.complexMag(n2) < 2) && (counter++ <= maxIter)) {        	
+//        	n2 = IComplexNumberBigDecimal.complexAdd(nbr, IComplexNumberBigDecimal.complexMult(n2, n2));
+//        }
+//        return counter;
+//    }
 }

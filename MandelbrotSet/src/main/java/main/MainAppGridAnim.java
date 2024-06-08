@@ -1,8 +1,8 @@
+package main;
 import enums.MouseStates;
 import gfxmain.GFXException;
 import gfxmain.GFXFramework;
 import gfxmain.VisSpect;
-import main.ComplexNumber;
 import threeD.*;
 
 import javax.swing.*;
@@ -124,7 +124,7 @@ public class MainAppGridAnim extends JFrame {
       for (int y = 0; y < SCREEN_WIDTH; y += 1) {
         double xx = x * dx + this.minX;
         double yy = y * dy + this.minY;
-        ComplexNumber c = new ComplexNumber(xx, yy);
+        IComplexNumber c = new ComplexNumberSimple(xx, yy);
         int i = Math.round(getMandelValueFor(c, 20000));
         result[x][y] = i;
         mini = Math.min(mini, i);
@@ -135,11 +135,11 @@ public class MainAppGridAnim extends JFrame {
     return result;
   }
 
-  private int getMandelValueFor(ComplexNumber nbr, int maxIter) {
+  private int getMandelValueFor(IComplexNumber nbr, int maxIter) {
     int counter = 0;
-    ComplexNumber n2 = nbr;
-    while ((ComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {
-      n2 = ComplexNumber.complexAdd(nbr, ComplexNumber.complexMult(n2, n2));
+    IComplexNumber n2 = nbr;
+    while ((IComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {
+      n2 = IComplexNumber.complexAdd(nbr, IComplexNumber.complexMult(n2, n2));
     }
     return counter;
   }
