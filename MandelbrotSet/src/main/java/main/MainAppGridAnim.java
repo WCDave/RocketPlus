@@ -125,7 +125,7 @@ public class MainAppGridAnim extends JFrame {
         double xx = x * dx + this.minX;
         double yy = y * dy + this.minY;
         IComplexNumber c = new ComplexNumberSimple(xx, yy);
-        int i = Math.round(getMandelValueFor(c, 20000));
+        int i = (int) GetMandelValueImplBuilder.createBuilder(c).execute(6000);    ;
         result[x][y] = i;
         mini = Math.min(mini, i);
         mxi = Math.max(mxi, i);

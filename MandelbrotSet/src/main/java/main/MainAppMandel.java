@@ -133,9 +133,9 @@ public class MainAppMandel extends JFrame {
     	Graphics2D g2=gfx.getG2();
     	for(int y=0;y<SCREEN_HEIGHT;y++){
     		for(int x=0;x<SCREEN_WIDTH;x++){
-//    			IComplexNumber c = new ComplexNumberSimple((double)x*dx+currentBounds.x,(double)y*dy+currentBounds.y);
-    			IComplexNumberBigDecimal c = new ComplexNumberBigDecimal(new BigDecimal(x*dx+currentBounds.x), new BigDecimal(y*dy+currentBounds.y));
-    			long i = GetMandelValueImplBuilder.createBuilder(c).execute(50);    			
+    			IComplexNumber c = new ComplexNumberSimple((double)x*dx+currentBounds.x,(double)y*dy+currentBounds.y);
+//    			IComplexNumberBigDecimal c = new ComplexNumberBigDecimal(new BigDecimal(x*dx+currentBounds.x), new BigDecimal(y*dy+currentBounds.y));
+    			long i = GetMandelValueImplBuilder.createBuilder(c).execute(6000);    			
     			Color color = VisSpect.getSpectralColor(((double)i*areaFactor+378d));
     			g2.setColor(color);
     			g2.drawLine(x, y, x, y);    			
