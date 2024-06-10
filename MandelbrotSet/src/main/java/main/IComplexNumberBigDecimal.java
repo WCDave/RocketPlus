@@ -18,11 +18,8 @@ public interface IComplexNumberBigDecimal {
 	
 	public static IComplexNumberBigDecimal complexMult(IComplexNumberBigDecimal c1, IComplexNumberBigDecimal c2) {
 		// (ai+b)*(ui+w) = -au+(aw+bu)i+bw
-		BigDecimal r = c1.getImaginary().multiply(c2.getImaginary()).add(c1.getReal().multiply(c2.getReal())).negate();
-//		BigDecimal r = -c1.getImaginary() * c2.getImaginary() + c1.getReal() * c2.getReal();
-		
+		BigDecimal r = c1.getImaginary().multiply(c2.getImaginary()).add(c1.getReal().multiply(c2.getReal())).negate();		
 		BigDecimal i = c1.getImaginary().multiply(c2.getReal()).add(c1.getReal().multiply(c2.getImaginary()));
-//		BigDecimal i = c1.getImaginary() * c2.getReal() + c1.getReal() * c2.getImaginary();
 		IComplexNumberBigDecimal result = new ComplexNumberBigDecimal(r, i);
 		return result;
 	}
@@ -39,12 +36,9 @@ public interface IComplexNumberBigDecimal {
 //	}
 //
 	public static IComplexNumberBigDecimal complexAdd(IComplexNumberBigDecimal c1, IComplexNumberBigDecimal c2) {
-//		ComplexNumberSimple result = new ComplexNumberSimple();
 	    IComplexNumberBigDecimal result = new ComplexNumberBigDecimal();
 	    result.setImaginary(c1.getImaginary().add(c2.getImaginary()));
-//		result.imaginary = c1.getImaginary() + c2.getImaginary();
 	    result.setReal(c1.getReal().add(c2.getReal()));
-//		result.real = c1.getReal() + c2.getReal();
 		return result;
 	}
 //
