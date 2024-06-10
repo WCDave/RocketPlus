@@ -6,7 +6,7 @@ import main.AbstractView;
 import main.ConfigurationManager;
 import stars.StarListDocument;
 
-import javax.xml.XMLConstants;
+//import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
