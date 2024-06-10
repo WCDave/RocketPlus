@@ -43,7 +43,7 @@ public interface IComplexNumberBigDecimal {
 	}
 //
 	public static BigDecimal complexMag(IComplexNumberBigDecimal c) {
-//		 BigDecimal result = BigDecimal.ZERO.doubleValue();
+
 		BigDecimal result = c.getImaginary().multiply(c.getImaginary()).add(c.getReal().multiply(c.getReal())).sqrt(MathContext.DECIMAL32);
 		return result;
 //		return (double) Math.sqrt(c.getImaginary() * c.getImaginary() + c.getReal() * c.getReal());
