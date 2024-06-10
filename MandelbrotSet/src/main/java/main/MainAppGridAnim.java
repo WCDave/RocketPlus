@@ -134,13 +134,4 @@ public class MainAppGridAnim extends JFrame {
     System.out.println("max i="+mxi+", mini="+mini);
     return result;
   }
-
-  private int getMandelValueFor(IComplexNumber nbr, int maxIter) {
-    int counter = 0;
-    IComplexNumber n2 = nbr;
-    while ((IComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {
-      n2 = IComplexNumber.complexAdd(nbr, IComplexNumber.complexMult(n2, n2));
-    }
-    return counter;
-  }
 }
