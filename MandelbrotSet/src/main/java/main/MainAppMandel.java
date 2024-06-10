@@ -28,7 +28,6 @@ public class MainAppMandel extends JFrame {
     private Rectangle2D.Double currentBounds = (Rectangle2D.Double)startingBounds.clone();
     private boolean redraw;
     
-    private IMandelValue getMandelValueImpl;
     
     private GFXFramework gfx;
     
@@ -144,22 +143,4 @@ public class MainAppMandel extends JFrame {
     		gfx.update();
     	}
 	}
-    
-//    private int getMandelValueFor(ComplexNumberSimple nbr, int maxIter) {
-//        int counter = 0;
-//        ComplexNumberSimple n2 = nbr;
-//        while ((IComplexNumber.complexMag(n2) < 2) && (counter++ <= maxIter)) {        	
-//        	n2 = IComplexNumber.complexAdd(nbr, IComplexNumber.complexMult(n2, n2));
-//        }
-//        return counter;
-//    }
-//    
-//    private int getMandelValueForBigDecimal(IComplexNumberBigDecimal nbr, int maxIter) {
-//        int counter = 0;
-//        IComplexNumberBigDecimal n2 = nbr;
-//        while ((IComplexNumberBigDecimal.complexMag(n2) < 2) && (counter++ <= maxIter)) {        	
-//        	n2 = IComplexNumberBigDecimal.complexAdd(nbr, IComplexNumberBigDecimal.complexMult(n2, n2));
-//        }
-//        return counter;
-//    }
 }

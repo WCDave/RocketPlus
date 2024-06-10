@@ -1,12 +1,13 @@
 package main;
 
+import java.math.BigDecimal;
+
 public class GetMandelValueImplBuilder {
 	public interface IExecution {
 		long mandelExecute(int iter);
 	}
 
 	IExecution impl;
-	IMandelValue mv;
 
 	public static GetMandelValueImplBuilder createBuilder(IComplexNumber cn) {
 		return new GetMandelValueImplBuilder(cn);
@@ -39,7 +40,7 @@ public class GetMandelValueImplBuilder {
 			public long mandelExecute(int iter) {
 				int counter = 0;
 				IComplexNumberBigDecimal n2 = cn;
-				while ((IComplexNumberBigDecimal.complexMag(n2) < 2) && (counter++ <= iter)) {
+				while ((IComplexNumberBigDecimal.complexMag(n2).compareTo(BigDecimal.TWO) == 1) && (counter++ <= iter)) {
 					n2 = IComplexNumberBigDecimal.complexAdd(cn, IComplexNumberBigDecimal.complexMult(n2, n2));
 				}
 				return counter;
